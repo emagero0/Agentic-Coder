@@ -12,8 +12,8 @@
       "confidence": 0.75,
       "verification_status": "unverified",
       "evidence": [
-        "C:\\Users\\emage\\.agents\\skills\\shadcn\\SKILL.md",
-        "C:\\Users\\emage\\.agents\\skills\\shadcn-component-discovery\\SKILL.md"
+        "~/.agents/skills/shadcn/SKILL.md",
+        "~/.agents/skills/shadcn-component-discovery/SKILL.md"
       ],
       "routes": [],
       "components": [],

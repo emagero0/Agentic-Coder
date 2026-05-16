@@ -106,9 +106,9 @@
       "evidence": [
         ".opencode/skills/context7/SKILL.md",
         ".opencode/skills/task-management/SKILL.md",
-        "C:\\Users\\emage\\.agents\\skills\\find-skills\\SKILL.md",
-        "C:\\Users\\emage\\.agents\\skills\\shadcn\\SKILL.md",
-        "C:\\Users\\emage\\.agents\\skills\\shadcn-component-discovery\\SKILL.md"
+        "~/.agents/skills/find-skills/SKILL.md",
+        "~/.agents/skills/shadcn/SKILL.md",
+        "~/.agents/skills/shadcn-component-discovery/SKILL.md"
       ],
       "routes": [],
       "components": [],
