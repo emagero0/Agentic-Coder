@@ -1,0 +1,256 @@
+{
+  "$schema": "https://openagentscontrol.dev/schemas/architecture-graph/1.1.0",
+  "schema_version": "1.1.0",
+  "state_type": "verified",
+  "description": "Authoritative architecture graph — expanded with all pending and feature-coverage nodes on 2026-05-12.",
+  "last_updated": "2026-05-16T13:45:00.0000000+03:00",
+  "updated_by": "user-confirmed /audit architecture promotion",
+  "nodes": [
+    {
+      "id": "event-system",
+      "type": "module",
+      "name": "Event Processing System",
+      "path": ".opencode/events/",
+      "pattern": "tiered-event-processing",
+      "confidence": 0.95,
+      "metadata": { "tiers": 3, "handlers_count": 7, "routing": "priority-router.ts" }
+    },
+    {
+      "id": "priority-router",
+      "type": "module",
+      "name": "Priority Router",
+      "path": ".opencode/events/router/priority-router.ts",
+      "pattern": "event-router",
+      "confidence": 0.95,
+      "metadata": { "tier1_handlers": ["update-registry", "invalidate-cache", "session-manager"], "tier2_handlers": ["check-dependencies", "analyze-drift"], "tier3_handlers": ["weekly-audit", "ecosystem-watch", "session-manager"] },
+    "verified": true
+    },
+    {
+      "id": "update-registry-handler",
+      "type": "module",
+      "name": "Update Registry Handler",
+      "path": ".opencode/events/handlers/sync/update-registry.ts",
+      "pattern": "sync-critical",
+      "confidence": 0.92,
+      "metadata": { "tier": 1, "handles": ["state.registry.write", "audit.promotion.confirmed"] }
+    },
+    {
+      "id": "invalidate-cache-handler",
+      "type": "module",
+      "name": "Cache Invalidation Handler",
+      "path": ".opencode/events/handlers/sync/invalidate-cache.ts",
+      "pattern": "sync-critical",
+      "confidence": 0.85,
+      "metadata": { "tier": 1, "handles": ["cache.invalidate"] }
+    },
+    {
+      "id": "session-manager",
+      "type": "module",
+      "name": "Session Lifecycle Manager",
+      "path": ".opencode/events/handlers/sync/session-manager.ts",
+      "pattern": "session-lifecycle",
+      "confidence": 0.85,
+      "metadata": { "tier1_handles": ["session.start"], "tier3_handles": ["session.idle"], "features": ["cognitive-budgeting", "cache-warming"] }
+    },
+    {
+      "id": "check-dependencies-handler",
+      "type": "module",
+      "name": "Check Dependencies Handler",
+      "path": ".opencode/events/handlers/async/check-dependencies.ts",
+      "pattern": "async-background",
+      "confidence": 0.92,
+      "metadata": { "tier": 2, "handles": "tool.execute.after", "capabilities": ["cve_detection", "version_drift", "osv_query"], "external_providers": ["osv.dev", "npm"] }
+    },
+    {
+      "id": "analyze-drift-handler",
+      "type": "module",
+      "name": "Analyze Drift Handler",
+      "path": ".opencode/events/handlers/async/analyze-drift.ts",
+      "pattern": "async-background",
+      "confidence": 0.92,
+      "metadata": { "tier": 2, "handles": ["file.watcher.updated", "file.edited", "session.completed"], "capabilities": ["drift_detection", "pr_review_generation", "naming_convention_check"], "outputs": ["events/outputs/drift-review-*.json", "events/outputs/reviews/review-*.md"] }
+    },
+    {
+      "id": "weekly-audit-handler",
+      "type": "module",
+      "name": "Weekly Audit Handler",
+      "path": ".opencode/events/handlers/deferred/weekly-audit.ts",
+      "pattern": "deferred-scheduled",
+      "confidence": 0.92,
+      "metadata": { "tier": 3, "handles": ["schedule.weekly"] }
+    },
+    {
+      "id": "ecosystem-watch-handler",
+      "type": "module",
+      "name": "Ecosystem Watch Handler",
+      "path": ".opencode/events/handlers/deferred/ecosystem-watch.ts",
+      "pattern": "deferred-scheduled",
+      "confidence": 0.85,
+      "metadata": { "tier": 3, "handles": ["ecosystem.watch.trigger"] }
+    },
+    {
+      "id": "runtime-adapter",
+      "type": "module",
+      "name": "Bun Runtime Adapter",
+      "path": ".opencode/events/adapters/runtime/bun/index.ts",
+      "pattern": "runtime-abstraction",
+      "confidence": 0.92,
+      "metadata": { "runtime": "bun", "purpose": "Isolates Bun-specific APIs behind shared interface" }
+    },
+    {
+      "id": "tool-events-plugin",
+      "type": "module",
+      "name": "Tool Events Plugin Entry",
+      "path": ".opencode/tool/events/index.ts",
+      "pattern": "plugin-entry",
+      "confidence": 0.95,
+      "metadata": { "handles": "OpenCode event bus hook", "imports_from": "events/router/priority-router.ts" }
+    },
+    {
+      "id": "graph-reasoning-layer",
+      "type": "module",
+      "name": "Graph Reasoning Layer",
+      "path": ".opencode/graph/",
+      "pattern": "graph-query-engine",
+      "confidence": 0.90,
+      "metadata": { "files_count": 9, "capabilities": ["bfs", "dfs", "blast-radius", "cycle-detection", "orphan-finding", "feature-coverage", "stats"] }
+    },
+    {
+      "id": "context-system",
+      "type": "module",
+      "name": "Context Management System",
+      "path": ".opencode/context/",
+      "pattern": "mvi-context",
+      "confidence": 0.90,
+      "metadata": { "categories": ["core", "openagents-repo", "project", "project-intelligence", "ui", "development"], "files_count": 179 }
+    },
+    {
+      "id": "context-resolver",
+      "type": "module",
+      "name": "Context Resolver",
+      "path": ".opencode/tool/context-resolver/",
+      "pattern": "mvi-context",
+      "confidence": 0.90,
+      "metadata": { "files_count": 5, "capabilities": ["fingerprint", "chunk-loading", "dependency-resolution", "entropy-scanning"] }
+    },
+    {
+      "id": "prompt-compiler",
+      "type": "module",
+      "name": "Prompt Compiler",
+      "path": ".opencode/tool/prompt-compiler/",
+      "pattern": "cache-backed-prompt-compilation",
+      "confidence": 0.90,
+      "metadata": { "files_count": 4, "cache_tiers": ["deterministic", "inferred", "speculative"] }
+    },
+    {
+      "id": "external-gateway",
+      "type": "module",
+      "name": "External Intelligence Gateway",
+      "path": ".opencode/tool/external-gateway/index.ts",
+      "pattern": "provider-gateway",
+      "confidence": 0.90,
+      "metadata": { "whitelisted_providers": ["npm", "osv.dev", "github", "github-advisories", "snyk", "caniuse"] }
+    },
+    {
+      "id": "state-registry",
+      "type": "database",
+      "name": "State Registry",
+      "path": ".opencode/state/",
+      "pattern": "inferred-verified-split",
+      "confidence": 0.85,
+      "metadata": { "inferred_files": 6, "verified_files": 3, "additional_registries": ["agents", "research", "project"], "registry_types": ["features", "architecture", "dependencies", "test-coverage", "feedback", "agents", "research", "project"] }
+    },
+    {
+      "id": "skills-system",
+      "type": "module",
+      "name": "Skills System",
+      "path": ".opencode/skills/",
+      "pattern": "extensible-skills",
+      "confidence": 0.85,
+      "metadata": { "skills": ["context7", "task-management", "find-skills", "shadcn", "shadcn-component-discovery", "humanizer"] }
+    },
+    {
+      "id": "task-management-workflow",
+      "type": "module",
+      "name": "Task Management Workflow",
+      "path": ".opencode/skills/task-management/",
+      "pattern": "cli-workflow",
+      "confidence": 0.85,
+      "metadata": { "commands": 8, "implementation": "router.sh + task-cli.ts" }
+    },
+    {
+      "id": "context7-integration",
+      "type": "module",
+      "name": "Context7 Documentation Integration",
+      "path": ".opencode/skills/context7/",
+      "pattern": "external-api-docs",
+      "confidence": 0.85,
+      "metadata": { "libraries": 20, "search_api": "context7 search + fetch workflow" }
+    },
+    {
+      "id": "command-definitions",
+      "type": "module",
+      "name": "Command Registry",
+      "path": ".opencode/command/",
+      "pattern": "command-registry",
+      "confidence": 0.85,
+      "metadata": { "files_count": 16, "commands": ["audit", "cache", "graph", "benchmark", "experiment", "research", "scan-state", "context", "test", "commit", "optimize", "clean", "analyze-patterns", "validate-repo", "add-context"] }
+    },
+    {
+      "id": "agent-metadata",
+      "type": "config",
+      "name": "Agent Metadata",
+      "path": ".opencode/config/agent-metadata.json",
+      "pattern": "agent-registry",
+      "confidence": 0.90,
+      "metadata": { "agents_count": 30, "categories": ["orchestration", "execution", "discovery", "content", "data", "testing", "system-building", "supervisory", "research", "optimization"] }
+    },
+    {
+      "id": "readme",
+      "type": "config",
+      "name": "Documentation",
+      "path": ".opencode/README.md",
+      "pattern": "documentation",
+      "confidence": 0.75,
+      "metadata": { "lines": 823 }
+    }
+  ],
+  "edges": [
+    { "source": "priority-router", "target": "update-registry-handler", "relationship": "imports", "verified": true, "confidence": 0.95, "evidence": "priority-router.ts routes state.registry.write and audit.promotion.confirmed to update-registry (Tier 1)" },
+    { "source": "priority-router", "target": "invalidate-cache-handler", "relationship": "imports", "verified": true, "confidence": 0.90, "evidence": "priority-router.ts routes cache.invalidate to invalidate-cache (Tier 1)" },
+    { "source": "priority-router", "target": "session-manager", "relationship": "imports", "verified": true, "confidence": 0.85, "evidence": "priority-router.ts routes session.start (Tier 1) and session.idle (Tier 3) to session-manager" },
+    { "source": "priority-router", "target": "check-dependencies-handler", "relationship": "imports", "verified": true, "confidence": 0.95, "evidence": "priority-router.ts routes tool.execute.after to check-dependencies (Tier 2)" },
+    { "source": "priority-router", "target": "analyze-drift-handler", "relationship": "imports", "verified": true, "confidence": 0.95, "evidence": "priority-router.ts routes file events, session.completed to analyze-drift (Tier 2)" },
+    { "source": "priority-router", "target": "weekly-audit-handler", "relationship": "imports", "verified": true, "confidence": 0.95, "evidence": "priority-router.ts routes schedule.weekly to weekly-audit (Tier 3)" },
+    { "source": "priority-router", "target": "ecosystem-watch-handler", "relationship": "imports", "verified": true, "confidence": 0.90, "evidence": "priority-router.ts routes ecosystem.watch.trigger to ecosystem-watch (Tier 3)" },
+    { "source": "update-registry-handler", "target": "runtime-adapter", "relationship": "imports", "verified": true, "confidence": 0.95, "evidence": "Imports RuntimeAdapter, uses adapter.readJSON, adapter.writeJSONAtomic" },
+    { "source": "invalidate-cache-handler", "target": "runtime-adapter", "relationship": "imports", "verified": true, "confidence": 0.90, "evidence": "Uses RuntimeAdapter fileExists, readTextFile, writeTextFile, deleteFile, hashString" },
+    { "source": "session-manager", "target": "runtime-adapter", "relationship": "imports", "verified": true, "confidence": 0.85, "evidence": "Uses RuntimeAdapter.fileExists, readTextFile, appendOutput" },
+    { "source": "session-manager", "target": "context-resolver", "relationship": "composes", "verified": true, "confidence": 0.85, "evidence": "Creates ContextResolver instance for session.start context resolution" },
+    { "source": "session-manager", "target": "prompt-compiler", "relationship": "composes", "verified": true, "confidence": 0.85, "evidence": "Creates PromptCompiler instance for cache warming" },
+    { "source": "check-dependencies-handler", "target": "runtime-adapter", "relationship": "imports", "verified": true, "confidence": 0.95, "evidence": "Imports RuntimeAdapter, uses adapter.readJSON, adapter.appendOutput" },
+    { "source": "analyze-drift-handler", "target": "runtime-adapter", "relationship": "imports", "verified": true, "confidence": 0.95, "evidence": "Imports RuntimeAdapter, uses adapter.readJSON, adapter.appendOutput" },
+    { "source": "weekly-audit-handler", "target": "runtime-adapter", "relationship": "imports", "verified": true, "confidence": 0.95, "evidence": "Imports RuntimeAdapter, uses adapter.readJSON, adapter.appendOutput" },
+    { "source": "ecosystem-watch-handler", "target": "runtime-adapter", "relationship": "imports", "verified": true, "confidence": 0.90, "evidence": "Uses RuntimeAdapter readTextFile, writeTextFile, ensureDirectory" },
+    { "source": "tool-events-plugin", "target": "priority-router", "relationship": "imports", "verified": true, "confidence": 0.95, "evidence": "tool/events/index.ts imports routeEvent from events/router/priority-router" },
+    { "source": "tool-events-plugin", "target": "runtime-adapter", "relationship": "imports", "verified": true, "confidence": 0.95, "evidence": "tool/events/index.ts imports createBunAdapter from events/adapters/runtime/bun" },
+    { "source": "context-resolver", "target": "context-system", "relationship": "resolves", "verified": true, "confidence": 0.90, "evidence": "ContextResolver.resolve() reads context files from .opencode/context/" },
+    { "source": "prompt-compiler", "target": "context-resolver", "relationship": "consumes", "verified": true, "confidence": 0.85, "evidence": "PromptCompiler.compile() takes ResolvedContextBundle from ContextResolver" },
+    { "source": "event-system", "target": "state-registry", "relationship": "depends_on", "verified": true, "confidence": 0.85, "evidence": "Handlers read/write state/inferred/ and state/verified/ registries" }
+  ],
+  "patterns": {
+    "tiered-event-processing": { "description": "3-tier event system with sync/async/deferred handling", "confidence": 0.95 },
+    "runtime-abstraction": { "description": "Bun-specific APIs isolated behind RuntimeAdapter interface", "confidence": 0.95 },
+    "mvi-context": { "description": "Minimal Viable Information context system with lazy loading", "confidence": 0.85 },
+    "inferred-verified-split": { "description": "State split into inferred (provisional) and verified (authoritative) registries", "confidence": 0.85 },
+    "graph-query-engine": { "description": "Graph reasoning layer with BFS, DFS, blast radius, cycle detection", "confidence": 0.90 },
+    "plugin-entry": { "description": "OpenCode plugin entry point bridging runtime to cognitive event system", "confidence": 0.95 },
+    "command-registry": { "description": "Markdown-based slash command definitions with supervisor routing", "confidence": 0.85 },
+    "provider-gateway": { "description": "Whitelisted external API gateway with rate limiting and caching", "confidence": 0.90 },
+    "cache-backed-prompt-compilation": { "description": "Prompt compiler with deterministic/inferred/speculative cache tiers and dep-hash invalidation", "confidence": 0.85 },
+    "cli-workflow": { "description": "Task management CLI with 8 commands and dependency management", "confidence": 0.85 },
+    "external-api-docs": { "description": "Context7 search and fetch API documentation workflow", "confidence": 0.85 }
+  },
+  "consistency_score": 0.92,
+  "promotion_audit": "architecture-drift-2026-05-12.json"
+}

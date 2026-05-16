@@ -1,0 +1,57 @@
+{
+  "$schema": "https://openagentscontrol.dev/schemas/feature-registry/1.1.0",
+  "schema_version": "1.1.0",
+  "state_type": "inferred",
+  "description": "Provisional feature registry — auto-populated by /scan-state. Never treat as authoritative until promoted to verified/.",
+  "last_scanned": "2026-05-11T21:43:18.6818534+03:00",
+  "scanned_by": "scan-state",
+  "scan_tool": "manual-discovery",
+  "features": {
+    "shadcn-component-system": {
+      "status": "detected",
+      "confidence": 0.75,
+      "verification_status": "unverified",
+      "evidence": [
+        "C:\\Users\\emage\\.agents\\skills\\shadcn\\SKILL.md",
+        "C:\\Users\\emage\\.agents\\skills\\shadcn-component-discovery\\SKILL.md"
+      ],
+      "routes": [],
+      "components": [],
+      "apis": [],
+      "notes": "Shadcn UI component management and discovery skills. Evidence paths corrected to point to ~/.agents/skills/ (system-level skills, not project-level). No components.json configured yet.",,
+      "inferred_at": "2026-05-11T21:43:18.6818534+03:00",
+      "inferred_by": "scan-state",
+      "audit_review": {
+        "review_date": "2026-05-11T21:50:00.0000000+03:00",
+        "audit_file": "feature-audit-2026-05-11.json",
+        "review_items": [
+          "Verify if additional shadcn integration files exist",
+          "Check for components.json configuration",
+          "Assess if skill is actively used in workflows"
+        ]
+      }
+    }
+  },
+  "audit_trail": [
+    {
+      "action": "promote",
+      "timestamp": "2026-05-11T21:50:00.0000000+03:00",
+      "source": "inferred",
+      "target": "verified",
+      "count": 9,
+      "feature_names": [
+        "event-processing-system",
+        "context-management-system",
+        "cognitive-platform",
+        "state-management",
+        "agent-system",
+        "skills-system",
+        "documentation-system",
+        "task-management-workflow",
+        "context7-integration"
+      ],
+      "audit_file": "feature-audit-2026-05-11.json"
+    }
+  ],
+  "notes": "9 features promoted to verified/. Only unverified features remain here."
+}

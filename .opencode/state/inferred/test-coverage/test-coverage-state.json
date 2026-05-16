@@ -1,0 +1,101 @@
+{
+  "$schema": "https://openagentscontrol.dev/schemas/test-coverage/1.0.0",
+  "schema_version": "1.0.0",
+  "state_type": "inferred",
+  "description": "Test coverage tracking — auto-populated by test runs. Tracks coverage across event handlers, router, adapters, tool modules, and graph engine.",
+  "last_run": "2026-05-12T13:01:00.0000000+03:00",
+  "test_framework": "vitest",
+  "coverage_provider": "v8",
+  "coverage_config": ".opencode/vitest.config.ts",
+  "targets": {
+    "events/handlers": {
+      "files": 6,
+      "test_files": 4,
+      "test_coverage_pct": 55,
+      "status": "partial",
+      "best": [
+        "check-dependencies.ts: 100% stmts, 100% branch, 100% funcs",
+        "update-registry.ts: 100% stmts, 87.5% branch, 100% funcs",
+        "analyze-drift.ts: 100% stmts, 92.3% branch, 100% funcs",
+        "weekly-audit.ts: 100% stmts, 88.2% branch, 100% funcs"
+      ]
+    },
+    "events/router": {
+      "files": 1,
+      "test_files": 1,
+      "test_coverage_pct": 100,
+      "status": "covered",
+      "best": ["priority-router.ts: 100% stmts, 100% branch, 100% funcs"]
+    },
+    "events/adapters": {
+      "files": 1,
+      "test_files": 0,
+      "test_coverage_pct": 0,
+      "status": "untested"
+    },
+    "tool/modules": {
+      "files": 16,
+      "test_files": 0,
+      "test_coverage_pct": 0,
+      "status": "untested"
+    },
+    "graph/engine": {
+      "files": 3,
+      "test_files": 3,
+      "test_coverage_pct": 98.6,
+      "status": "partial",
+      "best": [
+        "graph-engine.ts: 98.5% stmts, 91.9% branch, 100% funcs",
+        "impact-analyzer.ts: 96.8% stmts, 93.7% branch, 100% funcs",
+        "query-builder.ts: 100% stmts, 92.8% branch, 100% funcs"
+      ]
+    },
+    "graph/queries": {
+      "files": 4,
+      "test_files": 4,
+      "test_coverage_pct": 97.3,
+      "status": "covered",
+      "best": [
+        "find-blast-radius.ts: 100% stmts, 100% branch, 100% funcs",
+        "find-dependents.ts: 100% stmts, 100% branch, 100% funcs",
+        "find-feature-coverage.ts: 100% stmts, 75% branch, 100% funcs",
+        "find-orphans.ts: 89.5% stmts, 60% branch, 100% funcs"
+      ]
+    }
+  },
+  "history": [
+    {
+      "run": 1,
+      "timestamp": "2026-05-12T12:47:00.0000000+03:00",
+      "test_files": 3,
+      "tests_passed": 14,
+      "tests_failed": 0,
+      "duration_ms": 973,
+      "overall_coverage_pct": 0
+    },
+    {
+      "run": 2,
+      "timestamp": "2026-05-12T12:56:00.0000000+03:00",
+      "test_files": 6,
+      "tests_passed": 84,
+      "tests_failed": 0,
+      "duration_ms": 1300,
+      "overall_coverage_pct": 18.64,
+      "modules_with_high_coverage": [
+        "events/handlers/check-dependencies.ts: 100%",
+        "events/handlers/analyze-drift.ts: 100%",
+        "events/handlers/update-registry.ts: 100%",
+        "events/handlers/weekly-audit.ts: 100%",
+        "events/router/priority-router.ts: 100%",
+        "graph/engine/graph-engine.ts: 98.5%",
+        "graph/engine/impact-analyzer.ts: 96.8%",
+        "graph/engine/query-builder.ts: 100%",
+        "graph/queries/find-blast-radius.ts: 100%",
+        "graph/queries/find-dependents.ts: 100%",
+        "graph/queries/find-feature-coverage.ts: 100%",
+        "graph/queries/find-orphans.ts: 89.5%"
+      ]
+    }
+  ],
+  "notes": "Test coverage doubled to 18.64%. 134 tests across 11 test files. 12 modules at 89-100% coverage. Event handlers (4 of 6), graph engine (3 of 3), graph queries (4 of 4), and router (1 of 1) all covered. Next priority: ecosystem-watch handler, invalidate-cache handler, tool modules (context-resolver, prompt-compiler, external-gateway), and runtime adapter. Run `npm run test:coverage` to regenerate coverage data."
+}

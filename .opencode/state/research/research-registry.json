@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openagentscontrol.dev/schemas/research-registry/1.0.0",
+  "schema_version": "1.0.0",
+  "description": "R&D state registry — tracks research topics, experiments, benchmarks, and ecosystem findings.",
+  "last_updated": null,
+  "topics": [],
+  "experiments": [],
+  "benchmarks": [],
+  "findings": [],
+  "migration_candidates": [],
+  "ecosystem_watch": []
+}

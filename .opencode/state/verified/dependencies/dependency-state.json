@@ -1,0 +1,63 @@
+{
+  "$schema": "https://openagentscontrol.dev/schemas/dependency-state/1.1.0",
+  "schema_version": "1.1.0",
+  "state_type": "verified",
+  "description": "Authoritative dependency state — promoted from inferred by /audit dependencies confirmation on 2026-05-12.",
+  "last_updated": "2026-05-12T00:00:00.0000000+03:00",
+  "updated_by": "user-confirmed /audit dependencies promotion",
+  "package_manager": "npm",
+  "lockfile": ".opencode/package-lock.json",
+  "dependencies": {
+    "cross-spawn": {
+      "current_version": "7.0.6",
+      "latest_version": "7.0.6",
+      "type": "production",
+      "health": "secure_patched",
+      "last_checked": "2026-05-12",
+      "cves": [{
+        "id": "CVE-2024-21538",
+        "severity": "HIGH",
+        "cvss": 7.5,
+        "status": "PATCHED — version 7.0.6 is safe"
+      }],
+      "notes": "Version confirmed from lockfile, package.json, and node_modules. CVE-2024-21538 confirmed patched."
+    },
+    "@opencode-ai/sdk": {
+      "current_version": "1.14.48",
+      "latest_version": "1.14.48",
+      "type": "production",
+      "health": "current",
+      "last_checked": "2026-05-12",
+      "cves": [],
+      "notes": "Version updated from 1.14.46 → 1.14.48. Current with latest."
+    },
+    "zod": {
+      "current_version": "4.4.3",
+      "latest_version": "4.4.3",
+      "type": "production",
+      "health": "current",
+      "last_checked": "2026-05-12",
+      "cves": [],
+      "notes": "Version updated from 4.1.8 → 4.4.3. Current with latest. Nested zod@4.1.8 exists in @opencode-ai/plugin node_modules."
+    },
+    "typescript": {
+      "current_version": "6.0.3",
+      "latest_version": "6.0.3",
+      "type": "development",
+      "health": "current",
+      "last_checked": "2026-05-12",
+      "cves": [],
+      "notes": "Version updated from 5.8.2 → 6.0.3. Major version upgrade completed successfully. Clean type check."
+    },
+    "fast-check": {
+      "current_version": "4.8.0",
+      "latest_version": "4.8.0",
+      "type": "development",
+      "health": "current",
+      "last_checked": "2026-05-12",
+      "cves": [],
+      "notes": "Version updated from 4.7.0 → 4.8.0. Current with latest."
+    }
+  },
+  "promotion_audit": "dependency-audit-2026-05-12.json"
+}

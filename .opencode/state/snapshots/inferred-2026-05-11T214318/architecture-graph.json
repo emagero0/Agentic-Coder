@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openagentscontrol.dev/schemas/architecture-graph/1.1.0",
+  "schema_version": "1.1.0",
+  "state_type": "inferred",
+  "description": "Provisional architecture graph — auto-populated by /scan-state. Edges and relationships are inferred from imports and file structure; not verified by runtime analysis.",
+  "last_scanned": null,
+  "scanned_by": null,
+  "nodes": [],
+  "edges": [],
+  "patterns": {},
+  "drift_alerts": []
+}

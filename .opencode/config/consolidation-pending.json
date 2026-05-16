@@ -1,0 +1,79 @@
+﻿{
+    "last_scan":  "2026-05-16T14:21:45.9109569+03:00",
+    "scan_file":  "consolidation-scan-2026-05-16.json",
+    "total_issues":  9,
+    "issues":  [
+                   {
+                       "id":  "ORPHAN-graph-reasoning-layer",
+                       "severity":  "info",
+                       "item":  "orphan_node",
+                       "file":  "architecture-graph.json (verified)",
+                       "status":  "pending",
+                       "detected_at":  "2026-05-16T14:21:45.9109569+03:00"
+                   },
+                   {
+                       "id":  "ORPHAN-external-gateway",
+                       "severity":  "info",
+                       "item":  "orphan_node",
+                       "file":  "architecture-graph.json (verified)",
+                       "status":  "pending",
+                       "detected_at":  "2026-05-16T14:21:45.9109569+03:00"
+                   },
+                   {
+                       "id":  "ORPHAN-skills-system",
+                       "severity":  "info",
+                       "item":  "orphan_node",
+                       "file":  "architecture-graph.json (verified)",
+                       "status":  "pending",
+                       "detected_at":  "2026-05-16T14:21:45.9109569+03:00"
+                   },
+                   {
+                       "id":  "ORPHAN-task-management-workflow",
+                       "severity":  "info",
+                       "item":  "orphan_node",
+                       "file":  "architecture-graph.json (verified)",
+                       "status":  "pending",
+                       "detected_at":  "2026-05-16T14:21:45.9109569+03:00"
+                   },
+                   {
+                       "id":  "ORPHAN-context7-integration",
+                       "severity":  "info",
+                       "item":  "orphan_node",
+                       "file":  "architecture-graph.json (verified)",
+                       "status":  "pending",
+                       "detected_at":  "2026-05-16T14:21:45.9109569+03:00"
+                   },
+                   {
+                       "id":  "ORPHAN-command-definitions",
+                       "severity":  "info",
+                       "item":  "orphan_node",
+                       "file":  "architecture-graph.json (verified)",
+                       "status":  "pending",
+                       "detected_at":  "2026-05-16T14:21:45.9109569+03:00"
+                   },
+                   {
+                       "id":  "ORPHAN-agent-metadata",
+                       "severity":  "info",
+                       "item":  "orphan_node",
+                       "file":  "architecture-graph.json (verified)",
+                       "status":  "pending",
+                       "detected_at":  "2026-05-16T14:21:45.9109569+03:00"
+                   },
+                   {
+                       "id":  "ORPHAN-readme",
+                       "severity":  "info",
+                       "item":  "orphan_node",
+                       "file":  "architecture-graph.json (verified)",
+                       "status":  "pending",
+                       "detected_at":  "2026-05-16T14:21:45.9109569+03:00"
+                   },
+                   {
+                       "id":  "GRAPHIFY-orphans",
+                       "severity":  "info",
+                       "item":  "graphify_isolated_nodes",
+                       "file":  "graphify-out/graph.json",
+                       "status":  "pending",
+                       "detected_at":  "2026-05-16T14:21:45.9109569+03:00"
+                   }
+               ]
+}

@@ -1,0 +1,697 @@
+{
+  "$schema": "https://openagentscontrol.dev/schemas/architecture-graph/1.1.0",
+  "schema_version": "1.1.0",
+  "state_type": "inferred",
+  "description": "Provisional architecture graph — re-audit on 2026-05-12 (follow-up). DRIFT-001 through DRIFT-008 verified resolved. New DRIFT-009 through DRIFT-012 detected. Session-manager node added.",
+  "last_scanned": "2026-05-12T12:00:00.000Z",
+  "scanned_by": "architecture-supervisor-deep-audit",
+  "nodes": [
+    {
+      "id": "event-system",
+      "type": "module",
+      "name": "Event Processing System",
+      "path": ".opencode/events/",
+      "pattern": "tiered-event-processing",
+      "confidence": 0.95,
+      "metadata": {
+        "tiers": 3,
+        "handlers_count": 7,
+        "handlers": ["update-registry", "invalidate-cache", "session-manager", "check-dependencies", "analyze-drift", "weekly-audit", "ecosystem-watch"],
+        "routing": "priority-router.ts"
+      }
+    },
+    {
+      "id": "priority-router",
+      "type": "module",
+      "name": "Priority Router",
+      "path": ".opencode/events/router/priority-router.ts",
+      "pattern": "event-router",
+      "confidence": 0.95,
+      "verified": true,
+      "metadata": {
+        "tier1_handlers": ["update-registry", "invalidate-cache", "session-manager"],
+        "tier2_handlers": ["check-dependencies", "analyze-drift"],
+        "tier3_handlers": ["weekly-audit", "ecosystem-watch", "session-manager"]
+      }
+    },
+    {
+      "id": "update-registry-handler",
+      "type": "module",
+      "name": "Update Registry Handler",
+      "path": ".opencode/events/handlers/sync/update-registry.ts",
+      "pattern": "sync-critical",
+      "confidence": 0.90,
+      "metadata": {
+        "tier": 1,
+        "handles": ["state.registry.write", "audit.promotion.confirmed"]
+      }
+    },
+    {
+      "id": "invalidate-cache-handler",
+      "type": "module",
+      "name": "Cache Invalidation Handler",
+      "path": ".opencode/events/handlers/sync/invalidate-cache.ts",
+      "pattern": "sync-critical",
+      "confidence": 0.85,
+      "verified": false,
+      "metadata": {
+        "tier": 1,
+        "handles": ["cache.invalidate"],
+        "note": "Refactored to use RuntimeAdapter — DRIFT-002 resolved on 2026-05-12"
+      }
+    },
+    {
+      "id": "check-dependencies-handler",
+      "type": "module",
+      "name": "Check Dependencies Handler",
+      "path": ".opencode/events/handlers/async/check-dependencies.ts",
+      "pattern": "async-background",
+      "confidence": 0.92,
+      "metadata": {
+        "tier": 2,
+        "handles": "tool.execute.after",
+        "capabilities": ["cve_detection", "version_drift", "osv_query"],
+        "external_providers": ["osv.dev", "npm"],
+        "note": "Enhanced with ExternalGateway CVE queries and version drift detection"
+      }
+    },
+    {
+      "id": "analyze-drift-handler",
+      "type": "module",
+      "name": "Analyze Drift Handler",
+      "path": ".opencode/events/handlers/async/analyze-drift.ts",
+      "pattern": "async-background",
+      "confidence": 0.92,
+      "metadata": {
+        "tier": 2,
+        "handles": ["file.watcher.updated", "file.edited", "session.completed"],
+        "capabilities": ["drift_detection", "pr_review_generation", "naming_convention_check"],
+        "outputs": ["events/outputs/drift-review-*.json", "events/outputs/reviews/review-*.md"],
+        "note": "Enhanced with PR review markdown output and deeper drift signals"
+      }
+    },
+    {
+      "id": "weekly-audit-handler",
+      "type": "module",
+      "name": "Weekly Audit Handler",
+      "path": ".opencode/events/handlers/deferred/weekly-audit.ts",
+      "pattern": "deferred-scheduled",
+      "confidence": 0.90,
+      "metadata": {
+        "tier": 3,
+        "handles": ["session.idle", "schedule.weekly"]
+      }
+    },
+    {
+      "id": "ecosystem-watch-handler",
+      "type": "module",
+      "name": "Ecosystem Watch Handler",
+      "path": ".opencode/events/handlers/deferred/ecosystem-watch.ts",
+      "pattern": "deferred-scheduled",
+      "confidence": 0.85,
+      "verified": false,
+      "metadata": {
+        "tier": 3,
+        "handles": ["ecosystem.watch.trigger"],
+        "note": "Refactored to use RuntimeAdapter — DRIFT-002 resolved on 2026-05-12"
+      }
+    },
+    {
+      "id": "runtime-adapter",
+      "type": "module",
+      "name": "Bun Runtime Adapter",
+      "path": ".opencode/events/adapters/runtime/bun/index.ts",
+      "pattern": "runtime-abstraction",
+      "confidence": 0.90,
+      "metadata": {
+        "runtime": "bun",
+        "purpose": "Isolates Bun-specific APIs behind shared interface"
+      }
+    },
+    {
+      "id": "session-manager",
+      "type": "module",
+      "name": "Session Manager Handler",
+      "path": ".opencode/events/handlers/sync/session-manager.ts",
+      "pattern": "sync-critical",
+      "confidence": 0.85,
+      "verified": false,
+      "metadata": {
+        "tier": [1, 3],
+        "handles": ["session.start", "session.idle"],
+        "note": "Refactored from session-handler.ts during DRIFT-005 resolution. Added to graph during DRIFT-009 fix."
+      }
+    },
+    {
+      "id": "tool-events-plugin",
+      "type": "module",
+      "name": "Tool Events Plugin Entry",
+      "path": ".opencode/tool/events/index.ts",
+      "pattern": "plugin-entry",
+      "confidence": 0.95,
+      "verified": false,
+      "metadata": {
+        "handles": "OpenCode event bus hook",
+        "imports_from": "events/router/priority-router.ts"
+      }
+    },
+    {
+      "id": "context-resolver",
+      "type": "module",
+      "name": "Context Resolver",
+      "path": ".opencode/tool/context-resolver/",
+      "pattern": "mvi-context",
+      "confidence": 0.90,
+      "verified": false,
+      "metadata": {
+        "files_count": 5,
+        "capabilities": ["fingerprint", "chunk-loading", "dependency-resolution", "entropy-scanning"]
+      }
+    },
+    {
+      "id": "prompt-compiler",
+      "type": "module",
+      "name": "Prompt Compiler",
+      "path": ".opencode/tool/prompt-compiler/",
+      "pattern": "cache-backed-prompt-compilation",
+      "confidence": 0.90,
+      "verified": false,
+      "metadata": {
+        "files_count": 4,
+        "cache_tiers": ["deterministic", "inferred", "speculative"]
+      }
+    },
+    {
+      "id": "external-gateway",
+      "type": "module",
+      "name": "External Intelligence Gateway",
+      "path": ".opencode/tool/external-gateway/index.ts",
+      "pattern": "provider-gateway",
+      "confidence": 0.90,
+      "verified": false,
+      "metadata": {
+        "whitelisted_providers": ["npm", "osv.dev", "github", "github-advisories", "snyk", "caniuse"]
+      }
+    },
+    {
+      "id": "env-loader",
+      "type": "module",
+      "name": "Environment Variable Loader",
+      "path": ".opencode/tool/env/index.ts",
+      "pattern": "configuration-loader",
+      "confidence": 0.85,
+      "verified": false,
+      "metadata": {
+        "auto_discovers": ".env files from multiple paths"
+      }
+    },
+    {
+      "id": "graph-reasoning-layer",
+      "type": "module",
+      "name": "Graph Reasoning Layer",
+      "path": ".opencode/graph/",
+      "pattern": "graph-query-engine",
+      "confidence": 0.90,
+      "verified": false,
+      "metadata": {
+        "files_count": 8,
+        "capabilities": ["bfs", "dfs", "blast-radius", "cycle-detection", "orphan-finding", "feature-coverage", "stats"],
+        "engine": "graph-engine.ts"
+      }
+    },
+    {
+      "id": "command-definitions",
+      "type": "module",
+      "name": "Command Registry",
+      "path": ".opencode/command/",
+      "pattern": "command-registry",
+      "confidence": 0.85,
+      "verified": false,
+      "metadata": {
+        "files_count": 17,
+        "commands": ["audit", "cache", "graph", "benchmark", "experiment", "research", "scan-state", "analyze-patterns", "validate-repo", "optimize", "clean", "add-context", "context", "test", "commit"]
+      }
+    },
+    {
+      "id": "context-system",
+      "type": "module",
+      "name": "Context Management System",
+      "path": ".opencode/context/",
+      "pattern": "mvi-context",
+      "confidence": 0.90,
+      "metadata": {
+        "categories": ["core", "openagents-repo", "project", "project-intelligence", "ui", "development"],
+        "files_count": 179
+      }
+    },
+    {
+      "id": "skills-system",
+      "type": "module",
+      "name": "Skills System",
+      "path": ".opencode/skills/",
+      "pattern": "extensible-skills",
+      "confidence": 0.85,
+      "metadata": {
+        "skills": ["context7", "task-management", "find-skills", "shadcn", "shadcn-component-discovery", "humanizer"]
+      }
+    },
+    {
+      "id": "task-management-workflow",
+      "type": "module",
+      "name": "Task Management Workflow",
+      "path": ".opencode/skills/task-management/",
+      "pattern": "cli-workflow",
+      "confidence": 0.85,
+      "metadata": {
+        "commands": 8,
+        "implementation": "router.sh + task-cli.ts",
+        "skill_file": "SKILL.md"
+      }
+    },
+    {
+      "id": "context7-integration",
+      "type": "module",
+      "name": "Context7 Documentation Integration",
+      "path": ".opencode/skills/context7/",
+      "pattern": "external-api-docs",
+      "confidence": 0.85,
+      "metadata": {
+        "libraries": 20,
+        "search_api": "context7 search + fetch workflow"
+      }
+    },
+    {
+      "id": "agent-metadata",
+      "type": "config",
+      "name": "Agent Metadata",
+      "path": ".opencode/config/agent-metadata.json",
+      "pattern": "agent-registry",
+      "confidence": 0.85,
+      "metadata": {
+        "agents_count": 30,
+        "categories": ["orchestration", "execution", "discovery", "content", "data", "testing", "system-building", "supervisory", "research", "optimization"]
+      }
+    },
+    {
+      "id": "state-registry",
+      "type": "database",
+      "name": "State Registry",
+      "path": ".opencode/state/",
+      "pattern": "inferred-verified-split",
+      "confidence": 0.85,
+      "metadata": {
+        "inferred_files": 6,
+        "verified_files": 3,
+        "additional_registries": ["agents/agent-capabilities.json", "research/research-registry.json", "project/project-health.json"],
+        "has_snapshots": true,
+        "registry_types": ["features", "architecture", "dependencies", "test-coverage", "feedback", "agents", "research", "project"]
+      }
+    },
+    {
+      "id": "readme",
+      "type": "config",
+      "name": "Documentation",
+      "path": ".opencode/README.md",
+      "pattern": "documentation",
+      "confidence": 0.75,
+      "metadata": {
+        "lines": 823
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "priority-router",
+      "target": "update-registry-handler",
+      "relationship": "imports",
+      "verified": false,
+      "confidence": 0.95,
+      "evidence": "VERIFIED: priority-router.ts routes 'state.registry.write' and 'audit.promotion.confirmed' to 'update-registry' (Tier 1). Line 31-32."
+    },
+    {
+      "source": "priority-router",
+      "target": "check-dependencies-handler",
+      "relationship": "imports",
+      "verified": false,
+      "confidence": 0.95,
+      "evidence": "VERIFIED: priority-router.ts routes 'tool.execute.after' to 'check-dependencies' (Tier 2). Line 37."
+    },
+    {
+      "source": "priority-router",
+      "target": "analyze-drift-handler",
+      "relationship": "imports",
+      "verified": false,
+      "confidence": 0.95,
+      "evidence": "VERIFIED: priority-router.ts routes 'file.watcher.updated', 'file.edited', 'session.completed' to 'analyze-drift' (Tier 2). Lines 35-38."
+    },
+    {
+      "source": "priority-router",
+      "target": "weekly-audit-handler",
+      "relationship": "imports",
+      "verified": false,
+      "confidence": 0.95,
+      "evidence": "VERIFIED: priority-router.ts routes 'session.idle', 'schedule.weekly' to 'weekly-audit' (Tier 3). Lines 40-41."
+    },
+    {
+      "source": "update-registry-handler",
+      "target": "runtime-adapter",
+      "relationship": "imports",
+      "verified": false,
+      "confidence": 0.95,
+      "evidence": "VERIFIED: update-registry.ts line 14 imports RuntimeAdapter. Uses adapter.log, adapter.readJSON, adapter.writeJSONAtomic, adapter.snapshot, adapter.appendOutput."
+    },
+    {
+      "source": "check-dependencies-handler",
+      "target": "runtime-adapter",
+      "relationship": "imports",
+      "verified": false,
+      "confidence": 0.95,
+      "evidence": "VERIFIED: check-dependencies.ts line 12 imports RuntimeAdapter. Uses adapter.log, adapter.readJSON, adapter.writeJSONAtomic, adapter.appendOutput."
+    },
+    {
+      "source": "analyze-drift-handler",
+      "target": "runtime-adapter",
+      "relationship": "imports",
+      "verified": false,
+      "confidence": 0.95,
+      "evidence": "VERIFIED: analyze-drift.ts line 12 imports RuntimeAdapter. Uses adapter.log, adapter.readJSON, adapter.appendOutput."
+    },
+    {
+      "source": "weekly-audit-handler",
+      "target": "runtime-adapter",
+      "relationship": "imports",
+      "verified": false,
+      "confidence": 0.95,
+      "evidence": "VERIFIED: weekly-audit.ts line 9 imports RuntimeAdapter. Uses adapter.log, adapter.readJSON, adapter.appendOutput."
+    },
+    {
+      "source": "event-system",
+      "target": "state-registry",
+      "relationship": "depends_on",
+      "verified": false,
+      "confidence": 0.75,
+      "evidence": "Event handlers read/write from state/inferred/ and state/verified/ registries"
+    },
+    {
+      "source": "priority-router",
+      "target": "invalidate-cache-handler",
+      "relationship": "imports",
+      "verified": false,
+      "confidence": 0.90,
+      "evidence": "priority-router.ts routes 'cache.invalidate' to 'invalidate-cache' (Tier 1)."
+    },
+    {
+      "source": "priority-router",
+      "target": "session-manager",
+      "relationship": "imports",
+      "verified": false,
+      "confidence": 0.95,
+      "evidence": "VERIFIED: priority-router.ts routes 'session.start' (Tier 1, line 52) and 'session.idle' (Tier 3, line 53) to 'session-manager'. DRIFT-009 fixed."
+    },
+    {
+      "source": "priority-router",
+      "target": "ecosystem-watch-handler",
+      "relationship": "imports",
+      "verified": false,
+      "confidence": 0.90,
+      "evidence": "priority-router.ts routes 'ecosystem.watch.trigger' to 'ecosystem-watch' (Tier 3). Line 47."
+    },
+    {
+      "source": "tool-events-plugin",
+      "target": "priority-router",
+      "relationship": "imports",
+      "verified": false,
+      "confidence": 0.95,
+      "evidence": "tool/events/index.ts line 11: import { routeEvent } from '../events/router/priority-router.js'"
+    },
+    {
+      "source": "tool-events-plugin",
+      "target": "runtime-adapter",
+      "relationship": "imports",
+      "verified": false,
+      "confidence": 0.95,
+      "evidence": "tool/events/index.ts line 12: import { createBunAdapter } from '../events/adapters/runtime/bun/index.js'"
+    },
+    {
+      "source": "context-resolver",
+      "target": "context-system",
+      "relationship": "resolves",
+      "verified": false,
+      "confidence": 0.90,
+      "evidence": "ContextResolver.resolve() reads context files from .opencode/context/ tree"
+    },
+    {
+      "source": "prompt-compiler",
+      "target": "context-resolver",
+      "relationship": "consumes",
+      "verified": false,
+      "confidence": 0.85,
+      "evidence": "PromptCompiler.compile() takes ResolvedContextBundle from ContextResolver as input"
+    },
+    {
+      "source": "session-manager",
+      "target": "agent-metadata",
+      "relationship": "reads",
+      "verified": false,
+      "confidence": 0.90,
+      "evidence": "session-manager.ts calls getAgentMetadata() which reads agent-metadata.json for agent dependencies and cognitive budget"
+    },
+    {
+      "source": "session-manager",
+      "target": "runtime-adapter",
+      "relationship": "imports",
+      "verified": false,
+      "confidence": 0.95,
+      "evidence": "session-manager.ts line 20 imports RuntimeAdapter. Uses adapter.log, adapter.readTextFile, adapter.fileExists, adapter.appendOutput."
+    },
+    {
+      "source": "session-manager",
+      "target": "context-resolver",
+      "relationship": "imports",
+      "verified": false,
+      "confidence": 0.90,
+      "evidence": "session-manager.ts line 21: import { ContextResolver } from '../../../tool/context-resolver/index.js'"
+    },
+    {
+      "source": "session-manager",
+      "target": "prompt-compiler",
+      "relationship": "imports",
+      "verified": false,
+      "confidence": 0.90,
+      "evidence": "session-manager.ts line 22: import { PromptCompiler } from '../../../tool/prompt-compiler/index.js'"
+    }
+  ],
+  "patterns": {
+    "tiered-event-processing": {
+      "description": "3-tier event system with sync/async/deferred handling",
+      "confidence": 0.95
+    },
+    "runtime-abstraction": {
+      "description": "Bun-specific APIs isolated behind RuntimeAdapter interface",
+      "confidence": 0.90
+    },
+    "mvi-context": {
+      "description": "Minimal Viable Information context system with lazy loading",
+      "confidence": 0.85
+    },
+    "inferred-verified-split": {
+      "description": "State split into inferred (provisional) and verified (authoritative) registries",
+      "confidence": 0.85
+    },
+    "graph-query-engine": {
+      "description": "Graph reasoning layer with BFS, DFS, blast radius, cycle detection over architecture graph",
+      "confidence": 0.90,
+      "detected_from": "/audit architecture on 2026-05-12"
+    },
+    "cache-backed-prompt-compilation": {
+      "description": "Prompt compiler with deterministic/inferred/speculative cache tiers and dependency-hash-based invalidation",
+      "confidence": 0.85,
+      "detected_from": "/audit architecture on 2026-05-12"
+    },
+    "provider-gateway": {
+      "description": "Whitelisted external API gateway with provider-level rate limiting and TTL-based cache",
+      "confidence": 0.90,
+      "detected_from": "/audit architecture on 2026-05-12"
+    },
+    "plugin-entry": {
+      "description": "OpenCode plugin entry point that bridges OpenCode runtime to the cognitive event system",
+      "confidence": 0.95,
+      "detected_from": "/audit architecture on 2026-05-12"
+    },
+    "command-registry": {
+      "description": "Markdown-based slash command definitions with supervisor routing",
+      "confidence": 0.85,
+      "detected_from": "/audit architecture on 2026-05-12"
+    },
+    "event-router": {
+      "description": "Priority-based event routing with tier classification (sync/async/deferred)",
+      "confidence": 0.95,
+      "detected_from": "/audit architecture on 2026-05-12"
+    },
+    "sync-critical": {
+      "description": "Synchronous, transactional state-mutating handlers for critical operations",
+      "confidence": 0.95,
+      "detected_from": "/audit architecture on 2026-05-12"
+    },
+    "async-background": {
+      "description": "Fire-and-forget async handlers for analysis and reporting",
+      "confidence": 0.95,
+      "detected_from": "/audit architecture on 2026-05-12"
+    },
+    "deferred-scheduled": {
+      "description": "Deferred handlers triggered on schedule or idle events for maintenance tasks",
+      "confidence": 0.95,
+      "detected_from": "/audit architecture on 2026-05-12"
+    },
+    "extensible-skills": {
+      "description": "Pluggable skill system with SKILL.md-based registration and discovery",
+      "confidence": 0.85,
+      "detected_from": "/audit architecture on 2026-05-12"
+    },
+    "cli-workflow": {
+      "description": "Shell script + TypeScript CLI orchestration with router.sh dispatch pattern",
+      "confidence": 0.85,
+      "detected_from": "/audit architecture on 2026-05-12"
+    },
+    "external-api-docs": {
+      "description": "Skill pattern using web search + fetch to retrieve external documentation",
+      "confidence": 0.85,
+      "detected_from": "/audit architecture on 2026-05-12"
+    },
+    "agent-registry": {
+      "description": "Centralized agent metadata registry with categories, dependencies, and cognitive budgets",
+      "confidence": 0.85,
+      "detected_from": "/audit architecture on 2026-05-12"
+    },
+    "configuration-loader": {
+      "description": "Environment variable loader with multi-path .env discovery",
+      "confidence": 0.85,
+      "detected_from": "/audit architecture on 2026-05-12"
+    }
+  },
+  "drift_alerts": [
+    {
+      "id": "DRIFT-001",
+      "type": "drift_alert",
+      "severity": "high",
+      "description": "Two active event handlers exist in the codebase but were completely absent from the architecture graph. The priority-router.ts routes to 'invalidate-cache' (Tier 1) and 'ecosystem-watch' (Tier 3), but neither handler node nor its edges appeared in the graph before this update.",
+      "affected_path": ".opencode/events/handlers/sync/invalidate-cache.ts",
+      "related_paths": [".opencode/events/handlers/deferred/ecosystem-watch.ts"],
+      "detected_at": "2026-05-12T00:00:00.000Z",
+      "resolution": "NODES ADDED to inferred graph. Edges from priority-router added. Handlers now tracked."
+    },
+    {
+      "id": "DRIFT-002",
+      "type": "drift_alert",
+      "severity": "high",
+      "description": "Runtime abstraction pattern violation: 'invalidate-cache.ts' and 'ecosystem-watch.ts' used Node.js fs/crypto directly instead of the RuntimeAdapter interface.",
+      "affected_path": ".opencode/events/handlers/sync/invalidate-cache.ts",
+      "related_paths": [".opencode/events/handlers/deferred/ecosystem-watch.ts"],
+      "detected_at": "2026-05-12T00:00:00.000Z",
+      "pattern_violated": "runtime-abstraction",
+      "resolution": "RESOLVED on 2026-05-12: RuntimeAdapter extended with filesystem methods (fileExists, readTextFile, writeTextFile, deleteFile, ensureDirectory, hashString). Both handlers refactored to use adapter instead of direct fs/crypto calls.",
+      "resolved_at": "2026-05-12T00:00:00.000Z"
+    },
+    {
+      "id": "DRIFT-003",
+      "type": "drift_alert",
+      "severity": "medium",
+      "description": "Duplicate module: tool/events/router/priority-router.ts was a stale copy of events/router/priority-router.ts. The active entry point imports from events/.",
+      "affected_path": ".opencode/tool/events/router/priority-router.ts",
+      "related_paths": [".opencode/events/router/priority-router.ts"],
+      "detected_at": "2026-05-12T00:00:00.000Z",
+      "resolution": "RESOLVED on 2026-05-12: Stale duplicate file removed."
+    },
+    {
+      "id": "DRIFT-004",
+      "type": "drift_alert",
+      "severity": "medium",
+      "description": "Duplicate module: tool/events/adapters/runtime/bun/index.ts was a simpler/stale adapter. The active entry point uses events/adapters/ version.",
+      "affected_path": ".opencode/tool/events/adapters/runtime/bun/index.ts",
+      "related_paths": [".opencode/events/adapters/runtime/bun/index.ts"],
+      "detected_at": "2026-05-12T00:00:00.000Z",
+      "resolution": "RESOLVED on 2026-05-12: Stale duplicate file removed."
+    },
+    {
+      "id": "DRIFT-005",
+      "type": "drift_alert",
+      "severity": "low",
+      "description": "Orphaned handler modules: session-handler.ts and file-handler.ts were not imported by the active entry point.",
+      "affected_path": ".opencode/tool/events/handlers/session-handler.ts",
+      "related_paths": [".opencode/tool/events/handlers/file-handler.ts"],
+      "detected_at": "2026-05-12T00:00:00.000Z",
+      "resolution": "RESOLVED on 2026-05-12: file-handler.ts removed (functionality covered by invalidate-cache). session-handler.ts refactored and moved to events/handlers/sync/session-manager.ts with Tier 1 (session.start) and Tier 3 (session.idle) routing. Original tool/events/ handler removed."
+    },
+    {
+      "id": "DRIFT-006",
+      "type": "drift_alert",
+      "severity": "low",
+      "description": "Naming inconsistency: invalidate-cache.ts and ecosystem-watch.ts exported 'handle()' while 3 other handlers use descriptive names.",
+      "affected_path": ".opencode/events/handlers/sync/invalidate-cache.ts",
+      "related_paths": [".opencode/events/handlers/deferred/ecosystem-watch.ts"],
+      "detected_at": "2026-05-12T00:00:00.000Z",
+      "resolution": "RESOLVED on 2026-05-12: Exports renamed to handleInvalidateCache and handleEcosystemWatch respectively."
+    },
+    {
+      "id": "DRIFT-007",
+      "type": "drift_alert",
+      "severity": "low",
+      "description": "Major subsystems not tracked before this audit: Graph Reasoning Layer (9 files), Tool Modules (16 files), Command Definitions (17 files). Added to inferred graph with this update.",
+      "affected_path": ".opencode/graph/",
+      "related_paths": [".opencode/tool/", ".opencode/command/"],
+      "detected_at": "2026-05-12T00:00:00.000Z",
+      "resolution": "NODES ADDED to inferred graph during this audit."
+    },
+    {
+      "id": "DRIFT-008",
+      "type": "drift_alert",
+      "severity": "low",
+      "description": "State registry expansion: 3 additional files found beyond tracked types: state/agents/agent-capabilities.json, state/research/research-registry.json, state/project/project-health.json.",
+      "affected_path": ".opencode/state/agents/agent-capabilities.json",
+      "related_paths": [".opencode/state/research/research-registry.json", ".opencode/state/project/project-health.json"],
+      "detected_at": "2026-05-12T00:00:00.000Z",
+      "resolution": "METADATA UPDATED on state-registry node to include new registry types. VERIFIED in follow-up audit."
+    },
+    {
+      "id": "DRIFT-009",
+      "type": "drift_alert",
+      "severity": "medium",
+      "description": "Missing node definition for session-manager handler: inferred graph contained edge 'priority-router → session-manager-handler' (added during DRIFT-005 resolution) but no node with id 'session-manager-handler' existed. The handler files are events/handlers/sync/session-manager.ts (Tier 1) and events/handlers/deferred/session-manager.ts (Tier 3 re-export).",
+      "affected_path": ".opencode/events/handlers/sync/session-manager.ts",
+      "related_paths": [".opencode/events/handlers/deferred/session-manager.ts"],
+      "detected_at": "2026-05-12T12:00:00.000Z",
+      "resolution": "NODE ADDED with id 'session-manager'. Edge target fixed from 'session-manager-handler' to 'session-manager'. Edges added for session-manager → runtime-adapter, session-manager → context-resolver, session-manager → prompt-compiler."
+    },
+    {
+      "id": "DRIFT-010",
+      "type": "drift_alert",
+      "severity": "low",
+      "description": "Incomplete cleanup from DRIFT-003/DRIFT-004: empty subdirectories remain at tool/events/adapters/runtime/bun/, tool/events/handlers/, and tool/events/router/. These are functionally harmless but indicate incomplete artifact removal.",
+      "affected_path": ".opencode/tool/events/adapters/runtime/bun/",
+      "related_paths": [
+        ".opencode/tool/events/handlers/",
+        ".opencode/tool/events/router/"
+      ],
+      "detected_at": "2026-05-12T12:00:00.000Z",
+      "resolution": "PENDING: Empty directories should be removed to complete cleanup."
+    },
+    {
+      "id": "DRIFT-011",
+      "type": "drift_alert",
+      "severity": "low",
+      "description": "Stale metadata on event-system node: metadata said handlers_count: 6, but actual handler count is 7. The session-manager handler (added during DRIFT-005 resolution) was not reflected.",
+      "affected_path": ".opencode/events/",
+      "detected_at": "2026-05-12T12:00:00.000Z",
+      "resolution": "METADATA UPDATED: handlers_count → 7, 'session-manager' added to handlers list."
+    },
+    {
+      "id": "DRIFT-012",
+      "type": "drift_alert",
+      "severity": "low",
+      "description": "Stale metadata on state-registry node: metadata said inferred_files: 3, but actual count is 4 JSON files in state/inferred/ (test-coverage-state.json was added but not reflected).",
+      "affected_path": ".opencode/state/inferred/test-coverage/test-coverage-state.json",
+      "detected_at": "2026-05-12T12:00:00.000Z",
+      "resolution": "METADATA UPDATED: inferred_files → 4, 'test-coverage' added to registry_types list."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://openagentscontrol.dev/schemas/error-registry/1.0.0",
+  "schema_version": "1.0.0",
+  "state_type": "inferred",
+  "description": "Structured error registry for agent feedback loop — records failures, compresses into rules, manages decay and eviction. Updated by FeedbackSupervisor.",
+  "last_updated": null,
+  "updated_by": null,
+  "errors": [],
+  "decay_config": {
+    "decay_rate": 0.8,
+    "eviction_threshold": 0.2,
+    "max_active_rules": 10,
+    "max_active_rules_per_agent": 5,
+    "summary_capacity": 50
+  },
+  "maintenance_log": []
+}

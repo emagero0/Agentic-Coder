@@ -1,0 +1,2654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenCode - The Complete Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --bg-gradient-start: #1a1a2e;
+            --bg-gradient-end: #16213e;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --text-muted: #6b6b7b;
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #22c55e;
+            --accent-orange: #f97316;
+            --accent-pink: #ec4899;
+            --accent-yellow: #eab308;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Cover Page */
+        .cover-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(168, 85, 247, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.1) 0%, transparent 60%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .cover-content {
+            position: relative;
+            z-index: 1;
+            padding: 60px;
+        }
+
+        .cover-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent-cyan);
+            margin-bottom: 40px;
+        }
+
+        .cover-title {
+            font-size: 96px;
+            font-weight: 900;
+            letter-spacing: -4px;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 0%, #a0a0b0 50%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .cover-subtitle {
+            font-size: 28px;
+            color: var(--text-secondary);
+            margin-bottom: 48px;
+            font-weight: 400;
+        }
+
+        .cover-tagline {
+            font-size: 20px;
+            color: var(--accent-cyan);
+            margin-bottom: 60px;
+            font-weight: 500;
+        }
+
+        .cover-meta {
+            display: flex;
+            gap: 48px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cover-stat {
+            text-align: center;
+        }
+
+        .cover-stat-value {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent-purple);
+        }
+
+        .cover-stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .cover-footer {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Navigation / TOC */
+        .nav-page {
+            padding: 80px 60px;
+            background: var(--bg-primary);
+        }
+
+        .nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-page-number {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .toc-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .toc-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 48px;
+            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-section {
+            margin-bottom: 32px;
+        }
+
+        .toc-section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--accent-purple);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .toc-items {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .toc-item {
+            padding: 12px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.2s;
+        }
+
+        .toc-item:hover {
+            padding-left: 12px;
+            border-color: var(--accent-purple);
+        }
+
+        .toc-item a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+
+        .toc-item:hover a {
+            color: var(--text-primary);
+        }
+
+        .toc-page {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .toc-subsection {
+            padding-left: 24px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* Content Pages */
+        .content-page {
+            padding: 80px 60px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            margin-bottom: 48px;
+        }
+
+        .chapter-number {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .chapter-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .chapter-subtitle {
+            font-size: 20px;
+            color: var(--text-secondary);
+        }
+
+        /* Section Styling */
+        .section {
+            margin-bottom: 64px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--accent-purple);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .section-icon.purple { background: rgba(168, 85, 247, 0.15); }
+        .section-icon.blue { background: rgba(59, 130, 246, 0.15); }
+        .section-icon.cyan { background: rgba(6, 182, 212, 0.15); }
+        .section-icon.green { background: rgba(34, 197, 94, 0.15); }
+        .section-icon.orange { background: rgba(249, 115, 22, 0.15); }
+        .section-icon.pink { background: rgba(236, 72, 153, 0.15); }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .card-tag {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .card-tag.primary { background: rgba(168, 85, 247, 0.2); color: var(--accent-purple); }
+        .card-tag.secondary { background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); }
+        .card-tag.success { background: rgba(34, 197, 94, 0.2); color: var(--accent-green); }
+        .card-tag.warning { background: rgba(249, 115, 22, 0.2); color: var(--accent-orange); }
+
+        /* Agent Cards */
+        .agent-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agent-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            border-radius: 16px 0 0 16px;
+        }
+
+        .agent-card.purple::before { background: var(--accent-purple); }
+        .agent-card.blue::before { background: var(--accent-blue); }
+        .agent-card.cyan::before { background: var(--accent-cyan); }
+        .agent-card.green::before { background: var(--accent-green); }
+        .agent-card.orange::before { background: var(--accent-orange); }
+        .agent-card.pink::before { background: var(--accent-pink); }
+
+        .agent-emoji {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
+        /* Flow Diagrams */
+        .flow-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 32px;
+            overflow-x: auto;
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .flow-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .flow-box.start { border-color: var(--accent-green); background: rgba(34, 197, 94, 0.1); color: var(--accent-green); }
+        .flow-box.process { border-color: var(--accent-blue); background: rgba(59, 130, 246, 0.1); color: var(--accent-blue); }
+        .flow-box.decision { border-color: var(--accent-orange); background: rgba(249, 115, 22, 0.1); color: var(--accent-orange); }
+        .flow-box.end { border-color: var(--accent-purple); background: rgba(168, 85, 247, 0.1); color: var(--accent-purple); }
+
+        .flow-arrow {
+            color: var(--text-muted);
+            font-size: 20px;
+        }
+
+        /* Table Styles */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 32px 0;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+
+        th, td {
+            padding: 20px 24px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: var(--bg-secondary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Callouts */
+        .callout {
+            padding: 24px 28px;
+            border-radius: 12px;
+            margin: 32px 0;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .callout.tip {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .callout.warning {
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+        }
+
+        .callout.info {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .callout-icon {
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .callout-content {
+            flex: 1;
+        }
+
+        .callout-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .callout-text {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: #0d0d12;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 24px 0;
+            line-height: 1.8;
+        }
+
+        .code-block .comment { color: #6b7280; }
+        .code-block .keyword { color: var(--accent-pink); }
+        .code-block .string { color: var(--accent-green); }
+        .code-block .function { color: var(--accent-cyan); }
+        .code-block .variable { color: var(--accent-purple); }
+
+        /* Collapsible */
+        .collapsible {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .collapsible-header {
+            background: var(--bg-card);
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+
+        .collapsible-header:hover {
+            background: var(--bg-secondary);
+        }
+
+        .collapsible-content {
+            padding: 24px;
+            background: var(--bg-secondary);
+            display: none;
+        }
+
+        .collapsible.active .collapsible-content {
+            display: block;
+        }
+
+        .collapsible-arrow {
+            transition: transform 0.2s;
+            color: var(--text-muted);
+        }
+
+        .collapsible.active .collapsible-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Hierarchy Tree */
+        .hierarchy-tree {
+            padding: 32px;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+
+        .tree-branch {
+            margin-left: 24px;
+            padding-left: 16px;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .tree-primary { color: var(--accent-purple); font-weight: 600; font-size: 18px; }
+        .tree-category { color: var(--accent-yellow); font-weight: 600; margin: 16px 0 8px; }
+        .tree-subagent { color: var(--accent-blue); }
+        .tree-supervisor { color: var(--accent-green); }
+        .tree-orchestration { color: var(--accent-cyan); }
+        .tree-scout { color: var(--accent-pink); }
+
+        /* Tutorial Cards */
+        .tutorial-card {
+            position: relative;
+        }
+
+        .tutorial-number {
+            position: absolute;
+            top: -20px;
+            left: 24px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+        }
+
+        .numbered-list {
+            list-style: none;
+            counter-reset: step;
+        }
+
+        .numbered-list li {
+            counter-increment: step;
+            padding-left: 48px;
+            position: relative;
+            margin-bottom: 20px;
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        .numbered-list li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 32px;
+            height: 32px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+
+        /* Quick Reference Grid */
+        .quick-ref-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .quick-ref-card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid var(--border-color);
+        }
+
+        .quick-ref-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .quick-ref-list {
+            list-style: none;
+        }
+
+        .quick-ref-list li {
+            font-size: 15px;
+            color: var(--text-secondary);
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quick-ref-list li::before {
+            content: '→';
+            color: var(--accent-purple);
+            font-weight: bold;
+        }
+
+        /* Page Divider */
+        .page-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+            margin: 80px 0;
+        }
+
+        /* Footer */
+        .page-footer {
+            padding: 40px 60px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 24px;
+        }
+
+        /* Print Styles */
+        @media print {
+            body { background: white; color: black; }
+            .page { min-height: auto; page-break-after: always; }
+            .cover-page { min-height: 100vh; }
+            .card, .callout, .collapsible { break-inside: avoid; }
+            .collapsible-content { display: block !important; }
+        }
+
+        @page {
+            margin: 0;
+            size: A4;
+        }
+    </style>
+</head>
+<body>
+    <!-- ==================== COVER PAGE ==================== -->
+    <div class="page cover-page">
+        <div class="cover-content">
+            <div class="cover-badge">
+                <span>✨</span>
+                <span>Universal AI Agent System</span>
+            </div>
+            <h1 class="cover-title">OpenCode</h1>
+            <p class="cover-subtitle">The Complete Guide</p>
+            <p class="cover-tagline">Your AI Coding Companion</p>
+            <div class="cover-meta">
+                <div class="cover-stat">
+                    <div class="cover-stat-value">8+</div>
+                    <div class="cover-stat-label">Specialist Agents</div>
+                </div>
+                <div class="cover-stat">
+                    <div class="cover-stat-value">6</div>
+                    <div class="cover-stat-label">Supervisors</div>
+                </div>
+                <div class="cover-stat">
+                    <div class="cover-stat-value">5</div>
+                    <div class="cover-stat-label">Skills</div>
+                </div>
+                <div class="cover-stat">
+                    <div class="cover-stat-value">10</div>
+                    <div class="cover-stat-label">Tutorials</div>
+                </div>
+            </div>
+        </div>
+        <div class="cover-footer">
+            Version 1.0 | May 2026 | OpenCode Documentation
+        </div>
+    </div>
+
+    <!-- ==================== TABLE OF CONTENTS ==================== -->
+    <div class="page nav-page" id="toc">
+        <div class="nav-header">
+            <span class="nav-title">Table of Contents</span>
+            <span class="nav-page-number">ii</span>
+        </div>
+        <div class="toc-container">
+            <h1 class="toc-title">Contents</h1>
+            <ul class="toc-list">
+
+                <li class="toc-section">
+                    <div class="toc-section-title">Part I: Introduction</div>
+                    <ul class="toc-items">
+                        <li class="toc-item">
+                            <a href="#ch1">1. Welcome to OpenCode</a>
+                            <span class="toc-page">1</span>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#ch2">2. Understanding the System</a>
+                            <span class="toc-page">7</span>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="toc-section">
+                    <div class="toc-section-title">Part II: The Team</div>
+                    <ul class="toc-items">
+                        <li class="toc-item">
+                            <a href="#ch3">3. Meet Your AI Team</a>
+                            <span class="toc-page">15</span>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#ch4">4. The Supervisors</a>
+                            <span class="toc-page">25</span>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="toc-section">
+                    <div class="toc-section-title">Part III: How It Works</div>
+                    <ul class="toc-items">
+                        <li class="toc-item">
+                            <a href="#ch5">5. The Processing Pipeline</a>
+                            <span class="toc-page">33</span>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#ch6">6. Execution Paths</a>
+                            <span class="toc-page">41</span>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#ch7">7. The Priority System</a>
+                            <span class="toc-page">49</span>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="toc-section">
+                    <div class="toc-section-title">Part IV: Skills & Tools</div>
+                    <ul class="toc-items">
+                        <li class="toc-item">
+                            <a href="#ch8">8. Special Skills</a>
+                            <span class="toc-page">57</span>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#ch9">9. Context System</a>
+                            <span class="toc-page">65</span>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="toc-section">
+                    <div class="toc-section-title">Part V: Tutorials</div>
+                    <ul class="toc-items">
+                        <li class="toc-item">
+                            <a href="#ch10">10. Learning by Doing</a>
+                            <span class="toc-page">73</span>
+                        </li>
+                        <li class="toc-item toc-subsection">Basic Code Task</li>
+                        <li class="toc-item toc-subsection">Multi-Agent Collaboration</li>
+                        <li class="toc-item toc-subsection">Code Review Workflow</li>
+                        <li class="toc-item toc-subsection">Testing with TDD</li>
+                        <li class="toc-item toc-subsection">Component Discovery</li>
+                    </ul>
+                </li>
+
+                <li class="toc-section">
+                    <div class="toc-section-title">Part VI: Reference</div>
+                    <ul class="toc-items">
+                        <li class="toc-item">
+                            <a href="#ch11">11. Best Practices</a>
+                            <span class="toc-page">97</span>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#ch12">12. Quick Reference</a>
+                            <span class="toc-page">105</span>
+                        </li>
+                        <li class="toc-item">
+                            <a href="#ch13">13. Agent Hierarchy</a>
+                            <span class="toc-page">113</span>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+        <div class="page-footer">
+            <div class="footer-left">
+                <span>OpenCode Guide</span>
+            </div>
+            <div class="footer-right">
+                <span>ii</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CHAPTER 1: WELCOME ==================== -->
+    <div class="page" id="ch1">
+        <div class="content-page">
+            <div class="page-header">
+                <div class="chapter-number">Chapter 1</div>
+                <h1 class="chapter-title">Welcome to OpenCode</h1>
+                <p class="chapter-subtitle">Your new AI coding companion awaits</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon purple">🎯</span>
+                    What is OpenCode?
+                </h2>
+                <p class="card-description" style="font-size: 18px; margin-bottom: 32px;">
+                    OpenCode is a universal AI agent system designed to help you with <strong>code, documentation, tests, and workflow coordination</strong>. Think of it as having a team of specialized AI assistants, each expert in their domain, working together under one coordinator.
+                </p>
+
+                <div class="card">
+                    <h4 class="card-title">🌟 Core Capabilities</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px;">
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <span style="font-size: 24px;">⌨️</span>
+                            <div>
+                                <strong>Code Writing</strong>
+                                <p class="card-description">Implement features, fix bugs</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <span style="font-size: 24px;">🔍</span>
+                            <div>
+                                <strong>Code Review</strong>
+                                <p class="card-description">Security, quality checks</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <span style="font-size: 24px;">🧪</span>
+                            <div>
+                                <strong>Testing</strong>
+                                <p class="card-description">TDD, coverage focus</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <span style="font-size: 24px;">📝</span>
+                            <div>
+                                <strong>Documentation</strong>
+                                <p class="card-description">Clear, helpful docs</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon cyan">💡</span>
+                    Key Principles
+                </h2>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h4 class="card-title">🛡️ Safety First</h4>
+                        <p class="card-description">Always check permissions, load context, and use approval gates before making changes.</p>
+                    </div>
+                    <div class="card">
+                        <h4 class="card-title">📢 Report Before Fix</h4>
+                        <p class="card-description">Never auto-fix. Report issues and wait for your approval before making changes.</p>
+                    </div>
+                    <div class="card">
+                        <h4 class="card-title">🔎 Context-First</h4>
+                        <p class="card-description">Always discover project standards before writing code. This ensures consistency.</p>
+                    </div>
+                    <div class="card">
+                        <h4 class="card-title">⚡ Be Lean</h4>
+                        <p class="card-description">Concise responses. If it can't be understood in under 30 seconds, it's too long.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="callout tip">
+                <span class="callout-icon">💡</span>
+                <div class="callout-content">
+                    <div class="callout-title">Getting Started Tip</div>
+                    <div class="callout-text">Start with a simple task to get familiar with how OpenCode works. Ask a question first (conversational path), then try a small coding task (task path with approval). This helps you understand the two main interaction patterns.</div>
+                </div>
+            </div>
+        </div>
+        <div class="page-footer">
+            <div class="footer-left">
+                <span>OpenCode Guide</span>
+            </div>
+            <div class="footer-right">
+                <span>1</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CHAPTER 2: UNDERSTANDING THE SYSTEM ==================== -->
+    <div class="page" id="ch2">
+        <div class="content-page">
+            <div class="page-header">
+                <div class="chapter-number">Chapter 2</div>
+                <h1 class="chapter-title">Understanding the System</h1>
+                <p class="chapter-subtitle">How OpenCode thinks and works</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon blue">🧠</span>
+                    The Big Picture
+                </h2>
+                <p class="card-description" style="margin-bottom: 24px;">
+                    OpenCode operates as a hierarchical agent system. At the center is <strong>OpenAgent</strong>, the main coordinator that routes tasks, manages workflows, and ensures everything works together. Around it are specialized agents, supervisors, and tools.
+                </p>
+
+                <div class="card">
+                    <h4 class="card-title">System Overview</h4>
+                    <div class="hierarchy-tree" style="margin-top: 20px;">
+                        <div class="tree-primary">🎛️ OpenAgent (Primary Orchestrator)</div>
+                        <div class="tree-branch" style="margin-top: 16px;">
+                            <div class="tree-category">Specialists</div>
+                            <div class="tree-subagent">⌨️ CoderAgent | 🔍 CodeReviewer | 🧪 TestEngineer</div>
+                            <div class="tree-subagent">📝 DocWriter | 📋 TaskManager | 🔧 BuildAgent</div>
+                        </div>
+                        <div class="tree-branch" style="margin-top: 12px;">
+                            <div class="tree-category">Scouts</div>
+                            <div class="tree-scout">🔎 ContextScout | 📚 ExternalScout</div>
+                        </div>
+                        <div class="tree-branch" style="margin-top: 12px;">
+                            <div class="tree-category">Supervisors</div>
+                            <div class="tree-supervisor">👁️ meta | 🏗️ architecture | 🧹 memory | 📊 project | 🔬 rnd | 🔗 graph</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon green">🔄</span>
+                    Agent Behavior Modes
+                </h2>
+                <p class="card-description" style="margin-bottom: 24px;">
+                    Each agent has a specific behavior mode that defines how it operates:
+                </p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Agent</th>
+                                <th>Behavior Mode</th>
+                                <th>Internal Loop</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>OpenAgent</strong></td>
+                                <td>Orchestration</td>
+                                <td>Analyze → Route → Monitor → Report</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CoderAgent</strong></td>
+                                <td>Sequential Implementation</td>
+                                <td>Read context → Implement → Validate → Refine</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CodeReviewer</strong></td>
+                                <td>Checklist-based</td>
+                                <td>Scan → Compare to standards → Flag → Report</td>
+                            </tr>
+                            <tr>
+                                <td><strong>TestEngineer</strong></td>
+                                <td>TDD Cycle</td>
+                                <td>Write test → Run → Implement → Run → Coverage</td>
+                            </tr>
+                            <tr>
+                                <td><strong>TaskManager</strong></td>
+                                <td>Decomposition</td>
+                                <td>Analyze → Break into tasks → Track dependencies</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ContextScout</strong></td>
+                                <td>Discovery</td>
+                                <td>Read navigation → Match patterns → Return paths</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ExternalScout</strong></td>
+                                <td>Fetch-then-cache</td>
+                                <td>Query API → Store → Return</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="callout info">
+                <span class="callout-icon">ℹ️</span>
+                <div class="callout-content">
+                    <div class="callout-title">ContextScout is Special</div>
+                    <div class="callout-text">ContextScout is the only agent exempt from the approval gate. It runs automatically to discover project standards before any task is executed. This ensures OpenCode always has the right context before making changes.</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon orange">📊</span>
+                    State Management
+                </h2>
+                <p class="card-description" style="margin-bottom: 24px;">
+                    OpenCode maintains state across interactions to ensure continuity and context preservation:
+                </p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>State Type</th>
+                                <th>Purpose</th>
+                                <th>Storage Location</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Session Context</strong></td>
+                                <td>Current task data</td>
+                                <td><code>.tmp/sessions/{id}/context.md</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Context Cache</strong></td>
+                                <td>Loaded context files</td>
+                                <td><code>.tmp/context-cache/</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>External Docs</strong></td>
+                                <td>Fetched documentation</td>
+                                <td><code>.tmp/external-context/{lib}/</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>R&D Knowledge</strong></td>
+                                <td>Research findings</td>
+                                <td><code>.tmp/rnd/knowledge-base/</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="page-footer">
+            <div class="footer-left">
+                <span>OpenCode Guide</span>
+            </div>
+            <div class="footer-right">
+                <span>7</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CHAPTER 3: MEET YOUR AI TEAM ==================== -->
+    <div class="page" id="ch3">
+        <div class="content-page">
+            <div class="page-header">
+                <div class="chapter-number">Chapter 3</div>
+                <h1 class="chapter-title">Meet Your AI Team</h1>
+                <p class="chapter-subtitle">Every agent has a special role</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon purple">🎛️</span>
+                    The Command Center
+                </h2>
+                <div class="card-grid">
+                    <div class="card agent-card purple">
+                        <div class="agent-emoji">🎛️</div>
+                        <h4 class="card-title">OpenAgent</h4>
+                        <p class="card-description">The main coordinator. Routes tasks, manages workflows, and ensures everything works together smoothly. It decides when to handle things directly and when to delegate.</p>
+                        <div style="margin-top: 16px;">
+                            <span class="card-tag primary">Orchestrator</span>
+                            <span class="card-tag success">Primary Agent</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-divider"></div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon blue">⚡</span>
+                    The Specialists
+                </h2>
+                <p class="card-description" style="margin-bottom: 24px;">
+                    These agents handle specific tasks. Use the right one for the job:
+                </p>
+
+                <div class="card-grid">
+                    <div class="card agent-card blue">
+                        <div class="agent-emoji">⌨️</div>
+                        <h4 class="card-title">CoderAgent</h4>
+                        <p class="card-description">Your code writer. Implements features, fixes bugs, and refactors with precision following project standards. Works through tasks sequentially.</p>
+                    </div>
+                    <div class="card agent-card cyan">
+                        <div class="agent-emoji">🔍</div>
+                        <h4 class="card-title">CodeReviewer</h4>
+                        <p class="card-description">Quality guardian. Reviews code for security issues, best practices violations, and identifies areas for improvement.</p>
+                    </div>
+                    <div class="card agent-card green">
+                        <div class="agent-emoji">🧪</div>
+                        <h4 class="card-title">TestEngineer</h4>
+                        <p class="card-description">Test specialist. Writes tests using TDD methodology, ensuring high coverage and quality. Validates functionality.</p>
+                    </div>
+                    <div class="card agent-card orange">
+                        <div class="agent-emoji">📝</div>
+                        <h4 class="card-title">DocWriter</h4>
+                        <p class="card-description">Documentation expert. Creates clear, helpful docs following project conventions. Handles READMEs, API docs, and guides.</p>
+                    </div>
+                    <div class="card agent-card pink">
+                        <div class="agent-emoji">📋</div>
+                        <h4 class="card-title">TaskManager</h4>
+                        <p class="card-description">Project planner. Breaks complex features into atomic tasks with dependency tracking. Creates clear workflows.</p>
+                    </div>
+                    <div class="card agent-card purple">
+                        <div class="agent-emoji">🔧</div>
+                        <h4 class="card-title">BuildAgent</h4>
+                        <p class="card-description">Build validator. Checks types, validates syntax, ensures everything compiles correctly. Catches issues early.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-divider"></div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon green">🧭</span>
+                    The Scouts
+                </h2>
+                <p class="card-description" style="margin-bottom: 24px;">
+                    Scouts find information and context. They're essential for informed decision-making:
+                </p>
+
+                <div class="card-grid">
+                    <div class="card agent-card green">
+                        <div class="agent-emoji">🔎</div>
+                        <h4 class="card-title">ContextScout</h4>
+                        <p class="card-description">Finds project standards and conventions. Always runs before making changes. <strong>Exempt from approval gate</strong> — runs automatically to ensure context is loaded.</p>
+                    </div>
+                    <div class="card agent-card blue">
+                        <div class="agent-emoji">📚</div>
+                        <h4 class="card-title">ExternalScout</h4>
+                        <p class="card-description">Library expert. Fetches live, up-to-date documentation for external libraries and frameworks. Ensures you're using the latest APIs.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon pink">🔎</span>
+                    Explore & General
+                </h2>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h4 class="card-title">explore Agent</h4>
+                        <p class="card-description">Fast codebase explorer. Can do quick scans or deep analysis. Great for understanding project structure, finding patterns, or tracing dependencies.</p>
+                        <div style="margin-top: 12px;">
+                            <span class="card-tag secondary">Modes: quick | medium | very thorough</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4 class="card-title">general Agent</h4>
+                        <p class="card-description">General-purpose research and multi-step tasks. Use when you need flexibility or the task doesn't fit a specific specialist.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-footer">
+            <div class="footer-left">
+                <span>OpenCode Guide</span>
+            </div>
+            <div class="footer-right">
+                <span>15</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CHAPTER 4: THE SUPERVISORS ==================== -->
+    <div class="page" id="ch4">
+        <div class="content-page">
+            <div class="page-header">
+                <div class="chapter-number">Chapter 4</div>
+                <h1 class="chapter-title">The Supervisors</h1>
+                <p class="chapter-subtitle">Silent guardians watching over the system</p>
+            </div>
+
+            <p class="card-description" style="font-size: 18px; margin-bottom: 32px;">
+                Supervisors don't execute tasks directly. Instead, they <strong>monitor and guide</strong> the primary agent's decisions, ensuring quality, consistency, and proper system behavior.
+            </p>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon purple">👁️</span>
+                    Supervisor Overview
+                </h2>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Supervisor</th>
+                                <th>Role</th>
+                                <th>What They Do</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong style="color: var(--accent-purple);">meta-supervisor</strong></td>
+                                <td>Orchestration Oversight</td>
+                                <td>Ensures overall system coherence and coordination</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color: var(--accent-blue);">architecture-supervisor</strong></td>
+                                <td>Pattern Guardian</td>
+                                <td>Detects code drift, naming inconsistencies, architectural issues</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color: var(--accent-green);">memory-curator</strong></td>
+                                <td>Context Manager</td>
+                                <td>Maintains context hygiene, deduplication, updates agent capabilities</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color: var(--accent-orange);">project-manager-supervisor</strong></td>
+                                <td>Quality Auditor</td>
+                                <td>Feature auditing, route analysis, project health metrics</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color: var(--accent-pink);">rnd-supervisor</strong></td>
+                                <td>Research Tracker</td>
+                                <td>Tracks R&D activities, catalogs findings, maintains knowledge base</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color: var(--accent-cyan);">graph-query-engine</strong></td>
+                                <td>Relationship Mapper</td>
+                                <td>Graph-based queries for complex relationships and dependencies</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="page-divider"></div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon cyan">🧪</span>
+                    Deep Dive: R&D Supervisor
+                </h2>
+
+                <p class="card-description" style="margin-bottom: 24px;">
+                    The <strong>R&D Supervisor</strong> is your research companion. It tracks investigations, stores findings, and helps you avoid re-researching the same topics.
+                </p>
+
+                <div class="card">
+                    <h4 class="card-title">🔄 R&D Workflow</h4>
+                    <ol class="numbered-list">
+                        <li>You ask about a technology or approach</li>
+                        <li>R&D Supervisor checks the knowledge base for prior research</li>
+                        <li>If found, returns cached results instantly</li>
+                        <li>If not found, creates investigation folder and researches</li>
+                        <li>Catalogs findings with comparison, verdict, and recommendations</li>
+                        <li>Updates knowledge base for future queries</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h4 class="card-title">📁 R&D Storage Structure</h4>
+                    <div class="code-block">
+<span class="comment"># Where research is stored</span>
+<span class="variable">.tmp/rnd/</span>
+├── <span class="function">investigations/</span>
+│   └── <span class="string">2026-05-12-orm-comparison/</span>
+│       ├── findings.md      <span class="comment"># Raw research data</span>
+│       ├── comparison.md    <span class="comment"># Side-by-side analysis</span>
+│       └── verdict.md        <span class="comment"># Final recommendation</span>
+├── <span class="function">experiments/</span>
+│   └── <span class="string">zustand-test/</span>
+│       ├── setup.md
+│       └── results.md
+└── <span class="function">knowledge-base/</span>
+    └── <span class="function">topics/</span>
+        ├── react.md          <span class="comment"># Cross-linked topics</span>
+        ├── database.md
+        └── api-design.md
+                    </div>
+                </div>
+
+                <div class="callout info">
+                    <span class="callout-icon">💡</span>
+                    <div class="callout-content">
+                        <div class="callout-title">When R&D Supervisor Activates</div>
+                        <div class="callout-text">
+                            • ExternalScout fetches library docs → Catalog findings<br>
+                            • explore agent discovers patterns → Track in knowledge base<br>
+                            • New technology evaluation → Create investigation folder<br>
+                            • Experiment attempted → Log to experiments/
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon orange">🏗️</span>
+                    Architecture Supervisor
+                </h2>
+
+                <p class="card-description" style="margin-bottom: 24px;">
+                    This supervisor ensures your code follows established patterns and doesn't drift from project conventions.
+                </p>
+
+                <div class="card">
+                    <h4 class="card-title">Detection Areas</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 12px 0; border-bottom: 1px solid var(--border-color); display: flex; gap: 12px;">
+                            <span>📛</span>
+                            <div><strong>Naming violations</strong> — Functions, variables not following conventions</div>
+                        </li>
+                        <li style="padding: 12px 0; border-bottom: 1px solid var(--border-color); display: flex; gap: 12px;">
+                            <span>🏛️</span>
+                            <div><strong>Structural divergence</strong> — Folders/files not matching patterns</div>
+                        </li>
+                        <li style="padding: 12px 0; border-bottom: 1px solid var(--border-color); display: flex; gap: 12px;">
+                            <span>⚠️</span>
+                            <div><strong>Anti-patterns</strong> — Callback hell, God objects, etc.</div>
+                        </li>
+                        <li style="padding: 12px 0; display: flex; gap: 12px;">
+                            <span>🔧</span>
+                            <div><strong>Inconsistent error handling</strong> — Mixed approaches</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-footer">
+            <div class="footer-left">
+                <span>OpenCode Guide</span>
+            </div>
+            <div class="footer-right">
+                <span>25</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CHAPTER 5: THE PROCESSING PIPELINE ==================== -->
+    <div class="page" id="ch5">
+        <div class="content-page">
+            <div class="page-header">
+                <div class="chapter-number">Chapter 5</div>
+                <h1 class="chapter-title">The Processing Pipeline</h1>
+                <p class="chapter-subtitle">What happens when you interact with OpenCode</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon purple">🔄</span>
+                    The Complete Flow
+                </h2>
+
+                <p class="card-description" style="margin-bottom: 24px;">
+                    When you interact with OpenCode, here's the step-by-step journey your request takes:
+                </p>
+
+                <div class="flow-container">
+                    <div style="margin-bottom: 24px;">
+                        <h4 style="color: var(--accent-green); margin-bottom: 16px;">Stage 1: Input Reception</h4>
+                        <div class="flow-row">
+                            <div class="flow-box start">👤 You</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box process">📥 Message</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box process">🔍 Parse Intent</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 24px;">
+                        <h4 style="color: var(--accent-blue); margin-bottom: 16px;">Stage 2: Context Discovery</h4>
+                        <div class="flow-row">
+                            <div class="flow-box">🔎 ContextScout</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box">📂 Load Standards</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box">🧠 Build Context</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 24px;">
+                        <h4 style="color: var(--accent-orange); margin-bottom: 16px;">Stage 3: Decision Point</h4>
+                        <div class="flow-row">
+                            <div class="flow-box">❓ Question?</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box decision">YES → Answer</div>
+                            <span class="flow-arrow">or</span>
+                            <div class="flow-box decision">NO → Task</div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="color: var(--accent-purple); margin-bottom: 16px;">Stage 4: Task Execution (if applicable)</h4>
+                        <div class="flow-row">
+                            <div class="flow-box">📋 Propose</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box decision">✓ Approve</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box">⚙️ Execute</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box">✅ Validate</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box end">📢 Report</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-divider"></div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon cyan">🎯</span>
+                    Context Loading Workflow
+                </h2>
+
+                <p class="card-description" style="margin-bottom: 24px;">
+                    Before any task executes, context is loaded to ensure quality and consistency:
+                </p>
+
+                <div class="card">
+                    <ol class="numbered-list">
+                        <li><strong>DISCOVER</strong> — ContextScout finds relevant paths (read-only)</li>
+                        <li><strong>PROPOSE</strong> — Show lightweight summary of approach</li>
+                        <li><strong>APPROVE</strong> — Wait for user confirmation</li>
+                        <li><strong>INIT</strong> — Create session directory + context file</li>
+                        <li><strong>DELEGATE</strong> — Pass context to specialist agents</li>
+                        <li><strong>CLEANUP</strong> — Ask user, then delete session</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon green">🤝</span>
+                    Multi-Agent Coordination
+                </h2>
+
+                <div class="card">
+                    <h4 class="card-title">Coordination Patterns</h4>
+
+                    <div style="margin-top: 20px;">
+                        <h5 style="color: var(--accent-purple); margin-bottom: 12px;">1. Sequential Handoff</h5>
+                        <p class="card-description">Each agent waits for the previous to complete, then uses their output as input.</p>
+                        <div class="code-block">
+<span class="function">CoderAgent</span> → <span class="variable">implement API</span> → <span class="function">TestEngineer</span> → <span class="variable">write tests</span> → <span class="function">DocWriter</span> → <span class="variable">document</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <h5 style="color: var(--accent-blue); margin-bottom: 12px;">2. Parallel Execution</h5>
+                        <p class="card-description">Independent tasks run simultaneously, then results are assembled.</p>
+                        <div class="code-block">
+<span class="variable">Widget1 + Widget2 + Widget3</span> → <span class="function">parallel</span> → <span class="function">CoderAgent</span> → <span class="variable">assemble</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <h5 style="color: var(--accent-green); margin-bottom: 12px;">3. Expert Review</h5>
+                        <p class="card-description">CodeReviewer validates output before continuing.</p>
+                        <div class="code-block">
+<span class="function">CoderAgent</span> → <span class="function">CodeReviewer</span> → <span class="variable">[issues?]</span> → <span class="function">CoderAgent</span> fixes → <span class="function">CodeReviewer</span> re-reviews
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-footer">
+            <div class="footer-left">
+                <span>OpenCode Guide</span>
+            </div>
+            <div class="footer-right">
+                <span>33</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CHAPTER 6: EXECUTION PATHS ==================== -->
+    <div class="page" id="ch6">
+        <div class="content-page">
+            <div class="page-header">
+                <div class="chapter-number">Chapter 6</div>
+                <h1 class="chapter-title">Execution Paths</h1>
+                <p class="chapter-subtitle">Two roads diverged in a digital wood</p>
+            </div>
+
+            <p class="card-description" style="font-size: 18px; margin-bottom: 32px;">
+                OpenCode has two main execution paths. The system automatically detects which one to use based on your input.
+            </p>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon green">💬</span>
+                    Path 1: Conversational
+                </h2>
+
+                <div class="card">
+                    <h4 class="card-title">When to Use</h4>
+                    <p class="card-description">For questions, discussions, and explanations. No action will be taken.</p>
+                    <div style="margin-top: 16px;">
+                        <span class="card-tag success">No approval needed</span>
+                        <span class="card-tag primary">Direct response</span>
+                    </div>
+                </div>
+
+                <div class="callout tip">
+                    <span class="callout-icon">💡</span>
+                    <div class="callout-content">
+                        <div class="callout-title">Example</div>
+                        <div class="callout-text">
+                            <strong>You:</strong> "How does async/await work in JavaScript?"<br>
+                            <strong>OpenCode:</strong> [Explains async/await with examples]
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-container" style="margin-top: 24px;">
+                    <div class="flow-row">
+                        <div class="flow-box start">Ask Question</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box start">Receive Answer</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-divider"></div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon purple">🚀</span>
+                    Path 2: Task Execution
+                </h2>
+
+                <div class="card">
+                    <h4 class="card-title">When to Use</h4>
+                    <p class="card-description">For actions that make changes — writing code, editing files, running commands.</p>
+                    <div style="margin-top: 16px;">
+                        <span class="card-tag warning">Approval required</span>
+                        <span class="card-tag secondary">Proposal first</span>
+                    </div>
+                </div>
+
+                <div class="callout warning">
+                    <span class="callout-icon">⚠️</span>
+                    <div class="callout-content">
+                        <div class="callout-title">Approval Gates</div>
+                        <div class="callout-text">Before any task executes, OpenCode proposes what it will do. This gives you control over all changes. It never auto-fixes without asking!</div>
+                    </div>
+                </div>
+
+                <div class="flow-container" style="margin-top: 24px;">
+                    <div class="flow-row" style="flex-wrap: nowrap;">
+                        <div class="flow-box">Request Task</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box decision">Approve?</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box process">Execute</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box end">Report</div>
+                    </div>
+                </div>
+
+                <div class="callout tip">
+                    <span class="callout-icon">💡</span>
+                    <div class="callout-content">
+                        <div class="callout-title">Example</div>
+                        <div class="callout-text">
+                            <strong>You:</strong> "Create a utility function for date formatting"<br>
+                            <strong>OpenCode:</strong> "I'll create src/utils/date.ts with formatDate() and parseDate() functions, including TypeScript types and tests. Shall I proceed?"<br>
+                            <strong>You:</strong> "Yes"<br>
+                            <strong>OpenCode:</strong> [Creates the file and tests]
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon orange">🎛️</span>
+                    Decision Tree
+                </h2>
+
+                <div class="card">
+                    <h4 class="card-title">How OpenCode Decides</h4>
+                    <div class="code-block" style="margin-top: 16px;">
+<span class="comment">// Is this a question?</span>
+<span class="keyword">if</span> (<span class="variable">isQuestion</span>) {
+  <span class="keyword">return</span> <span class="function">conversationalPath</span>();  <span class="comment">// Answer directly</span>
+}
+
+<span class="comment">// Is this an action?</span>
+<span class="keyword">if</span> (<span class="variable">isAction</span>) {  <span class="comment">// write | edit | bash | task</span>
+  <span class="keyword">return</span> <span class="function">taskPath</span>();      <span class="comment">// Propose → Approve → Execute</span>
+}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-footer">
+            <div class="footer-left">
+                <span>OpenCode Guide</span>
+            </div>
+            <div class="footer-right">
+                <span>41</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CHAPTER 7: PRIORITY SYSTEM ==================== -->
+    <div class="page" id="ch7">
+        <div class="content-page">
+            <div class="page-header">
+                <div class="chapter-number">Chapter 7</div>
+                <h1 class="chapter-title">The Priority System</h1>
+                <p class="chapter-subtitle">Safety → Workflow → Optimization</p>
+            </div>
+
+            <p class="card-description" style="font-size: 18px; margin-bottom: 32px;">
+                OpenCode has three priority tiers. Tier 1 <strong>always</strong> takes precedence over Tiers 2 and 3.
+            </p>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon green">🛡️</span>
+                    Tier 1: Safety & Approval Gates
+                </h2>
+
+                <div class="card agent-card green">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h4 class="card-title">Always First</h4>
+                        <span class="card-tag success">Priority: MAX</span>
+                    </div>
+                    <p class="card-description" style="margin-bottom: 20px;">
+                        This tier ensures safety mechanisms are in place before any action is taken. It runs before everything else.
+                    </p>
+                    <h5 style="margin-bottom: 12px;">What's included:</h5>
+                    <ul style="color: var(--text-secondary); padding-left: 20px;">
+                        <li style="margin-bottom: 8px;">Permission verification</li>
+                        <li style="margin-bottom: 8px;">Context loading mandate</li>
+                        <li style="margin-bottom: 8px;">Approval gate checks</li>
+                        <li>Safety validation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="page-divider"></div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon blue">⚙️</span>
+                    Tier 2: Core Workflow
+                </h2>
+
+                <div class="card agent-card blue">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h4 class="card-title">Main Execution</h4>
+                        <span class="card-tag secondary">Priority: NORMAL</span>
+                    </div>
+                    <p class="card-description" style="margin-bottom: 20px;">
+                        The standard task execution flow. Only runs after Tier 1 is satisfied.
+                    </p>
+
+                    <div class="flow-container" style="margin-top: 20px;">
+                        <div class="flow-row">
+                            <div class="flow-box">1. Analyze</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box">2. Approve</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box">3. Execute</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box">4. Validate</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box">5. Summarize</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-divider"></div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon purple">🚀</span>
+                    Tier 3: Optimization
+                </h2>
+
+                <div class="card agent-card purple">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h4 class="card-title">Performance</h4>
+                        <span class="card-tag primary">Priority: LOW</span>
+                    </div>
+                    <p class="card-description" style="margin-bottom: 20px;">
+                        Speed and efficiency optimizations. Only applies after Tiers 1 and 2 are complete.
+                    </p>
+                    <h5 style="margin-bottom: 12px;">What's included:</h5>
+                    <ul style="color: var(--text-secondary); padding-left: 20px;">
+                        <li style="margin-bottom: 8px;">Minimal session overhead</li>
+                        <li style="margin-bottom: 8px;">Quick responses</li>
+                        <li style="margin-bottom: 8px;">Efficient processing</li>
+                        <li>Session files only when delegating</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="callout warning">
+                <span class="callout-icon">⚠️</span>
+                <div class="callout-content">
+                    <div class="callout-title">The Rule</div>
+                    <div class="callout-text">If speed conflicts with quality, <strong>quality wins</strong>. Tier 1 always overrides Tiers 2/3. Never skip safety checks for the sake of speed.</div>
+                </div>
+            </div>
+        </div>
+        <div class="page-footer">
+            <div class="footer-left">
+                <span>OpenCode Guide</span>
+            </div>
+            <div class="footer-right">
+                <span>49</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CHAPTER 8: SPECIAL SKILLS ==================== -->
+    <div class="page" id="ch8">
+        <div class="content-page">
+            <div class="page-header">
+                <div class="chapter-number">Chapter 8</div>
+                <h1 class="chapter-title">Special Skills</h1>
+                <p class="chapter-subtitle">Extra capabilities for specific tasks</p>
+            </div>
+
+            <p class="card-description" style="font-size: 18px; margin-bottom: 32px;">
+                Skills provide specialized instructions and workflows for specific tasks. Use the right skill when a task matches its description.
+            </p>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon purple">📚</span>
+                    Available Skills
+                </h2>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <span class="card-tag primary">Documentation</span>
+                        <h4 class="card-title">context7</h4>
+                        <p class="card-description">Retrieves up-to-date documentation for libraries and frameworks via the Context7 API. Always gives you current information, not outdated docs.</p>
+                        <div style="margin-top: 16px;">
+                            <strong>Use when:</strong>
+                            <p class="card-description">Looking up library docs, verifying API usage, finding code examples</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <span class="card-tag secondary">Discovery</span>
+                        <h4 class="card-title">find-skills</h4>
+                        <p class="card-description">Helps you discover and install new agent skills when you need functionality that might not exist yet.</p>
+                        <div style="margin-top: 16px;">
+                            <strong>Use when:</strong>
+                            <p class="card-description">"How do I do X?", "Find a skill for X", "Is there something for...?"</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <span class="card-tag success">UI Components</span>
+                        <h4 class="card-title">shadcn</h4>
+                        <p class="card-description">Manages shadcn/ui components — adding, searching, fixing, debugging, and composing beautiful interfaces.</p>
+                        <div style="margin-top: 16px;">
+                            <strong>Use when:</strong>
+                            <p class="card-description">Running shadcn init, adding components, debugging UI</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <span class="card-tag warning">Discovery</span>
+                        <h4 class="card-title">shadcn-component-discovery</h4>
+                        <p class="card-description">Discovers UI components across the entire shadcn ecosystem — Magic UI, Aceternity, ReUI, and more.</p>
+                        <div style="margin-top: 16px;">
+                            <strong>Use when:</strong>
+                            <p class="card-description">Need a UI component for data table, form, modal, animations, etc.</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <span class="card-tag primary">Management</span>
+                        <h4 class="card-title">task-management</h4>
+                        <p class="card-description">CLI for tracking and managing feature subtasks with status, dependencies, and validation.</p>
+                        <div style="margin-top: 16px;">
+                            <strong>Use when:</strong>
+                            <p class="card-description">Managing complex features, tracking progress, handling dependencies</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon cyan">🔧</span>
+                    How to Invoke Skills
+                </h2>
+
+                <div class="card">
+                    <h4 class="card-title">Using the skill Tool</h4>
+                    <p class="card-description" style="margin-bottom: 20px;">Skills are invoked using the skill tool when a task matches the skill's description:</p>
+                    <div class="code-block">
+<span class="comment">// Load a skill</span>
+<span class="function">skill</span>(name=<span class="string">"context7"</span>)
+
+<span class="comment">// Then use the skill for your task</span>
+<span class="comment">// The skill injects specialized instructions</span>
+                    </div>
+                </div>
+
+                <div class="collapsible">
+                    <div class="collapsible-header" onclick="this.parentElement.classList.toggle('active')">
+                        <span>📖 Skill Loading Workflow</span>
+                        <span class="collapsible-arrow">▼</span>
+                    </div>
+                    <div class="collapsible-content">
+                        <ol class="numbered-list">
+                            <li>Recognize task matches skill description</li>
+                            <li>Load skill: <code>skill(name="skill-name")</code></li>
+                            <li>Follow skill instructions for the task</li>
+                            <li>Execute within skill framework</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-footer">
+            <div class="footer-left">
+                <span>OpenCode Guide</span>
+            </div>
+            <div class="footer-right">
+                <span>57</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CHAPTER 9: CONTEXT SYSTEM ==================== -->
+    <div class="page" id="ch9">
+        <div class="content-page">
+            <div class="page-header">
+                <div class="chapter-number">Chapter 9</div>
+                <h1 class="chapter-title">Context System</h1>
+                <p class="chapter-subtitle">The knowledge that guides every action</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon blue">🔎</span>
+                    How Context Works
+                </h2>
+
+                <p class="card-description" style="margin-bottom: 24px;">
+                    Context is the project-specific knowledge that ensures OpenCode's work is consistent with your standards and conventions.
+                </p>
+
+                <div class="card">
+                    <h4 class="card-title">Context Index Structure</h4>
+                    <div class="code-block" style="margin-top: 16px;">
+<span class="variable">.opencode/context/</span>
+├── <span class="function">core/</span>                   <span class="comment"># Universal standards & workflows</span>
+│   ├── standards/           <span class="comment"># code-quality, test-coverage, documentation</span>
+│   └── workflows/          <span class="comment"># code-review, task-delegation</span>
+├── <span class="function">development/</span>            <span class="comment"># Software development (all stacks)</span>
+├── <span class="function">ui/</span>                     <span class="comment"># Visual design & UX</span>
+├── <span class="function">content-creation/</span>       <span class="comment"># Content creation (all formats)</span>
+├── <span class="function">data/</span>                  <span class="comment"># Data engineering & analytics</span>
+└── <span class="function">product/</span>               <span class="comment"># Product management</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon green">📂</span>
+                    Quick Routes
+                </h2>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Task</th>
+                                <th>Context Path</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Write code</strong></td>
+                                <td><code>core/standards/code-quality.md</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Write tests</strong></td>
+                                <td><code>core/standards/test-coverage.md</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Write docs</strong></td>
+                                <td><code>core/standards/documentation.md</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Review code</strong></td>
+                                <td><code>core/workflows/code-review.md</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Delegate task</strong></td>
+                                <td><code>core/workflows/task-delegation-basics.md</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon orange">⏰</span>
+                    When Context Is Auto-Loaded
+                </h2>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h4 class="card-title">Task Execution</h4>
+                        <p class="card-description">When bash, write, edit, or task triggers are used, context is always loaded first.</p>
+                    </div>
+                    <div class="card">
+                        <h4 class="card-title">Documentation Writing</h4>
+                        <p class="card-description">Documentation standards are loaded automatically.</p>
+                    </div>
+                    <div class="card">
+                        <h4 class="card-title">Code Review</h4>
+                        <p class="card-description">Review standards are loaded before examining code.</p>
+                    </div>
+                    <div class="card">
+                        <h4 class="card-title">Task Delegation</h4>
+                        <p class="card-description">Delegation basics are loaded before routing to specialists.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon pink">🔧</span>
+                    Session Context Pattern
+                </h2>
+
+                <p class="card-description" style="margin-bottom: 24px;">
+                    For complex tasks, OpenCode creates session files to maintain context across multiple agent interactions:
+                </p>
+
+                <div class="card">
+                    <h4 class="card-title">When to Create Sessions</h4>
+                    <ul style="color: var(--text-secondary); padding-left: 20px; margin-bottom: 20px;">
+                        <li>User has approved the proposed approach</li>
+                        <li>Task requires delegation to TaskManager or working agents</li>
+                        <li>Task is complex (4+ files, &gt;60min)</li>
+                    </ul>
+
+                    <h5 style="margin-bottom: 12px;">Location:</h5>
+                    <div class="code-block">
+<span class="variable">.tmp/sessions/{YYYY-MM-DD}-{task-slug}/context.md</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-footer">
+            <div class="footer-left">
+                <span>OpenCode Guide</span>
+            </div>
+            <div class="footer-right">
+                <span>65</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CHAPTER 10: TUTORIALS ==================== -->
+    <div class="page" id="ch10">
+        <div class="content-page">
+            <div class="page-header">
+                <div class="chapter-number">Chapter 10</div>
+                <h1 class="chapter-title">Learning by Doing</h1>
+                <p class="chapter-subtitle">Real-world tutorials with step-by-step guides</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon purple">🎓</span>
+                    Tutorial 1: Basic Code Task
+                </h2>
+
+                <div class="card tutorial-card">
+                    <div class="tutorial-number">1</div>
+                    <h4 class="card-title">Create a New Function</h4>
+                    <p class="card-description" style="margin-bottom: 20px;">The simplest task — creating a utility function following project standards.</p>
+
+                    <h5 style="margin-bottom: 16px;">Steps:</h5>
+                    <ol class="numbered-list">
+                        <li>You request a function (e.g., "Create a discount calculator")</li>
+                        <li>ContextScout finds code-quality standards</li>
+                        <li>OpenCode proposes approach with file location and signature</li>
+                        <li>You approve the proposal</li>
+                        <li>CoderAgent implements with types and documentation</li>
+                        <li>BuildAgent validates types compile correctly</li>
+                        <li>TestEngineer writes unit tests</li>
+                    </ol>
+
+                    <div style="margin-top: 20px;">
+                        <span class="card-tag">Time: ~5 min</span>
+                        <span class="card-tag secondary">Agents: CoderAgent</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-divider"></div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon blue">🤝</span>
+                    Tutorial 2: Multi-Agent Collaboration
+                </h2>
+
+                <div class="card tutorial-card">
+                    <div class="tutorial-number">2</div>
+                    <h4 class="card-title">Build a Feature with Code + Tests + Docs</h4>
+                    <p class="card-description" style="margin-bottom: 20px;">For complex features requiring multiple specialists.</p>
+
+                    <h5 style="margin-bottom: 16px;">Workflow:</h5>
+                    <div class="flow-container" style="margin-bottom: 20px;">
+                        <div class="flow-row" style="flex-wrap: nowrap;">
+                            <div class="flow-box start">TaskManager</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box process">Break Down</div>
+                        </div>
+                        <div class="flow-row" style="margin-top: 12px;">
+                            <div class="flow-box">CoderAgent</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box">TestEngineer</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box end">DocWriter</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <span class="card-tag">Time: ~30 min</span>
+                        <span class="card-tag secondary">Agents: CoderAgent, TestEngineer, DocWriter</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon cyan">🔍</span>
+                    Tutorial 3: Code Review Workflow
+                </h2>
+
+                <div class="card tutorial-card">
+                    <div class="tutorial-number">3</div>
+                    <h4 class="card-title">Review a PR or Set of Changes</h4>
+                    <p class="card-description" style="margin-bottom: 20px;">Thorough code review with security and quality checks.</p>
+
+                    <h5 style="margin-bottom: 16px;">Steps:</h5>
+                    <ol class="numbered-list">
+                        <li>CodeReviewer loads code-review standards</li>
+                        <li>Scans code for functionality, security, quality</li>
+                        <li>Checks naming, duplication, error handling</li>
+                        <li>Identifies test coverage gaps</li>
+                        <li>Reports issues with severity levels</li>
+                        <li>You approve fixes (if needed)</li>
+                    </ol>
+
+                    <div style="margin-top: 20px;">
+                        <span class="card-tag">Time: ~15 min</span>
+                        <span class="card-tag secondary">Agents: CodeReviewer</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon green">🧪</span>
+                    Tutorial 4: Testing with TDD
+                </h2>
+
+                <div class="card tutorial-card">
+                    <div class="tutorial-number">4</div>
+                    <h4 class="card-title">Test-Driven Development</h4>
+                    <p class="card-description" style="margin-bottom: 20px;">Write tests first, then implement to make them pass.</p>
+
+                    <h5 style="margin-bottom: 16px;">TDD Cycle:</h5>
+                    <div class="flow-container" style="margin-bottom: 20px;">
+                        <div class="flow-row">
+                            <div class="flow-box start">Write Test</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box decision">Run</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box end">Implement</div>
+                        </div>
+                        <div class="flow-row" style="margin-top: 8px;">
+                            <div class="flow-box start">Verify</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box decision">Pass?</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="flow-box end">Refactor</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <span class="card-tag">Time: ~20 min</span>
+                        <span class="card-tag secondary">Agents: TestEngineer, CoderAgent</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon pink">🧩</span>
+                    Tutorial 5: Component Discovery
+                </h2>
+
+                <div class="card tutorial-card">
+                    <div class="tutorial-number">5</div>
+                    <h4 class="card-title">Find the Perfect UI Component</h4>
+                    <p class="card-description" style="margin-bottom: 20px;">Discover components across the shadcn ecosystem.</p>
+
+                    <h5 style="margin-bottom: 16px;">Steps:</h5>
+                    <ol class="numbered-list">
+                        <li>Load shadcn-component-discovery skill</li>
+                        <li>Describe what you need (e.g., "data table with sorting")</li>
+                        <li>Skill searches Magic UI, Aceternity, ReUI, etc.</li>
+                        <li>Returns available options with capabilities</li>
+                        <li>You select the best fit</li>
+                        <li>shadcn skill adds component to your project</li>
+                    </ol>
+
+                    <div style="margin-top: 20px;">
+                        <span class="card-tag">Time: ~5 min</span>
+                        <span class="card-tag success">Skills: shadcn-component-discovery</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-footer">
+            <div class="footer-left">
+                <span>OpenCode Guide</span>
+            </div>
+            <div class="footer-right">
+                <span>73</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CHAPTER 11: BEST PRACTICES ==================== -->
+    <div class="page" id="ch11">
+        <div class="content-page">
+            <div class="page-header">
+                <div class="chapter-number">Chapter 11</div>
+                <h1 class="chapter-title">Best Practices</h1>
+                <p class="chapter-subtitle">Get the most out of OpenCode</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon green">✅</span>
+                    Do's
+                </h2>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h4 class="card-title">🎯 Be Specific</h4>
+                        <p class="card-description">Clear requests get better results. Instead of "fix the auth", say "add JWT token validation to the login endpoint".</p>
+                    </div>
+                    <div class="card">
+                        <h4 class="card-title">🔎 Context-First</h4>
+                        <p class="card-description">Let ContextScout find standards before writing code. This ensures consistency with your project's patterns.</p>
+                    </div>
+                    <div class="card">
+                        <h4 class="card-title">✅ Review Proposals</h4>
+                        <p class="card-description">Always check proposals before approving. This gives you control and prevents unintended changes.</p>
+                    </div>
+                    <div class="card">
+                        <h4 class="card-title">📋 Track Complex Tasks</h4>
+                        <p class="card-description">Use TaskManager for multi-step features. Breaking things down helps track progress and dependencies.</p>
+                    </div>
+                    <div class="card">
+                        <h4 class="card-title">📢 Report Issues</h4>
+                        <p class="card-description">When OpenCode finds issues, report them. Don't auto-fix — wait for your approval to proceed.</p>
+                    </div>
+                    <div class="card">
+                        <h4 class="card-title">🧪 Test Thoroughly</h4>
+                        <p class="card-description">Use TestEngineer for comprehensive test coverage. Good tests prevent regressions and document behavior.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-divider"></div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon red">❌</span>
+                    Don'ts
+                </h2>
+
+                <div class="card-grid">
+                    <div class="card" style="border-color: rgba(239, 68, 68, 0.3);">
+                        <h4 class="card-title">🚫 Skip ContextScout</h4>
+                        <p class="card-description">Writing without standards leads to inconsistency. Always discover project conventions first.</p>
+                    </div>
+                    <div class="card" style="border-color: rgba(239, 68, 68, 0.3);">
+                        <h4 class="card-title">🚫 Auto-Fix Without Asking</h4>
+                        <p class="card-description">You may not want the fix. Always propose, wait for approval, then execute.</p>
+                    </div>
+                    <div class="card" style="border-color: rgba(239, 68, 68, 0.3);">
+                        <h4 class="card-title">🚫 Be Verbose</h4>
+                        <p class="card-description">Keep it scannable — under 30 seconds to understand. Concise is better than verbose.</p>
+                    </div>
+                    <div class="card" style="border-color: rgba(239, 68, 68, 0.3);">
+                        <h4 class="card-title">🚫 Skip Approval Gates</h4>
+                        <p class="card-description">Safety mechanisms exist for good reason. Don't bypass approval for speed.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon orange">📝</span>
+                    Report-First Workflow
+                </h2>
+
+                <div class="card">
+                    <h4 class="card-title">When You Find an Issue</h4>
+                    <div class="code-block" style="margin-top: 16px;">
+<span class="comment"># ❌ DON'T:</span>
+<span class="string">"I noticed X, fixing it now..."</span>
+
+<span class="comment"># ✅ DO:</span>
+<span class="string">"I found X. This is a problem because Y.</span>
+<span class="string">I propose to fix it by Z.</span>
+<span class="string">Shall I proceed?"</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-footer">
+            <div class="footer-left">
+                <span>OpenCode Guide</span>
+            </div>
+            <div class="footer-right">
+                <span>97</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CHAPTER 12: QUICK REFERENCE ==================== -->
+    <div class="page" id="ch12">
+        <div class="content-page">
+            <div class="page-header">
+                <div class="chapter-number">Chapter 12</div>
+                <h1 class="chapter-title">Quick Reference</h1>
+                <p class="chapter-subtitle">Your cheat sheet for day-to-day use</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon purple">🤖</span>
+                    Which Agent to Use?
+                </h2>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Task</th>
+                                <th>Use Agent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Write new code</td>
+                                <td><strong>CoderAgent</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Review code</td>
+                                <td><strong>CodeReviewer</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Write tests</td>
+                                <td><strong>TestEngineer</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Create docs</td>
+                                <td><strong>DocWriter</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Break down work</td>
+                                <td><strong>TaskManager</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Validate build</td>
+                                <td><strong>BuildAgent</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Find standards</td>
+                                <td><strong>ContextScout</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Find library docs</td>
+                                <td><strong>ExternalScout</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Explore codebase</td>
+                                <td><strong>explore</strong></td>
+                            </tr>
+                            <tr>
+                                <td>General research</td>
+                                <td><strong>general</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="page-divider"></div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon cyan">⚡</span>
+                    Quick Reference Cards
+                </h2>
+
+                <div class="quick-ref-grid">
+                    <div class="quick-ref-card">
+                        <div class="quick-ref-title">Execution Paths</div>
+                        <ul class="quick-ref-list">
+                            <li>Question → Direct answer</li>
+                            <li>Task → Approval → Execute</li>
+                            <li>Complex → Session → Delegate</li>
+                        </ul>
+                    </div>
+
+                    <div class="quick-ref-card">
+                        <div class="quick-ref-title">Priority Rule</div>
+                        <ul class="quick-ref-list">
+                            <li>Tier 1 (Safety) → Always first</li>
+                            <li>Tier 2 (Workflow) → After safety</li>
+                            <li>Tier 3 (Optimize) → After workflow</li>
+                        </ul>
+                    </div>
+
+                    <div class="quick-ref-card">
+                        <div class="quick-ref-title">Report First!</div>
+                        <ul class="quick-ref-list">
+                            <li>Found issue? → Report it</li>
+                            <li>Proposed fix? → Wait for approval</li>
+                            <li>Never auto-fix!</li>
+                        </ul>
+                    </div>
+
+                    <div class="quick-ref-card">
+                        <div class="quick-ref-title">Delegation Triggers</div>
+                        <ul class="quick-ref-list">
+                            <li>Complex task? → TaskManager</li>
+                            <li>Multiple skill sets? → Multiple agents</li>
+                            <li>External library? → ExternalScout</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon green">📊</span>
+                    Agent Selection Decision Tree
+                </h2>
+
+                <div class="card">
+                    <div class="code-block">
+<span class="comment"># Which agent for your task?</span>
+
+Need <span class="variable">code</span>?          → <span class="function">CoderAgent</span>
+Need <span class="variable">review</span>?         → <span class="function">CodeReviewer</span>
+Need <span class="variable">tests</span>?          → <span class="function">TestEngineer</span>
+Need <span class="variable">docs</span>?           → <span class="function">DocWriter</span>
+Need <span class="variable">break down</span>?     → <span class="function">TaskManager</span>
+Need <span class="variable">validate build</span>? → <span class="function">BuildAgent</span>
+Need <span class="variable">project standards</span>? → <span class="function">ContextScout</span>
+Need <span class="variable">library docs</span>?   → <span class="function">ExternalScout</span>
+Need <span class="variable">explore</span>?        → <span class="function">explore</span>
+Need <span class="variable">general help</span>?   → <span class="function">general</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-footer">
+            <div class="footer-left">
+                <span>OpenCode Guide</span>
+            </div>
+            <div class="footer-right">
+                <span>105</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CHAPTER 13: AGENT HIERARCHY ==================== -->
+    <div class="page" id="ch13">
+        <div class="content-page">
+            <div class="page-header">
+                <div class="chapter-number">Chapter 13</div>
+                <h1 class="chapter-title">Agent Hierarchy</h1>
+                <p class="chapter-subtitle">The complete organizational structure</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon purple">🌳</span>
+                    Complete Hierarchy Tree
+                </h2>
+
+                <div class="card">
+                    <div class="hierarchy-tree">
+<pre>
+<span class="tree-primary">🎛️ OpenAgent (Primary)</span>
+│
+├── <span class="tree-category">SPECIALISTS</span>
+│   ├── ⌨️ CoderAgent
+│   ├── 🔍 CodeReviewer
+│   ├── 🧪 TestEngineer
+│   ├── 📝 DocWriter
+│   ├── 📋 TaskManager
+│   ├── 🔧 BuildAgent
+│   ├── 🔎 explore
+│   └── 🎯 general
+│
+├── <span class="tree-category">SUPERVISORS</span>
+│   ├── 👁️ meta-supervisor
+│   ├── 🏗️ architecture-supervisor
+│   ├── 🧹 memory-curator
+│   ├── 📊 project-manager-supervisor
+│   ├── 🔬 rnd-supervisor
+│   └── 🔗 graph-query-engine
+│
+├── <span class="tree-category">ORCHESTRATION</span>
+│   ├── ⚙️ task-execution
+│   ├── 📂 context-loading
+│   ├── 📨 delegation
+│   ├── 🚦 approval-gates
+│   ├── 🛡️ safety
+│   └── 🗺️ routing-table
+│
+└── <span class="tree-category">SCOUTS</span>
+    ├── 🔎 ContextScout
+    └── 📚 ExternalScout
+</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-icon blue">📋</span>
+                    Internal Orchestration Agents
+                </h2>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Agent</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>task-execution</strong></td>
+                                <td>Execute → Validate → Summarize workflow</td>
+                            </tr>
+                            <tr>
+                                <td><strong>context-loading</strong></td>
+                                <td>Mandatory context loading for safety</td>
+                            </tr>
+                            <tr>
+                                <td><strong>delegation</strong></td>
+                                <td>Routing tasks to appropriate agents</td>
+                            </tr>
+                            <tr>
+                                <td><strong>batching</strong></td>
+                                <td>Parallel task processing</td>
+                            </tr>
+                            <tr>
+                                <td><strong>routing-table</strong></td>
+                                <td>Agent routing decisions</td>
+                            </tr>
+                            <tr>
+                                <td><strong>approval-gates</strong></td>
+                                <td>Permission & safety checks</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="page-footer">
+            <div class="footer-left">
+                <span>OpenCode Guide</span>
+            </div>
+            <div class="footer-right">
+                <span>113</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== BACK COVER ==================== -->
+    <div class="page cover-page" style="background: linear-gradient(135deg, #16213e 0%, #0a0a0f 100%);">
+        <div class="cover-content">
+            <h1 class="cover-title" style="font-size: 64px;">OpenCode</h1>
+            <p class="cover-subtitle" style="font-size: 20px;">Your AI Coding Companion</p>
+
+            <div style="margin-top: 60px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <span class="card-tag primary" style="padding: 8px 16px; font-size: 14px;">8+ Specialist Agents</span>
+                <span class="card-tag secondary" style="padding: 8px 16px; font-size: 14px;">6 Supervisors</span>
+                <span class="card-tag success" style="padding: 8px 16px; font-size: 14px;">5 Skills</span>
+                <span class="card-tag warning" style="padding: 8px 16px; font-size: 14px;">10 Tutorials</span>
+            </div>
+
+            <div style="margin-top: 80px; color: var(--text-muted);">
+                <p>Version 1.0 | May 2026</p>
+                <p style="margin-top: 8px;">Documentation Guide</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple interactivity for collapsibles
+        document.querySelectorAll('.collapsible-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.parentElement.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

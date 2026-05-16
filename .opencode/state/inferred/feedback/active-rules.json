@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openagentscontrol.dev/schemas/active-rules/1.0.0",
+  "schema_version": "1.0.0",
+  "state_type": "inferred",
+  "description": "Currently active feedback rules — compressed, decay-managed, refreshed from error-registry by FeedbackSupervisor on each execution cycle. Fixed token budget.",
+  "last_refreshed": null,
+  "refreshed_by": null,
+  "agent_rules": {},
+  "global_rules": []
+}

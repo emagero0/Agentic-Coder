@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022"],
+    "types": ["node"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "allowJs": false
+  },
+  "include": [
+    ".opencode/events/**/*.ts",
+    ".opencode/tool/**/*.ts",
+    ".opencode/graph/**/*.ts",
+    ".opencode/tests/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".opencode/node_modules",
+    ".opencode/tool/events"
+  ]
+}

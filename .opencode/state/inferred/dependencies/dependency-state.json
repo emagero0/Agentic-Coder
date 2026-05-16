@@ -1,0 +1,352 @@
+{
+  "$schema": "https://openagentscontrol.dev/schemas/dependency-state/1.1.0",
+  "schema_version": "1.1.0",
+  "state_type": "inferred",
+  "description": "Provisional dependency state — auto-populated by /scan-state from package.json/lockfiles. Version health and CVEs not verified until deep audit.",
+  "last_scanned": "2026-05-11T21:43:18.6818534+03:00",
+  "scanned_by": "scan-state",
+  "package_manager": "npm",
+  "lockfile": ".opencode/package-lock.json",
+  "dependencies": {
+    "@opencode-ai/plugin": {
+      "current_version": "1.14.46",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Main OAC plugin. Transitive deps: @opencode-ai/sdk@1.14.46, effect@4.0.0-beta.59, zod@4.1.8"
+    },
+    "@kilocode/plugin": {
+      "current_version": "7.2.25",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Legacy plugin reference (from kilocode). Transitive deps: effect@4.0.0-beta.48, zod@4.1.8"
+    },
+    "@opencode-ai/sdk": {
+      "current_version": "1.14.46",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "OpenCode SDK. Transitive dep of @opencode-ai/plugin. Transitive deps: cross-spawn@7.0.6"
+    },
+    "effect": {
+      "current_version": "4.0.0-beta.59",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Functional programming library (beta). Major beta version delta between plugin (4.0.0-beta.59) and kilocode (4.0.0-beta.48)."
+    },
+    "zod": {
+      "current_version": "4.1.8",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Schema validation library. Multiple v4 versions installed in nested node_modules: v4 (root), v3 (legacy), v4-mini, v4-classic, v4-core, v4-locales"
+    },
+    "cross-spawn": {
+      "current_version": "7.0.6",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Cross-platform spawn utility. Transitive dep of @opencode-ai/sdk."
+    },
+    "@opentui/core": {
+      "current_version": "0.2.6",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "development",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "UI component library (optional peer dep). Version mismatch: 0.2.6 (plugin) vs 0.1.99 (kilocode plugin)."
+    },
+    "@opentui/solid": {
+      "current_version": "0.2.6",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "development",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Solid.js UI components (optional peer dep). Same version mismatch as @opentui/core."
+    },
+    "@opentui/keymap": {
+      "current_version": "0.2.6",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "development",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Keyboard shortcuts library (optional peer dep of @opencode-ai/plugin only)."
+    },
+    "typescript": {
+      "current_version": "5.8.2",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "development",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "TypeScript compiler. Used across all packages for type checking."
+    },
+    "@tsconfig/node22": {
+      "current_version": "22.0.2",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "development",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "TypeScript config for Node.js 22."
+    },
+    "@types/node": {
+      "current_version": "24.12.2",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "development",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Node.js type definitions. Version mismatch: 24.12.2 (@opencode-ai/plugin) vs 22.13.9 (@kilocode/plugin)."
+    },
+    "@typescript/native-preview": {
+      "current_version": "7.0.0-dev.20251207.1",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "development",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Experimental TypeScript features (preview). Version mismatch between packages."
+    },
+    "yaml": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "YAML parser. Transitive dep in both effect and root node_modules."
+    },
+    "uuid": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "UUID generation. Transitive dep of effect."
+    },
+    "find-my-way-ts": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "HTTP router. Transitive dep of effect."
+    },
+    "pure-rand": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Random number generation. Transitive dep of effect."
+    },
+    "msgpackr": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "MessagePack encoder/decoder. Transitive dep of effect."
+    },
+    "multipasta": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Multi-format serialization. Transitive dep of effect."
+    },
+    "fast-check": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "development",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Property-based testing. Transitive dep of effect."
+    },
+    "toml": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "TOML parser. Transitive dep of effect."
+    },
+    "node-gyp-build-optional-packages": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Node.js native addon builder. Transitive dep of effect."
+    },
+    "detect-libc": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "C library detector. Transitive dep of msgpackr-extract."
+    },
+    "msgpackr-extract": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "MessagePack native addon. Transitive dep of msgpackr."
+    },
+    "@standard-schema/spec": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Standard schema specification. Transitive dep of effect."
+    },
+    "which": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Unix which command. Transitive dep of cross-spawn."
+    },
+    "ini": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "INI file parser. Transitive dep of effect."
+    },
+    "shebang-command": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Shebang parser. Transitive dep of cross-spawn."
+    },
+    "path-key": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "PATH environment variable helper. Transitive dep of cross-spawn."
+    },
+    "shebang-regex": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Shebang regex. Transitive dep of shebang-command."
+    },
+    "isexe": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "production",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Check if file is executable. Transitive dep of which."
+    },
+    "kubernetes-types": {
+      "current_version": "latest",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "development",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "Kubernetes type definitions. Transitive dep of effect."
+    },
+    "@hey-api/openapi-ts": {
+      "current_version": "0.90.10",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "development",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "OpenAPI code generator. Dev dep of @opencode-ai/sdk."
+    },
+    "@types/cross-spawn": {
+      "current_version": "6.0.6",
+      "latest_version": null,
+      "wanted_version": null,
+      "type": "development",
+      "health": "unknown",
+      "last_checked": null,
+      "cves": [],
+      "notes": "cross-spawn type definitions. Dev dep of @opencode-ai/sdk."
+    }
+  }
+}

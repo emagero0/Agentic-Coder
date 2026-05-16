@@ -1,0 +1,182 @@
+{
+  "$schema": "https://openagentscontrol.dev/schemas/feature-registry/1.1.0",
+  "schema_version": "1.1.0",
+  "state_type": "verified",
+  "description": "Authoritative feature registry — entries are promoted here only after human review or /audit confirmation. This is the ground truth for feature completeness.",
+  "last_updated": "2026-05-11T21:50:00.0000000+03:00",
+  "updated_by": "/audit features (ProjectManagerSupervisor)",
+  "features": {
+    "event-processing-system": {
+      "status": "verified",
+      "confidence": 0.98,
+      "verification_status": "verified",
+      "verification_method": "/audit features",
+      "verified_at": "2026-05-11T21:50:00.0000000+03:00",
+      "evidence": [
+        ".opencode/events/router/priority-router.ts",
+        ".opencode/events/handlers/sync/update-registry.ts",
+        ".opencode/events/handlers/async/check-dependencies.ts",
+        ".opencode/events/handlers/async/analyze-drift.ts",
+        ".opencode/events/handlers/deferred/weekly-audit.ts"
+      ],
+      "routes": [],
+      "components": [],
+      "apis": [],
+      "notes": "COMPLETE 3-tier event system (Tier 1: sync, Tier 2: async, Tier 3: deferred) with priority router. All 5 handler files verified with full implementations. 87-line router with EVENT_ROUTING_TABLE, classifyEvent(), routeEvent(). 93-line sync handler with RegistryUpdateEvent interface. 110-line async handler with ToolExecutedEvent. 107-line async handler with FileChangedEvent. 62-line deferred handler for ScheduledEvent.",
+      "promoted_from": "inferred",
+      "promotion_audit": "feature-audit-2026-05-11.json"
+    },
+    "context-management-system": {
+      "status": "verified",
+      "confidence": 0.95,
+      "verification_status": "verified",
+      "verification_method": "/audit features",
+      "verified_at": "2026-05-11T21:50:00.0000000+03:00",
+      "evidence": [
+        ".opencode/context/core/config/paths.json",
+        ".opencode/context/openagents-repo/navigation.md",
+        ".opencode/context/project-intelligence/navigation.md"
+      ],
+      "routes": [],
+      "components": [],
+      "apis": [],
+      "notes": "COMPLETE MVI context system with 100+ files across 6 categories (standards, concepts, examples, guides, lookup, errors, features). MVI principle enforced (<200 lines per file). 7-line JSON config for local/global context paths. 192-line navigation with categories. 65-line project intelligence navigation.",
+      "promoted_from": "inferred",
+      "promotion_audit": "feature-audit-2026-05-11.json"
+    },
+    "cognitive-platform": {
+      "status": "verified",
+      "confidence": 0.92,
+      "verification_status": "verified",
+      "verification_method": "/audit features",
+      "verified_at": "2026-05-11T21:50:00.0000000+03:00",
+      "evidence": [
+        ".opencode/state/inferred/features/feature-registry.json",
+        ".opencode/state/inferred/architecture/architecture-graph.json",
+        ".opencode/state/inferred/dependencies/dependency-state.json"
+      ],
+      "routes": [],
+      "components": [],
+      "apis": [],
+      "notes": "COMPLETE OAC cognitive platform with inferred/verified split, snapshots, and state management. 169-line registry with 10 features. Architecture graph with nodes and edges. Dependency registry with 34 packages.",
+      "promoted_from": "inferred",
+      "promotion_audit": "feature-audit-2026-05-11.json"
+    },
+    "state-management": {
+      "status": "verified",
+      "confidence": 0.92,
+      "verification_status": "verified",
+      "verification_method": "/audit features",
+      "verified_at": "2026-05-11T21:50:00.0000000+03:00",
+      "evidence": [
+        ".opencode/state/inferred/features/feature-registry.json",
+        ".opencode/state/inferred/architecture/architecture-graph.json",
+        ".opencode/state/inferred/dependencies/dependency-state.json",
+        ".opencode/state/verified/features/feature-registry.json"
+      ],
+      "routes": [],
+      "components": [],
+      "apis": [],
+      "notes": "COMPLETE state management with inferred/verified split, snapshot system, and schema validation. Inferred/verified split with features, architecture, and dependencies registries. Snapshot system for safety.",
+      "promoted_from": "inferred",
+      "promotion_audit": "feature-audit-2026-05-11.json"
+    },
+    "agent-system": {
+      "status": "verified",
+      "confidence": 0.90,
+      "verification_status": "verified",
+      "verification_method": "/audit features",
+      "verified_at": "2026-05-11T21:50:00.0000000+03:00",
+      "evidence": [
+        ".opencode/config/agent-metadata.json"
+      ],
+      "routes": [],
+      "components": [],
+      "apis": [],
+      "notes": "COMPLETE agent system with agent-metadata.json defining 28 agents across 6 categories (4 core, 3 meta, 4 content/data/testing, 14 subagents, 3 supervisors). All agents have proper versioning, tags, and dependencies.",
+      "promoted_from": "inferred",
+      "promotion_audit": "feature-audit-2026-05-11.json"
+    },
+    "skills-system": {
+      "status": "verified",
+      "confidence": 0.90,
+      "verification_status": "verified",
+      "verification_method": "/audit features",
+      "verified_at": "2026-05-11T21:50:00.0000000+03:00",
+      "evidence": [
+        ".opencode/skills/context7/SKILL.md",
+        ".opencode/skills/task-management/SKILL.md",
+        "C:\\Users\\emage\\.agents\\skills\\find-skills\\SKILL.md",
+        "C:\\Users\\emage\\.agents\\skills\\shadcn\\SKILL.md",
+        "C:\\Users\\emage\\.agents\\skills\\shadcn-component-discovery\\SKILL.md"
+      ],
+      "routes": [],
+      "components": [],
+      "apis": [],
+      "notes": "COMPLETE extensible skill system with 5 skills covering documentation (context7), task management, discovery (find-skills), and UI (shadcn). All skill files verified with complete implementations.",
+      "promoted_from": "inferred",
+      "promotion_audit": "feature-audit-2026-05-11.json"
+    },
+    "documentation-system": {
+      "status": "verified",
+      "confidence": 0.88,
+      "verification_status": "verified",
+      "verification_method": "/audit features",
+      "verified_at": "2026-05-11T21:50:00.0000000+03:00",
+      "evidence": [
+        ".opencode/README.md"
+      ],
+      "routes": [],
+      "components": [],
+      "apis": [],
+      "notes": "COMPLETE 823-line comprehensive documentation covering problem statement, solution, quick start, workflow, comparison tables, and roadmap. Full project overview with usage examples.",
+      "promoted_from": "inferred",
+      "promotion_audit": "feature-audit-2026-05-11.json"
+    },
+    "task-management-workflow": {
+      "status": "verified",
+      "confidence": 0.85,
+      "verification_status": "verified",
+      "verification_method": "/audit features",
+      "verified_at": "2026-05-11T21:50:00.0000000+03:00",
+      "evidence": [
+        ".opencode/skills/task-management/SKILL.md"
+      ],
+      "routes": [],
+      "components": [],
+      "apis": [],
+      "notes": "COMPLETE task management workflow with CLI integration, status tracking, dependency management, and validation for feature subtasks.",
+      "promoted_from": "inferred",
+      "promotion_audit": "feature-audit-2026-05-11.json"
+    },
+    "context7-integration": {
+      "status": "verified",
+      "confidence": 0.85,
+      "verification_status": "verified",
+      "verification_method": "/audit features",
+      "verified_at": "2026-05-11T21:50:00.0000000+03:00",
+      "evidence": [
+        ".opencode/skills/context7/SKILL.md",
+        ".opencode/skills/context7/library-registry.md",
+        ".opencode/skills/context7/README.md"
+      ],
+      "routes": [],
+      "components": [],
+      "apis": [],
+      "notes": "COMPLETE Context7 integration with skill (85-line API workflow), library registry, and documentation. Search/fetch API pattern for up-to-date documentation.",
+      "promoted_from": "inferred",
+      "promotion_audit": "feature-audit-2026-05-11.json"
+    }
+  },
+  "audit_trail": [
+    {
+      "action": "promote",
+      "timestamp": "2026-05-11T21:50:00.0000000+03:00",
+      "source": "inferred",
+      "target": "verified",
+      "count": 9,
+      "audit_file": "feature-audit-2026-05-11.json",
+      "confirmed_by": "user"
+    }
+  ]
+}

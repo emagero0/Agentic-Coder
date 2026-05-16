@@ -1,0 +1,29 @@
+﻿# Dependencies
+node_modules/
+.opencode/node_modules/
+
+# Generated / Rebuildable
+graphify-out/
+.opencode/cache/
+.opencode/events/outputs/
+.tmp/
+
+# OS files
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Generated reports (rebuildable)
+.opencode/.opencode/coverage/
+.opencode/coverage/
+
+# Editor config
+.kilo/
+
+# Embedded git repos (humanizer is a standalone skill)
+.opencode/skills/humanizer/
