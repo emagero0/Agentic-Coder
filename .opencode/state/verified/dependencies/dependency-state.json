@@ -3,8 +3,8 @@
   "schema_version": "1.1.0",
   "state_type": "verified",
   "description": "Authoritative dependency state — promoted from inferred by /audit dependencies confirmation on 2026-05-12.",
-  "last_updated": "2026-05-12T00:00:00.0000000+03:00",
-  "updated_by": "user-confirmed /audit dependencies promotion",
+  "last_updated": "2026-05-19T00:00:00.0000000+03:00",
+  "updated_by": "post-audit-fixes remediation (2026-05-19)",
   "package_manager": "npm",
   "lockfile": ".opencode/package-lock.json",
   "dependencies": {
@@ -13,50 +13,50 @@
       "latest_version": "7.0.6",
       "type": "production",
       "health": "secure_patched",
-      "last_checked": "2026-05-12",
+      "last_checked": "2026-05-19",
       "cves": [{
         "id": "CVE-2024-21538",
         "severity": "HIGH",
         "cvss": 7.5,
         "status": "PATCHED — version 7.0.6 is safe"
       }],
-      "notes": "Version confirmed from lockfile, package.json, and node_modules. CVE-2024-21538 confirmed patched."
+      "notes": "Version confirmed from lockfile, package.json, and node_modules. CVE-2024-21538 confirmed patched. Latest registry version is 7.0.6 — no newer release available."
     },
     "@opencode-ai/sdk": {
       "current_version": "1.14.48",
-      "latest_version": "1.14.48",
+      "latest_version": "1.15.5",
       "type": "production",
-      "health": "current",
-      "last_checked": "2026-05-12",
+      "health": "outdated",
+      "last_checked": "2026-05-19",
       "cves": [],
-      "notes": "Version updated from 1.14.46 → 1.14.48. Current with latest."
+      "notes": "Version 1.14.48 installed in node_modules but registry now shows 1.15.5 as latest. Update recommended: npm install @opencode-ai/sdk@1.15.5."
     },
     "zod": {
       "current_version": "4.4.3",
       "latest_version": "4.4.3",
       "type": "production",
       "health": "current",
-      "last_checked": "2026-05-12",
+      "last_checked": "2026-05-19",
       "cves": [],
-      "notes": "Version updated from 4.1.8 → 4.4.3. Current with latest. Nested zod@4.1.8 exists in @opencode-ai/plugin node_modules."
+      "notes": "Version updated from 4.1.8 → 4.4.3. Current with latest. Nested zod@4.1.8 exists in @opencode-ai/plugin node_modules. Latest registry version is 4.4.3."
     },
     "typescript": {
       "current_version": "6.0.3",
       "latest_version": "6.0.3",
       "type": "development",
       "health": "current",
-      "last_checked": "2026-05-12",
+      "last_checked": "2026-05-19",
       "cves": [],
-      "notes": "Version updated from 5.8.2 → 6.0.3. Major version upgrade completed successfully. Clean type check."
+      "notes": "Version updated from 5.8.2 → 6.0.3. Major version upgrade completed successfully. Clean type check. Latest registry version is 6.0.3."
     },
     "fast-check": {
       "current_version": "4.8.0",
       "latest_version": "4.8.0",
       "type": "development",
       "health": "current",
-      "last_checked": "2026-05-12",
+      "last_checked": "2026-05-19",
       "cves": [],
-      "notes": "Version updated from 4.7.0 → 4.8.0. Current with latest."
+      "notes": "Version updated from 4.7.0 → 4.8.0. Current with latest. Latest registry version is 4.8.0 (published 2026-05-11)."
     }
   },
   "promotion_audit": "dependency-audit-2026-05-12.json"

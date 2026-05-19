@@ -8,8 +8,8 @@
  * Plugin API reference: .opencode/context/openagents-repo/plugins/context/capabilities/events.md
  */
 
-import { routeEvent } from "../events/router/priority-router.js";
-import { createBunAdapter } from "../events/adapters/runtime/bun/index.js";
+import { routeEvent } from "../../events/router/priority-router.js";
+import { createBunAdapter } from "../../events/adapters/runtime/bun/index.js";
 
 // Create the runtime adapter once and reuse across all events
 const adapter = createBunAdapter(".opencode/events/outputs");

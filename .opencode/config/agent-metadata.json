@@ -141,6 +141,19 @@
         "context:feedback-loop"
       ]
     },
+    "eval-runner": {
+      "id": "eval-runner",
+      "name": "EvalRunner",
+      "category": "testing",
+      "type": "agent",
+      "version": "1.0.0",
+      "author": "opencode",
+      "tags": ["testing", "evaluation", "quality"],
+      "dependencies": [
+        "context:standards-tests",
+        "context:feedback-loop"
+      ]
+    },
     "contextscout": {
       "id": "contextscout",
       "name": "ContextScout",
@@ -185,6 +198,42 @@
       "version": "1.0.0",
       "author": "opencode",
       "tags": ["context", "retrieval", "search"],
+      "dependencies": [
+        "context:feedback-loop"
+      ]
+    },
+    "task-manager": {
+      "id": "task-manager",
+      "name": "TaskManager",
+      "category": "subagents/core",
+      "type": "subagent",
+      "version": "2.0.0",
+      "author": "opencode",
+      "tags": ["task-breakdown", "planning", "coordination"],
+      "dependencies": [
+        "context:feedback-loop"
+      ]
+    },
+    "batch-executor": {
+      "id": "batch-executor",
+      "name": "BatchExecutor",
+      "category": "subagents/core",
+      "type": "subagent",
+      "version": "1.0.0",
+      "author": "opencode",
+      "tags": ["parallel-execution", "batch-management", "coordination"],
+      "dependencies": [
+        "context:feedback-loop"
+      ]
+    },
+    "documentation": {
+      "id": "documentation",
+      "name": "Documentation",
+      "category": "subagents/core",
+      "type": "subagent",
+      "version": "1.0.0",
+      "author": "opencode",
+      "tags": ["documentation", "writing"],
       "dependencies": [
         "context:feedback-loop"
       ]

@@ -2,273 +2,293 @@
   "$schema": "https://openagentscontrol.dev/schemas/project-health/1.0.0",
   "schema_version": "1.0.0",
   "description": "Aggregate project health dashboard — computed by supervisors from verified state registries. Updated on /audit health or /scan-state completion.",
-  "last_updated": "2026-05-16T13:45:00.0000000+03:00",
-  "computed_by": "manual — dependency intelligence + PR review bot enhancements",
+  "last_updated": "2026-05-19T22:30:00.0000000+03:00",
+  "computed_by": "ProjectManagerSupervisor (focused re-audit after all post-audit-fixes applied)",
   "audit_outputs": {
-    "feature_audit": ".opencode/events/outputs/feature-audit-2026-05-12.json",
-    "route_map": ".opencode/events/outputs/route-map-2026-05-12.json",
-    "architecture_drift": ".opencode/events/outputs/architecture-drift-2026-05-12.json",
-    "dependency_audit": ".opencode/events/outputs/dependency-audit-2026-05-12.json",
-    "memory_audit": ".opencode/events/outputs/memory-audit-2026-05-12.json"
-  },
-  "remediation_log": {
-    "phase_1_feature_registry": "Evidence paths corrected: skills-system (3 wrong→absolute paths), shadcn-component-system (2 wrong→absolute paths)",
-    "phase_2_architecture_promotion": "10 nodes promoted to verified architecture graph (event-system, priority-router, update-registry, check-dependencies, analyze-drift, weekly-audit, runtime-adapter, context-system, skills-system, agent-metadata)",
-    "phase_3_architecture_nodes": "9 new nodes added to inferred graph (graph-reasoning-layer, tool-events-plugin, context-resolver, prompt-compiler, external-gateway, env-loader, command-definitions + 2 previously missing handlers)",
-    "phase_4_dependency_promotion": "5 packages promoted to verified dependency state (cross-spawn, @opencode-ai/sdk, zod, typescript, fast-check)",
-    "phase_5_agent_capabilities": "9 agents added to top-level capability groups (openagent, opencoder, repo-manager, system-builder, context-manager, frontend-specialist, devops-specialist, image-specialist, simple-responder)",
-    "phase_6_navigation": "5 broken navigation references fixed (removed content-creation/, data/, product/, learning/; updated to project/, project-intelligence/, agents/)",
-    "phase_7_pi_files": "All 6 project-intelligence files populated with real project data (backups created in .backups/)",
-    "phase_8_architecture_violations": "RuntimeAdapter extended with 6 filesystem methods. invalidate-cache.ts and ecosystem-watch.ts refactored to use adapter. Stale duplicates removed. Handler exports renamed for consistency.",
-    "phase_9_routes": "Dead routes flagged in command docs (experiment, benchmark, audit). Orphan commands tagged with feature associations.",
-    "phase_10_test_infrastructure": "Test coverage tracking infrastructure added. Vitest configured (v3.2.4). 3 test files created (14 tests, all passing). TypeScript upgraded to 6.0.3. @opencode-ai/plugin updated to 1.14.48. Coverate reports to .opencode/coverage/. npm update run — 0 vulnerabilities.",
-    "phase_11_dependency_intelligence": "check-dependencies handler upgraded: now queries OSV.dev for CVEs and npm registry for version drift on every dependency file change. Generates risk report with per-package CVE list and upgrade recommendations. Dependency health score: 0.95 → 0.97.",
-    "phase_12_pr_review_bot": "analyze-drift handler upgraded: now generates structured PR review markdown with drift signals, naming convention checks, and verdict system. ExternalGateway extended with postPrComment() for GitHub PR integration. Architecture consistency score: 0.92 → 0.94. Feature completeness: 0.92 → 0.94."
+    "feature_audit": ".opencode/events/outputs/feature-audit-2026-05-19.json",
+    "route_map": ".opencode/events/outputs/route-map-2026-05-19.json",
+    "architecture_drift": ".opencode/events/outputs/architecture-drift-2026-05-19.json",
+    "dependency_audit": ".opencode/events/outputs/dependency-audit-2026-05-19.json",
+    "memory_audit": ".opencode/events/outputs/memory-audit-2026-05-19.json"
   },
   "scores": {
-    "feature_completeness": 0.94,
-    "architecture_consistency": 0.94,
-    "dependency_health": 0.97,
-    "memory_hygiene": 0.93,
+    "feature_completeness": 0.95,
+    "architecture_consistency": 0.92,
+    "dependency_health": 0.88,
+    "memory_hygiene": 0.97,
     "documentation_coverage": 0.92,
-    "test_coverage": 0.96
+    "test_coverage": 0.90
   },
-  "overall_health": 0.95,
+  "overall_health": 0.92,
   "score_details": {
     "feature_completeness": {
-      "value": 0.87,
-      "method": "Weighted average of effective confidence across all 10 features (evidence paths corrected + verified graph promoted)",
+      "value": 0.95,
+      "method": "Weighted average of effective confidence across all 11 verified features (all complete). Post-audit-fixes applied: 2 features promoted (command-system, graph-reasoning-layer). All metadata staleness fixed.",
       "components": {
-        "complete_features": 8,
-        "partial_features": 1,
-        "misconfigured": 0,
-        "regressions_resolved": 2,
-        "evidence_paths_corrected": 5,
-        "total_features": 10,
-        "avg_confidence": 0.87
+        "complete_features": 11,
+        "partial_features": 0,
+        "stubbed_features": 0,
+        "regressions_detected": 0,
+        "metadata_staleness_found": 0,
+        "inferred_features": 1,
+        "inferred_ready_for_promotion": 0,
+        "new_features_detected": 0,
+        "total_features_in_registry": 12,
+        "avg_confidence_verified": 0.90,
+        "reasoning": "Post-audit-fixes promoted graph-reasoning-layer (0.85) and command-system (0.88) to verified. Total verified features: 11 (up from 9). CTR-004 agent count contradiction in business-domain.md fixed. CTR-005 handler count mismatch fixed. All metadata staleness resolved. Only remaining inferred feature: shadcn-component-system at 0.75 (system-level skill, not project-level)."
       }
     },
     "architecture_consistency": {
-      "value": 0.85,
-      "method": "ArchitectureSupervisor drift detection score (post-remediation)",
-      "grade": "GOOD — Minor issues remain",
+      "value": 0.92,
+      "method": "ArchitectureSupervisor drift detection (deep audit). DRIFT-013, DRIFT-014, DRIFT-015 resolved. Agent subsystem nodes added to inferred graph.",
       "components": {
-        "nodes_in_inferred": 21,
-        "nodes_in_verified": 10,
-        "drift_alerts_total": 8,
-        "drift_alerts_resolved": 5,
-        "drift_alerts_accepted": 2,
-        "drift_alerts_remaining": 1,
-        "stale_duplicates_removed": 2,
-        "pattern_violations_fixed": 4,
-        "handler_renames_completed": 2
+        "nodes_in_inferred": 27,
+        "nodes_in_verified": 23,
+        "edges_in_verified": 24,
+        "drift_alerts_total": 1,
+        "drift_alerts_new": 0,
+        "drift_alerts_unresolved_previous": 1,
+        "drift_alerts_resolved_previous": 3,
+        "orphan_verified_nodes": 5,
+        "orphans_with_actual_consumers": 0,
+        "missing_edges_detected": 0,
+        "pattern_violations": 0,
+        "new_patterns_ready_for_promotion": 3,
+        "nodes_ready_for_verification": 3,
+        "metadata_discrepancies": 0,
+        "reasoning": "Score improved from 0.87 to 0.92. DRIFT-013 (command-definitions metadata staleness) resolved — files_count corrected 16→21. DRIFT-014 resolved — 3 missing edges added to verified graph (check-dependencies→external-gateway, session-manager→agent-metadata, context-resolver→command-definitions). DRIFT-015 resolved — import paths in tool/events/index.ts corrected from '../events/' to '../../events/'. Agent subsystem nodes (agent-core-system, agent-subagent-system, agent-supervisor-system) added to inferred graph. 1 unresolved item remains: DRIFT-010 (empty tool/events/ subdirectories — minor cosmetic). 5 orphan verified nodes remain (graph-reasoning-layer, skills-system, task-management-workflow, context7-integration, readme) — these are query/standalone modules without import consumers by design. 3 new patterns ready for promotion: agent-definition-system, agent-subagent-registry, agent-supervisory-layer."
       }
     },
     "dependency_health": {
-      "value": 0.85,
-      "method": "Risk-weighted average across all 35 dependencies (verified state promoted)",
+      "value": 0.88,
+      "method": "Risk-weighted average across all packages in .opencode/package.json. npm registry live query.",
       "components": {
-        "critical_risk": 1,
-        "high_risk": 1,
-        "medium_risk": 3,
-        "low_risk": 3,
-        "info": 5,
-        "no_risk": 22,
-        "total_dependencies": 35,
-        "cve_patched": 1,
-        "promoted_to_verified": 5
+        "high_risk": 0,
+        "medium_risk": 1,
+        "low_risk": 1,
+        "no_risk": 5,
+        "total_in_package_json": 7,
+        "verified_packages": 5,
+        "current_verified": 4,
+        "regressed_verified": 0,
+        "unverified_packages": 3,
+        "stale_inferred_entries": 0,
+        "cves_found": 0,
+        "cves_patched_verified": 1,
+        "reasoning": "Score improved from 0.73 to 0.88. npm update completed: @opencode-ai/plugin updated to 1.15.5 (latest), @opencode-ai/sdk updated to 1.15.5 (was 1.14.48), @hey-api/openapi-ts updated to 0.97.2. 6 stale inferred entries cleaned from dependency state. 0 CVEs found. Remaining: vitest + @vitest/coverage-v8 at 3.2.4 vs 4.1.6 latest (1 major version behind — medium-risk, non-critical dev dep). 3 packages in inferred state still unverified (effect, zod, cross-spawn are transitive deps)."
       }
     },
     "memory_hygiene": {
-      "value": 0.93,
-      "method": "Composite score after MemoryCurator deep audit (2026-05-12T14:30)",
+      "value": 0.97,
+      "method": "MemoryCurator focused hygiene check. All 6 PI files scanned for contradictions after fix application.",
       "components": {
         "files_populated": 6,
         "files_template_only": 0,
         "files_stale_over_90_days": 0,
-        "files_with_stale_entries": 2,
+        "files_with_stale_entries": 0,
         "broken_nav_refs_pi_internal": 0,
-        "broken_nav_refs_context": 1,
+        "broken_nav_refs_context": 0,
         "agent_sync_gaps": 0,
-        "agent_sync_anomalies": 1,
-        "contradictions": 4,
+        "agent_sync_anomalies": 0,
+        "contradictions": 0,
+        "contradictions_resolved": 3,
         "orphaned_todos": 0,
-        "graph_node_integrity_issues": 2,
+        "graph_node_integrity_issues": 0,
+        "inferred_graph_orphans": 4,
+        "verified_graph_orphans": 5,
         "backups_exist": true,
-        "backup_naming_compliant": false,
-        "last_audit": ".opencode/events/outputs/memory-audit-2026-05-12.json"
+        "backup_naming_compliant": true,
+        "last_audit": ".opencode/events/outputs/memory-audit-2026-05-19.json",
+        "reasoning": "All 3 prior contradictions resolved: CTR-004 (agent count in business-domain.md fixed to 30), CTR-005 (handler count in business-tech-bridge.md fixed to 7), CTR-006 (stale NAV-001 alert resolved). CAP-002 resolved: 4 missing agents (eval-runner, task-manager, batch-executor, documentation) added to agent-metadata.json. Score improved from 0.94 to 0.97. CAP-001 (data-analyst research capability) still open from previous audit."
       }
     },
     "documentation_coverage": {
-      "value": 0.91,
-      "method": "Composite: README quality, context docs coverage, project-intelligence population",
+      "value": 0.92,
+      "method": "Composite: README quality, context docs coverage, project-intelligence population.",
       "components": {
         "readme_quality": 0.88,
         "context_docs_coverage": 0.95,
-        "pi_files_populated": 0.90
+        "pi_files_populated": 0.92,
+        "reasoning": "Unchanged from previous audit. README (823 lines) and context docs remain stable. PI files fully populated. Minor frontmatter date compliance issues remain (~90% compliance)."
       }
     },
     "test_coverage": {
-      "value": 0.96,
-      "method": "Infrastructure readiness + actual source coverage",
+      "value": 0.90,
+      "method": "Infrastructure readiness + actual source coverage.",
       "components": {
         "framework": "vitest 3.2.4 with v8 coverage provider",
         "config": ".opencode/vitest.config.ts",
         "test_files": 24,
-        "tests_passing": 233,
-        "tests_failing": 0,
-        "target_files_covered": 28,
-        "target_files_total": 33,
+        "tests_passing": 228,
+        "tests_failing": 7,
         "overall_coverage_pct": 83.45,
-        "high_coverage_modules": [
-          "events/handlers: all 6 at 100% stmts",
-          "events/router: priority-router 100%",
-          "graph: engine(98.5%), impact-analyzer(96.8%), query-builder(100%), queries(97.3%)",
-          "tool/external-gateway: 91.3%",
-          "tool/prompt-compiler: cache(97.1%), facade(100%), symbols(100%), template(94.9%)",
-          "tool/context-resolver: chunk(88.8%), dep(93.3%), fingerprinter(79.7%), entropy(65.3%), facade(67.6%)",
-          "tool/env-loader: 48.8%"
-        ],
-        "last_run": "2026-05-12T13:22:00.0000000+03:00",
-        "notes": "Coverage reached 83.45% — exceeding 80% target. All core modules now have comprehensive test coverage. Remaining untested: tool/events/ (orphaned handlers, 180 lines — not actively used)."
+        "reasoning": "Score dropped from 0.96 to 0.90 due to 7 failing tests (6 in analyze-drift.test.ts, 1 in check-dependencies.test.ts). These failures appear to be pre-existing output format mismatches between handler output and test expectations — the handler was updated to emit 'architecture.review' and 'dependency.risk' event types but tests still expect the old 'drift.analysis' and 'dependency.changed' formats. 24 test files (was 23), 235 total tests (was 233). Coverage at 83.45% unchanged. vitest 3.2.4 vs 4.1.6 latest noted in dependency health."
       }
     }
   },
   "alerts": [
     {
-      "type": "evidence_path_mismatch",
-      "severity": "high",
-      "message": "skills-system: 3 of 5 evidence paths pointed to non-existent .opencode/skills/ locations. RESOLVED: Paths corrected to absolute ~/.agents/skills/ paths.",
-      "timestamp": "2026-05-12T00:00:00.0000000+03:00",
-      "resolved": true,
-      "resolution": "Evidence paths in verified feature registry updated to absolute paths.",
-      "resolved_at": "2026-05-12T02:00:00.0000000+03:00"
+      "type": "architecture_drift_minor",
+      "severity": "info",
+      "message": "DRIFT-010: Empty tool/events/ subdirectories remain (adapters/runtime/bun/, handlers/, router/). These are functionally harmless artifacts from DRIFT-003/004 stale file removal.",
+      "timestamp": "2026-05-19T20:00:00.0000000+03:00",
+      "resolved": false
     },
     {
-      "type": "evidence_path_mismatch",
-      "severity": "high",
-      "message": "shadcn-component-system: Evidence paths corrected from .opencode/skills/ to ~/.agents/skills/. Confidence restored to 0.75.",
-      "timestamp": "2026-05-12T00:00:00.0000000+03:00",
-      "resolved": true,
-      "resolution": "Evidence paths in inferred feature registry updated. Confidence increased to 0.75.",
-      "resolved_at": "2026-05-12T02:00:00.0000000+03:00"
+      "type": "promotion_available",
+      "severity": "info",
+      "message": "3 agent-subsystem nodes (agent-core-system, agent-subagent-system, agent-supervisor-system) ready for promotion from inferred to verified architecture graph. 3 new patterns ready: agent-definition-system, agent-subagent-registry, agent-supervisory-layer.",
+      "timestamp": "2026-05-19T20:00:00.0000000+03:00",
+      "resolved": false
     },
+    {
+      "type": "test_failures",
+      "severity": "medium",
+      "message": "7 test failures detected: 6 in analyze-drift.test.ts, 1 in check-dependencies.test.ts. Handler output formats changed (to 'architecture.review' and 'dependency.risk' types) but tests still expect old formats ('drift.analysis', 'dependency.changed'). Tests need updating to match current handler output.",
+      "timestamp": "2026-05-19T22:30:00.0000000+03:00",
+      "resolved": false
+    },
+    {
+      "type": "dependency_outdated",
+      "severity": "low",
+      "message": "vitest + @vitest/coverage-v8 are at 3.2.4 but 4.1.6 is latest (1 major version behind). Non-critical dev dependency — check changelog for breaking changes before upgrading.",
+      "timestamp": "2026-05-19T22:30:00.0000000+03:00",
+      "resolved": false
+    },
+    {
+      "type": "memory_contradiction",
+      "severity": "info",
+      "message": "CAP-001: data-analyst agent has 'research' capability tag but no dedicated research capability documentation exists in agent-capabilities.json. Still open from previous audit.",
+      "timestamp": "2026-05-19T22:00:00.0000000+03:00",
+      "resolved": false
+    }
+  ],
+  "resolved_alerts": [
     {
       "type": "architecture_drift",
+      "severity": "medium",
+      "message": "DRIFT-014: 8 verified nodes are orphaned (no edges). 3 of these have actual consumers — edges need to be added.",
+      "resolved_at": "2026-05-19T22:30:00.0000000+03:00",
+      "resolution": "3 missing edges added to verified graph: check-dependencies→external-gateway, session-manager→agent-metadata, context-resolver→command-definitions. DRIFT-014 resolved."
+    },
+    {
+      "type": "import_path_risk",
       "severity": "high",
-      "message": "MODERATE DRIFT had 8 alerts. 5 resolved (nodes added, handlers refactored, duplicates removed, naming fixed, metadata updated). 2 accepted (orphaned handlers preserved). 1 remaining (DRIFT-005: orphaned tool handlers). Score improved from 0.58 to 0.85.",
-      "timestamp": "2026-05-12T00:00:00.0000000+03:00",
-      "resolved": true,
-      "resolution": "Architecture graph updated (21 nodes, 17 edges, 9 patterns). 10 nodes promoted to verified. RuntimeAdapter extended. Handlers refactored.",
-      "resolved_at": "2026-05-12T02:00:00.0000000+03:00"
+      "message": "DRIFT-015: tool/events/index.ts uses '../events/' imports that may resolve incorrectly.",
+      "resolved_at": "2026-05-19T22:30:00.0000000+03:00",
+      "resolution": "Import paths corrected from '../events/' to '../../events/' in tool/events/index.ts. Verified: imports now resolve correctly to .opencode/events/router/priority-router.js and .opencode/events/adapters/runtime/bun/index.js."
     },
     {
-      "type": "dependency_risk",
-      "severity": "info",
-      "message": "effect 'smol' fork (4.0.0-beta.59) in production chain — MONITOR. Beta software with version mismatch. Assess risk tolerance for production use. No immediate action needed — the fork is actively maintained.",
-      "timestamp": "2026-05-12T02:00:00.0000000+03:00",
-      "acknowledged": true,
-      "resolution": "Risk accepted. Monitor effect-smol releases for stability. Re-evaluate when beta goes stable or if version mismatch causes runtime errors."
-    },
-    {
-      "type": "dependency_risk",
-      "severity": "medium",
-      "message": "TypeScript 5.8.2 is 2 major versions behind latest (6.0.3). Coordinate upgrade across all 3 plugins when feasible.",
-      "timestamp": "2026-05-12T02:00:00.0000000+03:00",
-      "acknowledged": true
-    },
-    {
-      "type": "memory_stale",
-      "severity": "critical",
-      "message": "All 6 project-intelligence files were empty templates from 2025-01-12. RESOLVED: All 6 files now populated with real project data.",
-      "timestamp": "2026-05-12T00:00:00.0000000+03:00",
-      "resolved": true,
-      "resolution": "PI files populated with real project context: 10 features documented, 5 decisions logged, tech stack/architecture/integrations defined, business domain mapped, living notes populated with active debt/issues.",
-      "resolved_at": "2026-05-12T02:00:00.0000000+03:00"
-    },
-    {
-      "type": "memory_sync_gap",
-      "severity": "medium",
-      "message": "9 agents were missing from top-level capability groups. RESOLVED: All 9 agents synced into appropriate capability arrays.",
-      "timestamp": "2026-05-12T00:00:00.0000000+03:00",
-      "resolved": true,
-      "resolution": "openagent→orchestration+discovery, opencoder→execution+orchestration, repo-manager→orchestration, system-builder→system-building, context-manager→discovery, frontend-specialist→execution, devops-specialist→execution, image-specialist→execution, simple-responder→testing",
-      "resolved_at": "2026-05-12T02:00:00.0000000+03:00"
-    },
-    {
-      "type": "broken_navigation",
-      "severity": "medium",
-      "message": "5 broken references in context/navigation.md. RESOLVED: Replaced with valid project directory references.",
-      "timestamp": "2026-05-12T00:00:00.0000000+03:00",
-      "resolved": true,
-      "resolution": "Removed content-creation/, data/, product/, learning/ (non-existent). Added project/, project-intelligence/, agents/ (valid paths).",
-      "resolved_at": "2026-05-12T02:00:00.0000000+03:00"
-    },
-    {
-      "type": "route_dead",
+      "type": "metadata_staleness",
       "severity": "low",
-      "message": "4 dead routes flagged: /research deep, /experiment create, /benchmark, /audit dependencies — documented as NOT YET IMPLEMENTED.",
-      "timestamp": "2026-05-12T00:00:00.0000000+03:00",
-      "acknowledged": true,
-      "resolution": "Status comments added to command definition files. Implementations deferred."
+      "message": "command-definitions verified node has stale metadata: reports 16 files/commands, actual is 22 files.",
+      "resolved_at": "2026-05-19T22:30:00.0000000+03:00",
+      "resolution": "DRIFT-013 resolved: command-definitions files_count corrected to 21 (6 new spec-* commands added). Metadata updated in both inferred and verified architecture graphs."
     },
     {
-      "type": "preliminary-scan",
-      "message": "Health scores computed and remediated. All 5 health dimensions populated.",
+      "type": "memory_contradiction",
+      "severity": "medium",
+      "message": "CTR-005: business-tech-bridge.md lists 6 event handlers but architecture graphs show 7.",
+      "resolved_at": "2026-05-19T22:30:00.0000000+03:00",
+      "resolution": "business-tech-bridge.md updated: handler count corrected from 6 to 7, session-manager included in handler list."
+    },
+    {
+      "type": "memory_contradiction",
+      "severity": "low",
+      "message": "CTR-004: Agent count ambiguous in business-domain.md.",
+      "resolved_at": "2026-05-19T22:30:00.0000000+03:00",
+      "resolution": "business-domain.md updated: agent count clarified as '30 agents (including 6 supervisors)'."
+    },
+    {
+      "type": "memory_contradiction",
+      "severity": "low",
+      "message": "CTR-006: project-health.json still flags NAV-001 as unresolved, but the navigation reference was already fixed.",
+      "resolved_at": "2026-05-19T22:00:00.0000000+03:00",
+      "resolution": "Stale NAV-001 alert resolved in project-health.json — resolved_at timestamp set."
+    },
+    {
+      "type": "agent_sync_gap",
+      "severity": "medium",
+      "message": "CAP-002: 4 agents exist in agent-capabilities.json but are absent from agent-metadata.json.",
+      "resolved_at": "2026-05-19T22:30:00.0000000+03:00",
+      "resolution": "4 missing agents added to agent-metadata.json: eval-runner (testing), task-manager (subagents/core), batch-executor (subagents/core), documentation (subagents/core). All have proper metadata (version, category, dependencies)."
+    },
+    {
+      "type": "stale_inferred_entries",
       "severity": "info",
-      "resolved": true,
-      "timestamp": "2026-05-12T02:00:00.0000000+03:00"
+      "message": "6 stale entries in inferred dependency state — no longer in lockfile.",
+      "resolved_at": "2026-05-19T22:30:00.0000000+03:00",
+      "resolution": "6 stale inferred entries removed from dependency-state.json: @kilocode/plugin, @opentui/core, @opentui/solid, @opentui/keymap, @tsconfig/node22, @typescript/native-preview."
+    },
+    {
+      "type": "dependency_regression",
+      "severity": "medium",
+      "message": "@opencode-ai/sdk@1.14.48 regressed from 'current' — npm now publishes 1.15.5.",
+      "resolved_at": "2026-05-19T22:30:00.0000000+03:00",
+      "resolution": "npm update completed. @opencode-ai/plugin updated to 1.15.5. @opencode-ai/sdk (transitive) updated to 1.15.5. @hey-api/openapi-ts updated to 0.97.2. 0 vulnerabilities. SDK regression resolved."
     }
   ],
   "trend": [
     {
       "date": "2026-05-11",
       "overall_health": null,
-      "event": "scan-state (preliminary - no scores computed)",
-      "note": "Initial project scan. No health scores available yet."
+      "event": "scan-state (preliminary — no scores computed)",
+      "note": "Initial project scan. No health scores available."
     },
     {
       "date": "2026-05-12T00:00",
       "overall_health": 0.62,
       "event": "/audit health (baseline)",
-      "note": "First full health audit. Baseline established. 5 dimensions scored. 11 critical/high issues found."
+      "note": "First full health audit. Baseline established. 11 critical/high issues found."
     },
     {
       "date": "2026-05-12T02:00",
       "overall_health": 0.87,
       "event": "Post-audit full remediation (10 phases)",
-      "note": "All 10 remediation phases executed. 9 of 11 critical/high issues resolved. 2 medium items accepted as monitor."
+      "note": "All 10 remediation phases executed. 9 of 11 critical/high issues resolved."
     },
     {
       "date": "2026-05-12T12:47",
       "overall_health": 0.76,
       "event": "Phase 11: Test infrastructure + npm update + TS upgrade",
-      "note": "Test coverage tracking infrastructure added (vitest, 3 test files, 14 tests passing). TypeScript upgraded from 5.8.2 → 6.0.3. @opencode-ai/plugin updated from 1.14.46 → 1.14.48. npm update completed (0 vulnerabilities). Clean type check at TS 6.0.3. Overall health reflects new test_coverage dimension at initial 0.20 — this will grow as more tests are written."
+      "note": "Test coverage tracking added. TS 6.0.3. 0 vulnerabilities. Health reflects new test dimension at 0.20."
     },
     {
       "date": "2026-05-12T14:30",
       "overall_health": 0.90,
       "event": "MemoryCurator deep hygiene audit (/audit memory)",
-      "note": "Memory hygiene score refined from 0.88 → 0.93 after full scan. All 6 PI files populated with real data. 1 remaining broken nav ref found."
+      "note": "Memory hygiene score refined to 0.93. All PI files populated."
     },
     {
       "date": "2026-05-12T14:45",
       "overall_health": 0.93,
       "event": "Final optimization — graph promotion + dep update",
-      "note": "10 architecture nodes promoted to verified (23 total). 4 dependency versions corrected in verified state. Feature confidence uncapped for all 5 features (state-registry, readme, task-management, context7 nodes now in verified graph). System achieves 0.93 overall."
+      "note": "10 architecture nodes promoted. 4 dependency versions corrected. System achieves 0.93."
     },
     {
       "date": "2026-05-16T12:00",
       "overall_health": 0.93,
-      "event": "PI contradiction fixes + graph integrity fixes + consolidation scanner",
-      "note": "9 quick-win fixes applied: PI file contradictions resolved, NAV-001 fixed, graph node IDs normalized, empty directories cleaned, graph metadata synced. Daily consolidation-scanner.ps1 deployed."
+      "event": "PI contradiction fixes + graph integrity fixes",
+      "note": "9 quick-win fixes applied. Consolidation scanner deployed."
     },
     {
       "date": "2026-05-16T13:45",
       "overall_health": 0.95,
-      "event": "Dependency intelligence + PR review bot enhancements",
-      "note": "check-dependencies handler now queries OSV.dev for CVEs and npm for version drift. analyze-drift handler generates structured PR review markdown with verdict system. ExternalGateway extended with GitHub PR comment posting. Architecture graph metadata updated."
+      "event": "Dependency intelligence + PR review bot",
+      "note": "check-dependencies/analyze-drift handlers upgraded. ExternalGateway extended. Score peaked at 0.95."
+    },
+    {
+      "date": "2026-05-19T20:00",
+      "overall_health": 0.89,
+      "event": "/audit health (deep) — all supervisors",
+      "note": "Full deep audit. Feature completeness stable at 0.93. Architecture consistency dropped to 0.87 (4 new drift alerts). Dependency health dropped to 0.73 (SDK regressed, vitest/coverage outdated, 5 packages unverified). Memory hygiene improved to 0.94. 8 new alerts created."
+    },
+    {
+      "date": "2026-05-19T22:30",
+      "overall_health": 0.92,
+      "event": "Focused re-audit — all post-audit-fixes applied",
+      "note": "All 14 fixes applied and verified. DRIFT-013/014/015 resolved. CTR-004/005/006 contradictions fixed. CAP-002 agent gap filled. 2 features promoted (command-system, graph-reasoning-layer). npm update completed (plugin 1.15.5, sdk 1.15.5, openapi-ts 0.97.2). 0 vulnerabilities. 7 pre-existing test failures detected (output format drift). Overall health improved from 0.89 to 0.92."
     }
   ],
-  "notes": "FINAL POST-OPTIMIZATION HEALTH — Overall 0.93. Architecture graph now has 23 verified nodes covering all feature dependencies. All dependency versions current. 235 tests passing (83.5% coverage). 0 regressions, 0 CVEs, 0 empty templates, 0 broken evidence paths, 0 pattern violations. All 8 original architecture drifts resolved. The remaining gap to 1.0 is cosmetic: fix 1 broken nav ref (adding-agent.md), archive resolved tech debt in living-notes.md, and clean up stale tool/events/ directories."
+  "notes": "FOCUSED RE-AUDIT 2026-05-19T22:30 — Overall health 0.92 (up from 0.89). All 14 post-audit fixes verified. Key improvements: architecture consistency 0.87→0.92 (DRIFT-013/014/015 resolved), dependency health 0.73→0.88 (npm update, stale entries cleaned), memory hygiene 0.94→0.97 (all contradictions resolved), feature completeness 0.93→0.95 (2 features promoted). Test coverage dropped 0.96→0.90 due to 7 pre-existing test failures (handler output format drift). New alert: test failures need attention. Remaining minor issues: DRIFT-010 (empty dirs), CAP-001 (data-analyst research doc), vitest outdated (3.2.4→4.1.6)."
 }

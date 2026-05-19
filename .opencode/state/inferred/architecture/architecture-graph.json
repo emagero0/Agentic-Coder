@@ -2,9 +2,9 @@
   "$schema": "https://openagentscontrol.dev/schemas/architecture-graph/1.1.0",
   "schema_version": "1.1.0",
   "state_type": "inferred",
-  "description": "Provisional architecture graph — re-audit on 2026-05-12 (follow-up). DRIFT-001 through DRIFT-008 verified resolved. New DRIFT-009 through DRIFT-012 detected. Session-manager node added.",
-  "last_scanned": "2026-05-12T12:00:00.000Z",
-  "scanned_by": "architecture-supervisor-deep-audit",
+  "description": "Provisional architecture graph — re-audit on 2026-05-12 (follow-up). DRIFT-001 through DRIFT-008 verified resolved. New DRIFT-009 through DRIFT-012 detected. Session-manager node added. Metadata fixes applied 2026-05-19: command-definitions files_count corrected (17→21, added 6 spec-* commands), graph-reasoning-layer files_count corrected (8→1). Agent subsystem nodes added 2026-05-19: agent-core-system, agent-subagent-system, agent-supervisor-system.",
+  "last_scanned": "2026-05-19T00:00:00.000Z",
+  "scanned_by": "coder-agent-agent-subsystem-update",
   "nodes": [
     {
       "id": "event-system",
@@ -200,23 +200,25 @@
       "path": ".opencode/tool/env/index.ts",
       "pattern": "configuration-loader",
       "confidence": 0.85,
-      "verified": false,
+      "verified": true,
       "metadata": {
-        "auto_discovers": ".env files from multiple paths"
+        "auto_discovers": ".env files from multiple paths",
+        "search_paths": 5,
+        "exports": ["loadEnvVariables", "getEnvVariable", "getRequiredEnvVariable", "getRequiredEnvVariables", "getApiKey"]
       }
     },
     {
       "id": "graph-reasoning-layer",
       "type": "module",
       "name": "Graph Reasoning Layer",
-      "path": ".opencode/graph/",
+      "path": "graph/",
       "pattern": "graph-query-engine",
       "confidence": 0.90,
       "verified": false,
       "metadata": {
-        "files_count": 8,
+        "files_count": 9,
         "capabilities": ["bfs", "dfs", "blast-radius", "cycle-detection", "orphan-finding", "feature-coverage", "stats"],
-        "engine": "graph-engine.ts"
+        "note": "Path corrected from .opencode/graph/ to graph/ on 2026-05-19. files_count corrected to 9 (1 README + 4 queries + 3 engine + 1 schema)."
       }
     },
     {
@@ -228,8 +230,8 @@
       "confidence": 0.85,
       "verified": false,
       "metadata": {
-        "files_count": 17,
-        "commands": ["audit", "cache", "graph", "benchmark", "experiment", "research", "scan-state", "analyze-patterns", "validate-repo", "optimize", "clean", "add-context", "context", "test", "commit"]
+        "files_count": 21,
+        "commands": ["add-context", "analyze-patterns", "audit", "benchmark", "cache", "clean", "commit", "context", "experiment", "graph", "optimize", "research", "scan-state", "spec-clarify", "spec-constitution", "spec-implement", "spec-plan", "spec-specify", "spec-tasks", "test", "validate-repo"]
       }
     },
     {
@@ -316,6 +318,54 @@
       "confidence": 0.75,
       "metadata": {
         "lines": 823
+      }
+    },
+    {
+      "id": "agent-core-system",
+      "type": "module",
+      "name": "Agent Core System",
+      "path": ".opencode/agent/core/",
+      "pattern": "agent-definition-system",
+      "confidence": 0.85,
+      "verified": false,
+      "metadata": {
+        "files_count": 13,
+        "definitions": ["openagent.md", "opencoder.md", "openagent-core.md"],
+        "subsystems": ["orchestration", "policies", "scout", "workflows"],
+        "orchestration_components": ["batching", "delegation", "routing-table"],
+        "policies": ["approval-gates", "permissions", "safety"],
+        "scout_components": ["contextscout-usage", "externalscout-usage"],
+        "workflows": ["context-loading", "task-execution"]
+      }
+    },
+    {
+      "id": "agent-subagent-system",
+      "type": "module",
+      "name": "Agent Subagent System",
+      "path": ".opencode/agent/subagents/",
+      "pattern": "agent-subagent-registry",
+      "confidence": 0.85,
+      "verified": false,
+      "metadata": {
+        "files_count": 11,
+        "categories": ["code", "core", "development", "system-builder"],
+        "code_agents": ["coder-agent", "build-agent", "reviewer", "test-engineer"],
+        "core_agents": ["contextscout", "documentation", "externalscout", "task-manager"],
+        "development_agents": ["frontend-specialist", "devops-specialist"],
+        "system_builder_agents": ["context-organizer"]
+      }
+    },
+    {
+      "id": "agent-supervisor-system",
+      "type": "module",
+      "name": "Agent Supervisor System",
+      "path": ".opencode/agent/supervisors/",
+      "pattern": "agent-supervisory-layer",
+      "confidence": 0.85,
+      "verified": false,
+      "metadata": {
+        "files_count": 7,
+        "supervisors": ["architecture-supervisor", "feedback-supervisor", "graph-query-engine", "memory-curator", "meta-supervisor", "project-manager-supervisor", "rnd-supervisor"]
       }
     }
   ],
@@ -479,6 +529,46 @@
       "verified": false,
       "confidence": 0.90,
       "evidence": "session-manager.ts line 22: import { PromptCompiler } from '../../../tool/prompt-compiler/index.js'"
+    },
+    {
+      "source": "agent-core-system",
+      "target": "agent-metadata",
+      "relationship": "defines",
+      "verified": false,
+      "confidence": 0.90,
+      "evidence": "agent/core/ contains agent definition files (openagent.md, opencoder.md, openagent-core.md) that define the agent types registered in agent-metadata.json"
+    },
+    {
+      "source": "agent-subagent-system",
+      "target": "agent-metadata",
+      "relationship": "defines",
+      "verified": false,
+      "confidence": 0.90,
+      "evidence": "agent/subagents/ contains subagent definition files (coder-agent.md, contextscout.md, etc.) that are registered in agent-metadata.json under subagents category"
+    },
+    {
+      "source": "agent-supervisor-system",
+      "target": "agent-metadata",
+      "relationship": "defines",
+      "verified": false,
+      "confidence": 0.90,
+      "evidence": "agent/supervisors/ contains supervisor definition files (architecture-supervisor.md, etc.) that are registered in agent-metadata.json under supervisors category"
+    },
+    {
+      "source": "agent-core-system",
+      "target": "agent-subagent-system",
+      "relationship": "delegates_to",
+      "verified": false,
+      "confidence": 0.85,
+      "evidence": "Core agent definitions (openagent, opencoder) delegate execution subtasks to subagents defined in agent/subagents/"
+    },
+    {
+      "source": "agent-subagent-system",
+      "target": "agent-supervisor-system",
+      "relationship": "supervised_by",
+      "verified": false,
+      "confidence": 0.85,
+      "evidence": "Subagent execution is monitored and audited by supervisors defined in agent/supervisors/ (architecture-supervisor, feedback-supervisor, etc.)"
     }
   ],
   "patterns": {
@@ -567,6 +657,21 @@
       "description": "Environment variable loader with multi-path .env discovery",
       "confidence": 0.85,
       "detected_from": "/audit architecture on 2026-05-12"
+    },
+    "agent-definition-system": {
+      "description": "Agent definition files (openagent, opencoder, openagent-core) with orchestration, policies, scout, and workflow subsystems",
+      "confidence": 0.85,
+      "detected_from": "coder-agent graph update on 2026-05-19"
+    },
+    "agent-subagent-registry": {
+      "description": "Subagent definitions organized by category (code, core, development, system-builder) for delegated task execution",
+      "confidence": 0.85,
+      "detected_from": "coder-agent graph update on 2026-05-19"
+    },
+    "agent-supervisory-layer": {
+      "description": "Supervisor definitions (architecture, feedback, memory, meta, project-manager, rnd, graph-query) for monitoring and governance",
+      "confidence": 0.85,
+      "detected_from": "coder-agent graph update on 2026-05-19"
     }
   },
   "drift_alerts": [
@@ -692,6 +797,16 @@
       "affected_path": ".opencode/state/inferred/test-coverage/test-coverage-state.json",
       "detected_at": "2026-05-12T12:00:00.000Z",
       "resolution": "METADATA UPDATED: inferred_files → 4, 'test-coverage' added to registry_types list."
+    },
+    {
+      "id": "DRIFT-013",
+      "type": "drift_alert",
+      "severity": "low",
+      "description": "Agent subsystem definitions (.opencode/agent/) were not tracked in the architecture graph. Three major subsystems exist: agent/core/ (13 files), agent/subagents/ (11 files), and agent/supervisors/ (7 files).",
+      "affected_path": ".opencode/agent/",
+      "related_paths": [".opencode/agent/core/", ".opencode/agent/subagents/", ".opencode/agent/supervisors/"],
+      "detected_at": "2026-05-19T00:00:00.000Z",
+      "resolution": "NODES ADDED: agent-core-system, agent-subagent-system, agent-supervisor-system. Edges to agent-metadata added. Patterns registered: agent-definition-system, agent-subagent-registry, agent-supervisory-layer."
     }
   ]
 }

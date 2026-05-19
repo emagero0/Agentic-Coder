@@ -2,9 +2,9 @@
   "$schema": "https://openagentscontrol.dev/schemas/architecture-graph/1.1.0",
   "schema_version": "1.1.0",
   "state_type": "verified",
-  "description": "Authoritative architecture graph — expanded with all pending and feature-coverage nodes on 2026-05-12.",
-  "last_updated": "2026-05-16T13:45:00.0000000+03:00",
-  "updated_by": "user-confirmed /audit architecture promotion",
+  "description": "Authoritative architecture graph — env-loader promoted, missing edges added, metadata corrected on 2026-05-19.",
+  "last_updated": "2026-05-19T13:00:00.0000000+03:00",
+  "updated_by": "architecture-supervisor deep audit + user-confirmed fixes",
   "nodes": [
     {
       "id": "event-system",
@@ -110,7 +110,7 @@
       "id": "graph-reasoning-layer",
       "type": "module",
       "name": "Graph Reasoning Layer",
-      "path": ".opencode/graph/",
+      "path": "graph/",
       "pattern": "graph-query-engine",
       "confidence": 0.90,
       "metadata": { "files_count": 9, "capabilities": ["bfs", "dfs", "blast-radius", "cycle-detection", "orphan-finding", "feature-coverage", "stats"] }
@@ -150,6 +150,15 @@
       "pattern": "provider-gateway",
       "confidence": 0.90,
       "metadata": { "whitelisted_providers": ["npm", "osv.dev", "github", "github-advisories", "snyk", "caniuse"] }
+    },
+    {
+      "id": "env-loader",
+      "type": "module",
+      "name": "Environment Variable Loader",
+      "path": ".opencode/tool/env/index.ts",
+      "pattern": "configuration-loader",
+      "confidence": 0.85,
+      "metadata": { "auto_discovers": ".env files from multiple paths", "search_paths": 5, "exports": ["loadEnvVariables", "getEnvVariable", "getRequiredEnvVariable", "getRequiredEnvVariables", "getApiKey"] }
     },
     {
       "id": "state-registry",
@@ -194,7 +203,7 @@
       "path": ".opencode/command/",
       "pattern": "command-registry",
       "confidence": 0.85,
-      "metadata": { "files_count": 16, "commands": ["audit", "cache", "graph", "benchmark", "experiment", "research", "scan-state", "context", "test", "commit", "optimize", "clean", "analyze-patterns", "validate-repo", "add-context"] }
+        "metadata": { "files_count": 21, "commands": ["add-context", "analyze-patterns", "audit", "benchmark", "cache", "clean", "commit", "context", "experiment", "graph", "optimize", "research", "scan-state", "spec-clarify", "spec-constitution", "spec-implement", "spec-plan", "spec-specify", "spec-tasks", "test", "validate-repo"] }
     },
     {
       "id": "agent-metadata",
@@ -236,7 +245,10 @@
     { "source": "tool-events-plugin", "target": "runtime-adapter", "relationship": "imports", "verified": true, "confidence": 0.95, "evidence": "tool/events/index.ts imports createBunAdapter from events/adapters/runtime/bun" },
     { "source": "context-resolver", "target": "context-system", "relationship": "resolves", "verified": true, "confidence": 0.90, "evidence": "ContextResolver.resolve() reads context files from .opencode/context/" },
     { "source": "prompt-compiler", "target": "context-resolver", "relationship": "consumes", "verified": true, "confidence": 0.85, "evidence": "PromptCompiler.compile() takes ResolvedContextBundle from ContextResolver" },
-    { "source": "event-system", "target": "state-registry", "relationship": "depends_on", "verified": true, "confidence": 0.85, "evidence": "Handlers read/write state/inferred/ and state/verified/ registries" }
+    { "source": "event-system", "target": "state-registry", "relationship": "depends_on", "verified": true, "confidence": 0.85, "evidence": "Handlers read/write state/inferred/ and state/verified/ registries" },
+    { "source": "check-dependencies-handler", "target": "external-gateway", "relationship": "imports", "verified": true, "confidence": 0.95, "evidence": "check-dependencies.ts line 12 imports ExternalGateway from tool/external-gateway/index.js" },
+    { "source": "session-manager", "target": "agent-metadata", "relationship": "reads", "verified": true, "confidence": 0.90, "evidence": "session-manager.ts reads agent-metadata.json via getAgentMetadata() for cognitive budget enforcement" },
+    { "source": "context-resolver", "target": "command-definitions", "relationship": "resolves", "verified": true, "confidence": 0.85, "evidence": "ContextResolver.resolveCommand() resolves slash commands from .opencode/command/ definitions" }
   ],
   "patterns": {
     "tiered-event-processing": { "description": "3-tier event system with sync/async/deferred handling", "confidence": 0.95 },
@@ -249,8 +261,9 @@
     "provider-gateway": { "description": "Whitelisted external API gateway with rate limiting and caching", "confidence": 0.90 },
     "cache-backed-prompt-compilation": { "description": "Prompt compiler with deterministic/inferred/speculative cache tiers and dep-hash invalidation", "confidence": 0.85 },
     "cli-workflow": { "description": "Task management CLI with 8 commands and dependency management", "confidence": 0.85 },
-    "external-api-docs": { "description": "Context7 search and fetch API documentation workflow", "confidence": 0.85 }
+    "external-api-docs": { "description": "Context7 search and fetch API documentation workflow", "confidence": 0.85 },
+    "configuration-loader": { "description": "Environment variable loader with multi-path .env discovery", "confidence": 0.85 }
   },
-  "consistency_score": 0.92,
-  "promotion_audit": "architecture-drift-2026-05-12.json"
+  "consistency_score": 0.93,
+  "promotion_audit": "architecture-drift-2026-05-19.json"
 }

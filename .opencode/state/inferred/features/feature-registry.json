@@ -30,6 +30,66 @@
           "Assess if skill is actively used in workflows"
         ]
       }
+    },
+    "graph-reasoning-layer": {
+      "status": "promoted",
+      "confidence": 0.85,
+      "verification_status": "verified",
+      "evidence": [
+        ".opencode/graph/engine/graph-engine.ts",
+        ".opencode/graph/engine/impact-analyzer.ts",
+        ".opencode/graph/engine/query-builder.ts",
+        ".opencode/graph/schemas/graph-schema.ts",
+        ".opencode/graph/queries/find-blast-radius.ts",
+        ".opencode/graph/queries/find-dependents.ts",
+        ".opencode/graph/queries/find-feature-coverage.ts",
+        ".opencode/graph/queries/find-orphans.ts",
+        ".opencode/graph/README.md"
+      ],
+      "routes": [],
+      "components": [],
+      "apis": [],
+      "notes": "PROMOTED to verified/. Graph reasoning layer with 9 files across 4 directories. Promoted via post-audit-fixes remediation on 2026-05-19.",
+      "inferred_at": "2026-05-19T21:00:00.0000000+03:00",
+      "inferred_by": "post-audit-fixes remediation",
+      "promoted_at": "2026-05-19T21:00:00.0000000+03:00",
+      "promoted_to": "verified"
+    },
+    "command-system": {
+      "status": "promoted",
+      "confidence": 0.88,
+      "verification_status": "verified",
+      "evidence": [
+        ".opencode/command/audit.md",
+        ".opencode/command/commit.md",
+        ".opencode/command/context.md",
+        ".opencode/command/cache.md",
+        ".opencode/command/graph.md",
+        ".opencode/command/scan-state.md",
+        ".opencode/command/test.md",
+        ".opencode/command/research.md",
+        ".opencode/command/benchmark.md",
+        ".opencode/command/experiment.md",
+        ".opencode/command/optimize.md",
+        ".opencode/command/clean.md",
+        ".opencode/command/analyze-patterns.md",
+        ".opencode/command/validate-repo.md",
+        ".opencode/command/add-context.md",
+        ".opencode/command/spec-clarify.md",
+        ".opencode/command/spec-constitution.md",
+        ".opencode/command/spec-specify.md",
+        ".opencode/command/spec-plan.md",
+        ".opencode/command/spec-tasks.md",
+        ".opencode/command/spec-implement.md"
+      ],
+      "routes": [],
+      "components": [],
+      "apis": [],
+      "notes": "PROMOTED to verified/. 21 command definition files forming a comprehensive slash-command system. Promoted via post-audit-fixes remediation on 2026-05-19.",
+      "inferred_at": "2026-05-19T21:00:00.0000000+03:00",
+      "inferred_by": "post-audit-fixes remediation",
+      "promoted_at": "2026-05-19T21:00:00.0000000+03:00",
+      "promoted_to": "verified"
     }
   },
   "audit_trail": [
@@ -51,7 +111,27 @@
         "context7-integration"
       ],
       "audit_file": "feature-audit-2026-05-11.json"
+    },
+    {
+      "action": "promote",
+      "timestamp": "2026-05-19T21:00:00.0000000+03:00",
+      "source": "inferred",
+      "target": "verified",
+      "count": 1,
+      "feature_names": ["graph-reasoning-layer"],
+      "audit_file": "feature-audit-2026-05-19.json",
+      "confirmed_by": "post-audit-fixes remediation (/audit health 2026-05-19)"
+    },
+    {
+      "action": "promote",
+      "timestamp": "2026-05-19T21:00:00.0000000+03:00",
+      "source": "inferred",
+      "target": "verified",
+      "count": 1,
+      "feature_names": ["command-system"],
+      "audit_file": "feature-audit-2026-05-19.json",
+      "confirmed_by": "post-audit-fixes remediation (/audit health 2026-05-19)"
     }
   ],
-  "notes": "9 features promoted to verified/. Only unverified features remain here."
+  "notes": "11 features promoted to verified/. graph-reasoning-layer and command-system promoted 2026-05-19. Only unverified features remain here."
 }

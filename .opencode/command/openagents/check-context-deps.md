@@ -56,174 +56,22 @@ Validates consistency between:
 
 ## Workflow
 
-<workflow id="analyze_context_dependencies">
-  <stage id="1" name="ScanAgents" required="true">
-    Scan agent files for context references:
-    
-    **Search patterns**:
-    - `.opencode/context/` (direct path references)
-    - `@.opencode/context/` (@ symbol references)
-    - `context:` (dependency declarations in frontmatter)
-    
-    **Locations**:
-    - `.opencode/agent/**/*.md` (all agents and subagents)
-    - `.opencode/command/**/*.md` (commands that use context)
-    
-    **Extract**:
-    - Agent/command ID
-    - Context file path
-    - Line number
-    - Reference type (path, @-reference, dependency)
-  </stage>
-  
-  <stage id="2" name="CheckRegistry" required="true">
-    For each agent found, check registry.json:
-    
-    ```bash
-    jq '.components.agents[] | select(.id == "AGENT_ID") | .dependencies' registry.json
-    jq '.components.subagents[] | select(.id == "AGENT_ID") | .dependencies' registry.json
-    ```
-    
-    **Verify**:
-    - Does the agent have a dependencies array?
-    - Are context file references declared as `context:core/standards/code`?
-    - Are the dependency formats correct (`context:path/to/file`)?
-  </stage>
-  
-  <stage id="3" name="ValidateContextFiles" required="true">
-    For each context file referenced:
-    
-    **Check existence**:
-    ```bash
-    test -f .opencode/context/core/standards/code-quality.md
-    ```
-    
-    **Check registry**:
-    ```bash
-    jq '.components.contexts[] | select(.id == "core/standards/code")' registry.json
-    ```
-    
-    **Identify issues**:
-    - Context file referenced but doesn't exist
-    - Context file exists but not in registry
-    - Context file in registry but never used
-  </stage>
-  
-  <stage id="4" name="Report" required="true">
-    Generate comprehensive report:
-    
-    ```markdown
-    # Context Dependency Analysis Report
-    
-    ## Summary
-    - Agents scanned: 25
-    - Context files referenced: 12
-    - Missing dependencies: 8
-    - Unused context files: 2
-    - Missing context files: 0
-    
-    ## Missing Dependencies (agents using context but not declaring)
-    
-    ### opencoder
-    **Uses but not declared**:
-    - context:core/standards/code (referenced 3 times)
-      - Line 64: "Code tasks → .opencode/context/core/standards/code-quality.md (MANDATORY)"
-      - Line 170: "Read .opencode/context/core/standards/code-quality.md NOW"
-      - Line 229: "NEVER execute write/edit without loading required context first"
-    
-    **Current dependencies**: subagent:task-manager, subagent:coder-agent
-    **Recommended fix**: Add to frontmatter:
-    ```yaml
-    dependencies:
-      - subagent:task-manager
-      - subagent:coder-agent
-      - context:core/standards/code  # ADD THIS
-    ```
-    
-    ### openagent
-    **Uses but not declared**:
-    - context:core/standards/code (referenced 5 times)
-    - context:core/standards/docs (referenced 3 times)
-    - context:core/standards/tests (referenced 3 times)
-    - context:core/workflows/review (referenced 2 times)
-    - context:core/workflows/delegation (referenced 4 times)
-    
-    **Recommended fix**: Add to frontmatter:
-    ```yaml
-    dependencies:
-      - subagent:task-manager
-      - subagent:documentation
-      - context:core/standards/code
-      - context:core/standards/docs
-      - context:core/standards/tests
-      - context:core/workflows/review
-      - context:core/workflows/delegation
-    ```
-    
-    ## Unused Context Files (exist but no agent references them)
-    
-    - context:core/standards/analysis (0 references)
-    - context:core/workflows/sessions (0 references)
-    
-    **Recommendation**: Consider removing or documenting intended use
-    
-    ## Missing Context Files (referenced but don't exist)
-    
-    None found ✅
-    
-    ## Context File Usage Map
-    
-    | Context File | Used By | Reference Count |
-    |--------------|---------|-----------------|
-    | core/standards/code | opencoder, openagent, frontend-specialist, reviewer | 15 |
-    | core/standards/docs | openagent, documentation, technical-writer | 8 |
-    | core/standards/tests | openagent, tester | 6 |
-    | core/workflows/delegation | openagent, task-manager | 5 |
-    | core/workflows/review | openagent, reviewer | 4 |
-    
-    ---
-    
-    ## Next Steps
-    
-    1. Review missing dependencies above
-    2. Run `/check-context-deps --fix` to auto-update frontmatter
-    3. Run `./scripts/registry/auto-detect-components.sh` to update registry
-    4. Verify with `./scripts/registry/validate-registry.sh`
-    ```
-  </stage>
-  
-  <stage id="5" name="Fix" when="--fix flag provided">
-    For each agent with missing context dependencies:
-    
-    1. Read the agent file
-    2. Parse frontmatter YAML
-    3. Add missing context dependencies to dependencies array
-    4. Preserve existing dependencies
-    5. Write updated file
-    6. Report what was changed
-    
-    **Example**:
-    ```diff
-    ---
-    id: opencoder
-    dependencies:
-      - subagent:task-manager
-      - subagent:coder-agent
-    + - context:core/standards/code
-    ---
-    ```
-    
-    **Safety**:
-    - Only add dependencies that are actually referenced in the file
-    - Don't remove existing dependencies
-    - Preserve frontmatter formatting
-    - Show diff before applying (if interactive)
-  </stage>
-</workflow>
+1. **ScanAgents**: Search `.opencode/agent/**/*.md` and `.opencode/command/**/*.md` for context references (paths, @-refs, frontmatter deps). Extract agent ID, context path, line number, ref type.
+2. **CheckRegistry**: For each agent, verify `registry.json` has matching `dependencies` entries. Check format: `context:path/to/file`.
+3. **ValidateContextFiles**: For each referenced context, verify file exists on disk and is in registry. Flag orphans and missing files.
+4. **Report**: For each agent list: agent ID, context files used but not declared, recommended fix. Include usage frequency map (file | agents | count). Flag orphans and missing.
 
----
+5. **Fix** (`--fix`): Read agent file, parse frontmatter, add missing context deps, preserve existing, show diff.
 
-## Implementation Details
+## Report format (compact)
+```
+## Summary: {agents scanned}, {refs found}, {missing deps}, {orphans}
+## Missing Dependencies
+- {agent}: {context paths} → recommended fix: add to frontmatter
+## Unused: {context files with 0 refs}
+## Missing Files: {referenced but not on disk}
+## Usage Map: {context file} | {agents} | {count}
+```
 
 ### Search Patterns
 

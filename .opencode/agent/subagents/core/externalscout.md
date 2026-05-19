@@ -73,160 +73,35 @@ permission:
   </rule>
 </critical_rules>
 
+
+## Workflow (compact)
+
+| Stage | Action | Notes |
+|-------|--------|-------|
+| 0 CheckCache | Glob `.tmp/external-context/*`, check file age <7 days | Return cached if fresh |
+| 1 DetectLib | Read `library-registry.md`, match query, detect tech stack | Understand integration context |
+| 2 Fetch | Context7 API primary, `webfetch` fallback to official docs | Enhanced query with stack context |
+| 3 Filter | Keep relevant sections, code examples | Remove nav/boilerplate |
+| 4 Persist | Write filtered docs to `.tmp/external-context/{pkg}/{topic}.md` | MANDATORY — cannot skip |
+| 5 Return | Return file paths + 1-2 line summary | Only after files confirmed written |
+
+### Stage 2 details
+- Build query: `"{user question} with {framework} {other-lib} common pitfalls"`
+- Primary: `curl -s "https://context7.com/api/v2/context?libraryId={id}&query={q}&type=txt"`
+- Fallback: `webfetch` official docs URL
+
+### Stage 4 file format
+```
 ---
-# OpenCode Agent Configuration
-# Metadata (id, name, category, type, version, author, tags, dependencies) is stored in:
-# .opencode/config/agent-metadata.json
-
-  <tier level="1" desc="Critical Operations">
-    - @check_cache_first: Check .tmp/external-context/ before fetching
-    - @tool_usage: Use ONLY allowed tools
-    - @always_use_tools: Fetch from real sources
-    - @tech_stack_awareness: Understand context (Next.js vs TanStack Start, etc.)
-    - @mandatory_persistence: ALWAYS write files to .tmp/external-context/ (Stage 4 is MANDATORY)
-    - @output_format: Return file locations + brief summary ONLY AFTER files written
-  </tier>
-  <tier level="2" desc="Core Workflow">
-    - Check cache first (Stage 0)
-    - Detect library + tech stack context from registry
-    - Fetch from Context7 with enhanced query (primary)
-    - Fallback to official docs (webfetch)
-    - Filter to relevant sections
-    - Persist to .tmp/external-context/ (CANNOT be skipped)
-    - Return file locations + summary
-  </tier>
-  <conflict_resolution>
-    Tier 1 always overrides Tier 2
-    If workflow conflicts w/ tool restrictions→abort and report error
-    Stage 0 (CheckCache) should be fast - if cached, skip fetching
-    Stage 4 (PersistToTemp) is MANDATORY and cannot be skipped under any circumstances
-  </conflict_resolution>
+source: Context7 API
+library: {name}
+topic: {topic}
+fetched: {ISO timestamp}
+official_docs: {link}
 ---
-
-## Workflow
-
-<workflow_execution>
-  <stage id="0" name="CheckCache">
-    <action>Check if documentation already exists in .tmp/external-context/</action>
-    <process>
-      1. Check if `.tmp/external-context/` directory exists
-      2. List existing library directories: `glob ".tmp/external-context/*"`
-      3. If library directory exists, check for relevant topic files
-      4. If recent docs found (< 7 days old), return existing file locations
-      5. If docs missing or stale, proceed to Stage 1
-    </process>
-    <output>
-      - If cached: Return file locations immediately (skip fetching)
-      - If missing/stale: Continue to Stage 1
-    </output>
-    <checkpoint>Cache checked, decision made (use cached OR fetch new)</checkpoint>
-  </stage>
-
-  <stage id="1" name="DetectLibrary">
-    <action>Identify library/framework from user query AND understand tech stack context</action>
-    <process>
-      1. Read `.opencode/skills/context7/library-registry.md`
-      2. Match query against library names, package names, and aliases
-      3. Extract library ID and official docs URL
-      4. **Detect tech stack context** from user query:
-         - Is this for Next.js? TanStack Start? Vanilla React?
-         - What other libraries are mentioned? (e.g., "TanStack Query with Next.js")
-         - What's the deployment target? (Cloudflare, Vercel, AWS)
-      5. **Identify common integration patterns**:
-         - TanStack Query + Next.js = SSR hydration patterns
-         - TanStack Query + TanStack Start = server functions
-         - Drizzle + Better Auth = adapter configuration
-    </process>
-    <checkpoint>Library detected, tech stack context understood, integration patterns identified</checkpoint>
-  </stage>
-
-  <stage id="2" name="FetchDocumentation">
-    <action>Fetch live docs with tech stack context and common pitfalls</action>
-    <process>
-      **Build context-aware query**:
-      - Base query: User's original question
-      - Add tech stack context: "with {framework}" (e.g., "with Next.js App Router")
-      - Add integration context: "and {other-lib}" (e.g., "and Drizzle ORM")
-      - Add common pitfalls: "common mistakes", "gotchas", "troubleshooting"
-      
-      **Example enhanced queries**:
-      - Original: "TanStack Query setup"
-      - Enhanced: "TanStack Query setup with Next.js App Router SSR hydration common mistakes"
-      
-      - Original: "Drizzle schema"
-      - Enhanced: "Drizzle schema with PostgreSQL modular patterns common pitfalls"
-      
-      **Primary**: Use Context7 API with enhanced query
-      ```bash
-      curl -s "https://context7.com/api/v2/context?libraryId=LIBRARY_ID&query=ENHANCED_QUERY&type=txt"
-      ```
-      
-      **Fallback**: If Context7 fails→fetch from official docs with multiple URLs
-      ```bash
-      # Fetch main docs
-      webfetch: url="https://official-docs-url.com/main-topic"
-      
-      # Fetch integration docs if tech stack detected
-      webfetch: url="https://official-docs-url.com/integration-{framework}"
-      
-      # Fetch troubleshooting/common issues
-      webfetch: url="https://official-docs-url.com/troubleshooting"
-      ```
-    </process>
-    <checkpoint>Documentation fetched with tech stack context and common pitfalls</checkpoint>
-  </stage>
-
-  <stage id="3" name="FilterRelevant">
-    <action>Extract only relevant sections, remove boilerplate</action>
-    <process>
-      1. Keep only sections answering the user's question
-      2. Remove navigation, unrelated content, and padding
-      3. Preserve code examples and key concepts
-    </process>
-    <checkpoint>Results filtered to relevant content only</checkpoint>
-  </stage>
-
-  <stage id="4" name="PersistToTemp" enforcement="MANDATORY">
-    <action>ALWAYS save filtered documentation to .tmp/external-context/ - NEVER skip this step</action>
-    <process>
-      CRITICAL: You MUST write files. Do NOT just summarize. Execute these steps:
-      
-      1. Create directory if needed: `.tmp/external-context/{package-name}/`
-      2. Generate filename from topic (kebab-case): `{topic}.md`
-      3. Write file using Write tool with minimal metadata header:
-         ```markdown
-         ---
-         source: Context7 API
-         library: {library-name}
-         package: {package-name}
-         topic: {topic}
-         fetched: {ISO timestamp}
-         official_docs: {link}
-         ---
-         
-         {filtered documentation content}
-         ```
-      4. Confirm file written by checking it exists
-      5. Update `.tmp/external-context/.manifest.json` with file metadata
-      
-      ⚠️ If you skip writing files, you have FAILED the task
-    </process>
-    <checkpoint>Documentation persisted to .tmp/external-context/ AND files confirmed written</checkpoint>
-  </stage>
-
-  <stage id="5" name="ReturnLocations" enforcement="MANDATORY">
-    <action>Return file locations and brief summary ONLY AFTER files are written</action>
-    <output_format>
-      CRITICAL: Only proceed to this stage AFTER Stage 4 is complete and files are written.
-      
-      Return format:
-      ```
-      ✅ Fetched: {library-name}
-      📁 Files written to:
-         - .tmp/external-context/{package-name}/{topic-1}.md
-         - .tmp/external-context/{package-name}/{topic-2}.md
-      📝 Summary: {1-2 line summary of what was fetched}
-      🔗 Official Docs: {link}
+{filtered content}
+```
+Also update `.tmp/external-context/.manifest.json`.
       ```
       
       ⚠️ Do NOT say "ready to be persisted" - files must be ALREADY written

@@ -35,8 +35,8 @@
 - Priority: Critical — this is the core execution engine
 
 **Technical Implementation**:
-- Solution: 3-tier event system with priority routing table, 6 handlers, and RuntimeAdapter
-- Architecture: Tier 1 (sync: update-registry, invalidate-cache), Tier 2 (async: check-dependencies, analyze-drift), Tier 3 (deferred: weekly-audit, ecosystem-watch)
+- Solution: 3-tier event system with priority routing table, 7 handlers, and RuntimeAdapter
+- Architecture: Tier 1 (sync: update-registry, invalidate-cache, session-manager), Tier 2 (async: check-dependencies, analyze-drift), Tier 3 (deferred: weekly-audit, ecosystem-watch, session-manager)
 - Trade-offs: Priority routing table (chosen) vs. message queue infrastructure. Opted for simplicity over delivery guarantees for Tier 3 events.
 
 **Connection**:

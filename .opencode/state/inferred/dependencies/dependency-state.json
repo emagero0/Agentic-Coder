@@ -2,8 +2,8 @@
   "$schema": "https://openagentscontrol.dev/schemas/dependency-state/1.1.0",
   "schema_version": "1.1.0",
   "state_type": "inferred",
-  "description": "Provisional dependency state — auto-populated by /scan-state from package.json/lockfiles. Version health and CVEs not verified until deep audit.",
-  "last_scanned": "2026-05-11T21:43:18.6818534+03:00",
+  "description": "Provisional dependency state — auto-populated by /scan-state from package.json/lockfiles. Version health and CVEs not verified until deep audit. Cleanup: removed 6 stale entries not present in package.json.",
+  "last_scanned": "2026-05-19T10:00:00.0000000+03:00",
   "scanned_by": "scan-state",
   "package_manager": "npm",
   "lockfile": ".opencode/package-lock.json",
@@ -17,16 +17,6 @@
       "last_checked": null,
       "cves": [],
       "notes": "Main OAC plugin. Transitive deps: @opencode-ai/sdk@1.14.46, effect@4.0.0-beta.59, zod@4.1.8"
-    },
-    "@kilocode/plugin": {
-      "current_version": "7.2.25",
-      "latest_version": null,
-      "wanted_version": null,
-      "type": "production",
-      "health": "unknown",
-      "last_checked": null,
-      "cves": [],
-      "notes": "Legacy plugin reference (from kilocode). Transitive deps: effect@4.0.0-beta.48, zod@4.1.8"
     },
     "@opencode-ai/sdk": {
       "current_version": "1.14.46",
@@ -68,36 +58,6 @@
       "cves": [],
       "notes": "Cross-platform spawn utility. Transitive dep of @opencode-ai/sdk."
     },
-    "@opentui/core": {
-      "current_version": "0.2.6",
-      "latest_version": null,
-      "wanted_version": null,
-      "type": "development",
-      "health": "unknown",
-      "last_checked": null,
-      "cves": [],
-      "notes": "UI component library (optional peer dep). Version mismatch: 0.2.6 (plugin) vs 0.1.99 (kilocode plugin)."
-    },
-    "@opentui/solid": {
-      "current_version": "0.2.6",
-      "latest_version": null,
-      "wanted_version": null,
-      "type": "development",
-      "health": "unknown",
-      "last_checked": null,
-      "cves": [],
-      "notes": "Solid.js UI components (optional peer dep). Same version mismatch as @opentui/core."
-    },
-    "@opentui/keymap": {
-      "current_version": "0.2.6",
-      "latest_version": null,
-      "wanted_version": null,
-      "type": "development",
-      "health": "unknown",
-      "last_checked": null,
-      "cves": [],
-      "notes": "Keyboard shortcuts library (optional peer dep of @opencode-ai/plugin only)."
-    },
     "typescript": {
       "current_version": "5.8.2",
       "latest_version": null,
@@ -108,16 +68,6 @@
       "cves": [],
       "notes": "TypeScript compiler. Used across all packages for type checking."
     },
-    "@tsconfig/node22": {
-      "current_version": "22.0.2",
-      "latest_version": null,
-      "wanted_version": null,
-      "type": "development",
-      "health": "unknown",
-      "last_checked": null,
-      "cves": [],
-      "notes": "TypeScript config for Node.js 22."
-    },
     "@types/node": {
       "current_version": "24.12.2",
       "latest_version": null,
@@ -127,16 +77,6 @@
       "last_checked": null,
       "cves": [],
       "notes": "Node.js type definitions. Version mismatch: 24.12.2 (@opencode-ai/plugin) vs 22.13.9 (@kilocode/plugin)."
-    },
-    "@typescript/native-preview": {
-      "current_version": "7.0.0-dev.20251207.1",
-      "latest_version": null,
-      "wanted_version": null,
-      "type": "development",
-      "health": "unknown",
-      "last_checked": null,
-      "cves": [],
-      "notes": "Experimental TypeScript features (preview). Version mismatch between packages."
     },
     "yaml": {
       "current_version": "latest",

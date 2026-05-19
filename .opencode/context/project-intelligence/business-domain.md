@@ -32,7 +32,7 @@ Solution: OAC provides a cohesive platform layer — context management, state m
 **For Users**:
 - **Context-aware agents** — Agents load project context (architecture, conventions, decisions) before responding, leading to more relevant and accurate answers
 - **Persistent state** — Agent understanding persists across sessions; no need to re-explain project details
-- **Coordinated multi-agent workflows** — 30 specialized agents (+ 6 supervisors) with capability-based routing ensure the right agent handles each task
+- **Coordinated multi-agent workflows** — 30 agents (including 6 supervisors) with capability-based routing ensure the right agent handles each task
 - **Live documentation access** — Context7 integration means agents reference up-to-date API docs, not stale training data
 - **Safe AI exploration** — Inferred/verified state split lets agents explore without corrupting verified ground truth
 
